@@ -1,0 +1,92 @@
+# ============================================================
+# Gitee Go Pipeline for HRM Platform Desktop Installer
+# Note: Gitee Go runs on CentOS 7.6/8.3 with limited Node.js support
+#       (max v15.12.0). This pipeline builds backend jars only.
+#       Frontend build + Electron packaging require GitHub Actions.
+# ============================================================
+version: '1.0'
+name: hrm-desktop-build
+displayName: 'HRM Desktop Installer Build'
+
+# Trigger on push to master/main
+triggers:
+  push:
+    branches:
+      precise:
+        - master
+        - main
+
+stages:
+  # Stage 1: Maven build for all 44 backend services
+  - stage:
+      name: maven-build
+      displayName: 'Maven Backend Build'
+      strategy: fast
+      trigger: auto
+      steps:
+        - step: build@maven
+          name: maven_build_all
+          displayName: 'Build 44 Microservices'
+          jdkVersion: 17
+          mavenVersion: 3.6.3
+          commands:
+            - mvn -B clean package -DskipTests -T 1C
+          artifacts:
+            - name: BACKEND_JARS
+              path:
+                - ./*/target/*.jar
+
+  # Stage 2: Collect resources and prepare desktop bundle
+  - stage:
+      name: collect-resources
+      displayName: 'Collect Resources'
+      strategy: naturally
+      trigger: auto
+      steps:
+        - step: build@shell
+          name: collect_resources
+          displayName: 'Collect JARs and Configs'
+          commands:
+            - echo "Collecting 44 service jars..."
+            - mkdir -p desktop/vendor/jars
+            - |
+              for svc in IAM module-config-center SysMgt SysMonitor \
+                OrgMgt EmployeeMgt AttendanceMgt RecruitmentMgt PerfMgt \
+                TrainingMgt QualificationMgt SalaryMgt SkillCertMgt TalentMgt \
+                ProjectMgt HRPlanningMgt HolidayMgt TalentReviewMgt SuccessionPlanMgt \
+                TalentDevMgt OnlineLearnMgt OnlineExamMgt AuditMgt DisciplineMgt \
+                PartyAffairsMgt CultureMgt ProcessMgt ImproveMgt FlowEngineMgt \
+                StrategyBlmMgt StrategyDsteMgt StrategySixsMgt StrategyBudgetMgt StrategyWorkplanMgt \
+                EnvironMgt SafetyMgt OccHealthMgt EnergyMgt \
+                DataMgt FileMgt MessageMgt IotMgt BiMgt ScreenMgt; do
+                jar=$(find "$svc/target" -maxdepth 1 -name "*-1.0.0.jar" ! -name "*-sources*" ! -name "*-javadoc*" -print -quit 2>/dev/null || true)
+                if [ -n "$jar" ] && [ -f "$jar" ]; then
+                  cp -f "$jar" "desktop/vendor/jars/$svc.jar"
+                  echo "[OK] $svc.jar"
+                else
+                  echo "[MISS] $svc"
+                fi
+              done
+            - jar_count=$(ls desktop/vendor/jars/*.jar 2>/dev/null | wc -l)
+            - echo "Collected $jar_count jars"
+            - if [ "$jar_count" -ne 44 ]; then echo "ERROR: expected 44 jars, got $jar_count"; exit 1; fi
+          artifacts:
+            - name: DESKTOP_VENDOR
+              path:
+                - desktop/vendor/jars/
+
+  # Stage 3: Verify bundle integrity
+  - stage:
+      name: verify
+      displayName: 'Verify Bundle'
+      strategy: naturally
+      trigger: auto
+      steps:
+        - step: build@shell
+          name: verify_bundle
+          displayName: 'Verify 44 JARs Collected'
+          commands:
+            - jar_count=$(ls desktop/vendor/jars/*.jar 2>/dev/null | wc -l)
+            - echo "Verified: $jar_count jars present"
+            - if [ "$jar_count" -ne 44 ]; then echo "FAIL: expected 44 jars"; exit 1; fi
+            - echo "VERIFY_BUNDLE_PASS"

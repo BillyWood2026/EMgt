@@ -1,0 +1,30 @@
+server:
+  port: 8142
+
+spring:
+  application:
+    name: ImproveMgt
+  datasource:
+    url: jdbc:mysql://localhost:3306/improve_mgt?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: Sun-0126King-0325
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+      schema-locations: classpath:schema.sql
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+logging:
+  level:
+    com.example.improvemgt: DEBUG

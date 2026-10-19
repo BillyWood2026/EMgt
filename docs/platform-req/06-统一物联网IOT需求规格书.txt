@@ -1,0 +1,194 @@
+Normal|统一物联网IOT需求规格书
+Normal|公共中台支撑层需求规格书
+Normal|目  录
+Normal|（打开文档后按 F9 或右键“更新域”刷新目录页码）
+toc 1|1 引言	1
+toc 2|1.1 文档目的	1
+toc 2|1.2 适用范围	1
+toc 2|1.3 读者对象	1
+toc 2|1.4 术语、定义与缩略语	1
+toc 2|1.5 参考文档	2
+toc 1|2 总体概述	2
+toc 2|2.1 项目背景	2
+toc 2|2.2 建设目标	2
+toc 2|2.3 架构定位	2
+toc 2|2.4 与其他中台关系	2
+toc 1|3 对标最佳实践	3
+toc 1|4 差异化技术细则	3
+toc 1|5 详细功能需求	4
+toc 2|5.1 设备接入管理	4
+toc 2|5.2 物模型管理	4
+toc 2|5.3 设备鉴权与安全	4
+toc 2|5.4 遥测数据管理	5
+toc 2|5.5 指令下发	5
+toc 2|5.6 规则引擎	5
+toc 2|5.7 告警联动	5
+toc 2|5.8 固件升级与文件联动	5
+toc 2|5.9 边缘网关管理	5
+toc 1|6 接口需求	6
+toc 2|6.1 接口清单	6
+toc 2|6.2 核心接口定义示例	6
+toc 2|6.3 错误码规范	7
+toc 1|7 数据模型需求	7
+toc 1|8 非功能需求	8
+toc 2|8.1 性能需求	8
+toc 2|8.2 可用性需求	8
+toc 2|8.3 安全性需求	8
+toc 2|8.4 可扩展性需求	8
+toc 2|8.5 兼容性需求	8
+toc 1|9 约束与依赖	8
+toc 1|10 验收标准	9
+Heading 1|1 引言
+Heading 2|1.1 文档目的
+Normal|本文档为统一物联网IOT需求规格说明书，用于明确统一物联网中台的业务定位、整体架构、功能需求、接口规范、数据模型、非功能需求、约束依赖与验收标准，作为统一物联网中台设计、开发、测试、验收与运维的基准依据。
+Heading 2|1.2 适用范围
+Normal|统一物联网中台为全平台统一设备接入与设备管理基础服务，适用于设备接入（MQTT/CoAP/HTTP）、物模型管理、设备注册与鉴权、遥测数据上报与存储、指令下发、规则引擎、告警联动、边缘网关等场景，覆盖全平台各类物联网设备（传感器、仪表、网关、控制器、资产终端等）。
+Heading 2|1.3 读者对象
+Normal|物联网架构师、产品经理、嵌入式/前后端开发工程师、测试工程师、运维工程师、项目验收人员。
+Heading 2|1.4 术语、定义与缩略语
+Heading 2|1.5 参考文档
+Normal|[1] 《公共中台支撑层总体需求规格书》（00总纲）
+Normal|[2] ThingsBoard 设备接入与设备配置最佳实践
+Normal|[3] 阿里云物联网平台/华为云IoT平台实践
+Normal|[4] MQTT 3.1.1/5.0 协议规范
+Heading 1|2 总体概述
+Heading 2|2.1 项目背景
+Normal|平台业务涉及多种物联设备接入需求，原有各业务自行对接设备协议，接入方式混乱、设备标识不统一、遥测数据无法共享、告警无法统一处置。建设统一物联网中台，统一设备接入、物模型、遥测存储与指令下发。
+Heading 2|2.2 建设目标
+Normal|1. 协议统一接入：MQTT/CoAP/HTTP/私有协议统一适配，设备一次接入多业务复用。
+Normal|2. 设备标准化：物模型（属性/事件/服务）标准化建模，设备Profile统管。
+Normal|3. 遥测统一存储：时序数据统一存储、分级压缩、高效查询。
+Normal|4. 联动智能化：规则引擎实现告警联动（消息、流程、大屏、BI）。
+Normal|5. 安全可控：设备证书/Token鉴权、数据加密、设备权限隔离。
+Heading 2|2.3 架构定位
+Normal|统一物联网中台采用“接入层—平台层—应用层”架构：接入层支持MQTT Broker、CoAP、HTTP与边缘网关接入；平台层提供设备管理、物模型、规则引擎、时序存储；应用层通过OpenAPI/消息订阅向业务模块输出设备能力。中台独立部署，支撑十万级设备在线。
+Heading 2|2.4 与其他中台关系
+Heading 1|3 对标最佳实践
+Normal|设计原则：协议适配标准化、物模型驱动、设备配置复用（Profile）、规则可编排、安全默认开启。
+Heading 1|4 差异化技术细则
+Normal|IOT中台存在海量设备接入、高频遥测、时序存储、指令下发、边缘场景，适用以下专属强制技术规范（总纲通用规范继续生效）：
+Normal|1. 设备接入高并发机制：MQTT Broker集群部署、水平扩展；设备连接会话管理、心跳保活；单节点支撑10万连接、集群百万级连接；接入层与业务处理层解耦。
+Normal|2. 遥测数据分级存储机制：时序数据统一写入时序数据库（如TDengine/InfluxDB），冷热分级（热数据内存/近线、冷数据压缩归档）；数据保留策略可配置；高频遥测批量写入、异步落库，避免阻塞接入。
+Normal|3. 设备鉴权专属机制：支持一机一密（设备密钥）、X.509证书、Token三种鉴权方式；设备激活校验；非法设备连接自动拒绝并告警；设备与租户/项目强隔离，禁止跨租户访问设备数据。
+Normal|4. 指令下发可靠机制：下行指令支持同步下发与异步下发（离线缓存、上线补发）；指令状态回执（已发送/已确认/超时/失败）；指令幂等（指令ID唯一）。
+Normal|5. 规则引擎隔离机制：规则链独立线程池执行，超时熔断；规则执行失败重试3次并告警；规则链路级联避免死循环（执行深度限制）。
+Normal|6. 边缘网关适配机制：支持边缘网关离线缓存、断点续传；边缘计算任务下发与结果回传；网关与平台时间同步。
+Heading 1|5 详细功能需求
+Heading 2|5.1 设备接入管理
+Normal|支持MQTT（3.1.1/5.0）、CoAP、HTTP协议设备接入；支持设备注册（单设备/批量导入）、设备删除、启停；设备状态管理（在线/离线/未激活）；设备分组与标签管理；设备搜索与列表；设备Profile配置（接入协议、Topic定义、能力模型、规则链、固件版本）。
+Heading 2|5.2 物模型管理
+Normal|支持物模型标准化建模：属性（Property，可读可写）、事件（Event，主动上报）、服务（Service，可调用）；物模型定义（标识符、数据类型、单位、取值范围、读写权限）；物模型版本管理；产品模型模板（同类设备复用）；设备影子（设备端状态与平台期望状态同步）。
+Heading 2|5.3 设备鉴权与安全
+Normal|支持一机一密、X.509证书、Token三种鉴权方式；设备密钥安全存储（加密）；设备证书管理（签发、吊销、轮换）；设备与租户/项目隔离；异常设备行为检测（频繁重连、异常Topic访问）并告警。
+Heading 2|5.4 遥测数据管理
+Normal|设备遥测数据实时上报与存储：属性上报、事件上报、时序遥测（温度、压力、电量等）；数据校验（物模型类型/范围校验）；数据查询（按设备、时间范围、属性过滤）；数据聚合统计（均值、最大、最小、计数）；数据订阅推送（MQTT订阅/消息队列）供业务消费。
+Heading 2|5.5 指令下发
+Normal|支持向设备下发控制指令：属性设置、服务调用、自定义Topic下发；同步下发与异步下发（离线缓存、上线补发）；指令状态回执跟踪；指令幂等与超时控制；批量指令下发（分组设备）。
+Heading 2|5.6 规则引擎
+Normal|可视化规则编排：数据过滤（条件表达式）、消息路由（转发至业务Topic/Webhook）、联动动作（触发告警、推送消息、调用流程、写回设备、联动大屏/BI）；规则调试与模拟；规则启停与版本管理；规则执行日志与统计。
+Heading 2|5.7 告警联动
+Normal|设备告警规则配置（阈值告警、状态告警、离线告警、数据异常告警）；告警分级（紧急/重要/一般/提示）；告警产生、确认、处理、关闭全生命周期；告警联动统一消息中心多渠道推送；告警联动统一流程引擎生成工单；告警联动大屏实时展示与BI统计。
+Heading 2|5.8 固件升级与文件联动
+Normal|固件包上传（联动集中文件管理）、版本管理、升级任务创建（按设备/分组）、升级进度跟踪、升级结果回执、失败重试与回滚。
+Heading 2|5.9 边缘网关管理
+Normal|边缘网关注册与状态监控；边缘规则下发；离线缓存数据上传；边缘计算任务管理；网关远程配置与日志采集。
+Heading 1|6 接口需求
+Heading 2|6.1 接口清单
+Heading 2|6.2 核心接口定义示例
+Normal|（1）设备注册 POST /api/iot/v1/devices
+Normal|请求：{"deviceName":"meter-001","deviceProfileCode":"smart_meter","authType":"SECRET","secret":"******","tenantId":"T001","groupId":"G001"}
+Normal|响应：{"code":0,"msg":"ok","data":{"deviceId":"DEV2026100001","clientId":"meter-001","topicPrefix":"dev/meter-001"}}
+Normal|（2）遥测查询 GET /api/iot/v1/devices/DEV2026100001/telemetry?keys=temp,humidity&start=2026-10-01&end=2026-10-06
+Normal|响应：{"code":0,"msg":"ok","data":[{"time":"2026-10-01 00:00:00","temp":25.3,"humidity":60.1}]}
+Normal|错误码：60001 设备不存在；60002 设备未激活；60003 无设备访问权限；60004 物模型属性不存在
+Heading 2|6.3 错误码规范
+Heading 1|7 数据模型需求
+Normal|说明：关系表统一包含 create_time、update_time、is_deleted 通用字段；时序遥测数据存储于独立时序库，按保留策略分级归档。
+Heading 1|8 非功能需求
+Heading 2|8.1 性能需求
+Normal|1. 支撑10万级设备在线、1万条/秒遥测接入；设备上线/下线响应≤1s。
+Normal|2. 遥测查询响应≤300ms（近线），聚合统计≤1s。
+Normal|3. 指令下发端到端延迟≤1s（在线设备）；规则引擎吞吐≥5000条/秒。
+Heading 2|8.2 可用性需求
+Normal|1. 服务可用性≥99.95%；Broker集群无单点；接入层故障自动摘除。
+Normal|2. 时序存储支持水平扩展；数据不丢失（副本机制）。
+Heading 2|8.3 安全性需求
+Normal|1. 设备鉴权（一机一密/X.509/Token）；TLS加密传输；密钥加密存储。
+Normal|2. 租户/项目级设备数据隔离；非法连接告警；操作审计。
+Heading 2|8.4 可扩展性需求
+Normal|1. 协议适配器插件化（新增协议无需改核心）。
+Normal|2. 物模型动态扩展；规则引擎动作类型可扩展。
+Heading 2|8.5 兼容性需求
+Normal|1. 兼容MQTT 3.1.1/5.0、CoAP、HTTP协议设备。
+Normal|2. 提供多语言SDK（Java/Python/嵌入式C）。
+Heading 1|9 约束与依赖
+Normal|1. 依赖MQTT Broker（如EMQX）、时序数据库、消息队列。
+Normal|2. 依赖统一IAM引擎（权限）、统一消息中心（告警推送）、统一流程引擎（工单）、集中文件管理（固件）、统一监控审计中台（审计/监控）、统一报表BI与大屏（展示）。
+Normal|3. 开发约束：业务模块禁止直接对接设备私有协议，统一经本中台接入。
+Heading 1|10 验收标准
+Normal|1. MQTT/CoAP/HTTP多协议设备接入、注册、启停、状态管理验证通过。
+Normal|2. 物模型（属性/事件/服务）建模与设备影子同步验证通过。
+Normal|3. 遥测数据入库、查询、聚合、订阅推送验证通过；数据准确率100%。
+Normal|4. 指令下发（同步/异步、回执、幂等、补发）验证通过。
+Normal|5. 规则引擎条件过滤、联动告警、消息推送、流程工单端到端闭环。
+Normal|6. 设备鉴权与租户隔离安全验证通过，无越权访问。
+Normal|7. 性能指标达标：10万设备在线、1万条/秒遥测、指令延迟≤1s。
+TBL|文档名称 | 公共中台支撑层需求规格书
+TBL|文档编号 | 【文档编号】
+TBL|版本/状态 | V1.0
+TBL|密级 | 【密级】
+TBL|编制单位 | 【编制单位】
+TBL|编制日期 | 2026年10月
+TBL|术语/缩略语 | 释义说明
+TBL|IOT | Internet of Things，物联网
+TBL|MQTT | Message Queuing Telemetry Transport，轻量级消息传输协议
+TBL|CoAP | Constrained Application Protocol，受限应用协议
+TBL|物模型 | 设备能力的标准化描述（属性、事件、服务）
+TBL|遥测 | 设备周期性上报的测量数据（Telemetry）
+TBL|规则引擎 | 设备数据触发条件判断与联动动作执行的引擎
+TBL|Device Profile | 设备配置（接入协议、能力模型、规则链、固件版本统管）
+TBL|X.509 | 设备证书鉴权方式
+TBL|中台 | 与IOT中台关系
+TBL|统一IAM引擎 | 设备鉴权与设备权限隔离（租户/项目级）
+TBL|统一消息中心 | 设备告警、离线提醒消息推送
+TBL|统一流程引擎 | 设备变更审批、工单流程联动
+TBL|集中数据管理平台 | 遥测数据标准化纳入数据资产；物模型标准管理
+TBL|集中文件管理 | 固件包、升级包统一存储
+TBL|统一报表及BI中台 | 设备运行分析、告警统计报表
+TBL|统一大屏显示中台 | 设备态势、实时监控大屏
+TBL|统一监控审计中台 | 设备操作审计、平台运行监控
+TBL|对标对象 | 关键实践 | 本中台落地
+TBL|ThingsBoard | Device Profile统管设备配置（规则链/协议/固件）；MQTT接入；规则链处理；设备凭证管理 | Device Profile机制、MQTT接入、规则链
+TBL|阿里云IoT平台 | 物模型（属性/事件/服务）；设备影子；Topic定义；规则引擎 | 物模型标准、设备影子、规则引擎
+TBL|华为云IoT | 设备接入鉴权（X.509/密钥）；消息路由；设备孪生 | X.509/密钥鉴权、设备孪生
+TBL|接口名称 | 方法 | 路径 | 说明
+TBL|设备注册 | POST | /api/iot/v1/devices | 设备注册/批量导入
+TBL|设备管理 | POST | /api/iot/v1/devices/{id} | 设备编辑/启停/删除
+TBL|设备查询 | GET | /api/iot/v1/devices | 设备分页/条件查询
+TBL|设备状态 | GET | /api/iot/v1/devices/{id}/status | 设备在线状态查询
+TBL|物模型管理 | POST | /api/iot/v1/thing-models | 物模型CRUD/版本管理
+TBL|遥测查询 | GET | /api/iot/v1/devices/{id}/telemetry | 遥测数据查询
+TBL|遥测聚合 | GET | /api/iot/v1/devices/{id}/telemetry/aggregate | 遥测聚合统计
+TBL|属性设置 | POST | /api/iot/v1/devices/{id}/properties | 下发属性设置指令
+TBL|服务调用 | POST | /api/iot/v1/devices/{id}/services/{serviceId} | 调用设备服务
+TBL|指令回执 | GET | /api/iot/v1/commands/{commandId} | 指令状态查询
+TBL|规则管理 | POST | /api/iot/v1/rules | 规则链CRUD/启停
+TBL|告警管理 | POST | /api/iot/v1/alarms | 告警确认/处理/查询
+TBL|固件管理 | POST | /api/iot/v1/firmwares | 固件上传/升级任务
+TBL|错误码段 | 含义
+TBL|60001-60099 | 设备类错误
+TBL|60100-60199 | 鉴权/安全类错误
+TBL|60200-60299 | 物模型类错误
+TBL|60300-60399 | 遥测/时序类错误
+TBL|60400-60499 | 指令/规则类错误
+TBL|表名 | 核心字段 | 说明
+TBL|iot_product | id, product_code, product_name, protocol, auth_type, thing_model_version | 产品表（物模型载体）
+TBL|iot_device | id, device_id, product_id, device_name, profile_code, status, auth_type, secret_hash, cert_sn, last_online_time | 设备表
+TBL|iot_device_profile | id, profile_code, profile_name, protocol, topic_config, rule_chain_id, firmware_version | 设备配置表（Device Profile）
+TBL|iot_thing_model | id, product_id, model_type, identifier, data_type, unit, rw_flag, version | 物模型表（属性/事件/服务）
+TBL|iot_telemetry | device_id, ts, key, value | 时序遥测表（时序库）
+TBL|iot_device_shadow | id, device_id, reported_json, desired_json, update_time | 设备影子表
+TBL|iot_command | id, command_id, device_id, command_type, payload, status, timeout, create_time | 指令表
+TBL|iot_rule | id, rule_code, rule_name, condition_json, action_json, status, version | 规则引擎规则表
+TBL|iot_alarm | id, alarm_id, device_id, rule_id, level, status, content, happen_time, close_time | 设备告警表
+TBL|iot_firmware | id, firmware_id, product_id, version, file_id, release_note, status | 固件表

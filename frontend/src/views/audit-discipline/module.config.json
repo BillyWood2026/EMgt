@@ -1,0 +1,33 @@
+{
+  "key": "/audit-discipline",
+  "title": "纪检审计",
+  "icon": "Scale",
+  "displayOrder": 5,
+  "description": "审计管理与纪检监察、日常监督、廉政建设一体化管理",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/audit-discipline/audit",
+      "title": "审计管理",
+      "displayOrder": 1,
+      "dir": "audit",
+      "items": [
+        { "path": "/audit-discipline/audit/plan", "title": "审计计划", "icon": "Document", "component": "audit-discipline/audit/Plan.vue" },
+        { "path": "/audit-discipline/audit/project", "title": "审计项目", "icon": "FolderAdd", "component": "audit-discipline/audit/Project.vue" },
+        { "path": "/audit-discipline/audit/finding", "title": "审计发现", "icon": "Search", "component": "audit-discipline/audit/Finding.vue" },
+        { "path": "/audit-discipline/audit/report", "title": "审计报告", "icon": "Postcard", "component": "audit-discipline/audit/Report.vue" }
+      ]
+    },
+    {
+      "key": "/audit-discipline/discipline",
+      "title": "纪检监察",
+      "displayOrder": 2,
+      "dir": "discipline",
+      "items": [
+        { "path": "/audit-discipline/discipline/case", "title": "纪检案件", "icon": "Scale", "component": "audit-discipline/discipline/DisciplineCase.vue" },
+        { "path": "/audit-discipline/discipline/supervision", "title": "日常监督", "icon": "Lock", "component": "audit-discipline/discipline/SupervisionRecord.vue" },
+        { "path": "/audit-discipline/discipline/integrity", "title": "廉政建设", "icon": "Medal", "component": "audit-discipline/discipline/IntegrityEducation.vue" }
+      ]
+    }
+  ]
+}

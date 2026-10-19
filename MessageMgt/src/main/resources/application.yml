@@ -1,0 +1,32 @@
+server:
+  port: 8202
+  tomcat:
+    threads:
+      max: 30
+      min-spare: 5
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/message_mgt?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: Sun-0126King-0325
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+  sql:
+    init:
+      mode: never
+      schema-locations: classpath:schema.sql
+  jackson:
+    deserialization:
+      accept-empty-string-as-null-object: true
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0

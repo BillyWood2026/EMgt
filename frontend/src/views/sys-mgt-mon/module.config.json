@@ -1,0 +1,134 @@
+{
+  "key": "/sys-mgt-mon",
+  "title": "统一中台",
+  "icon": "Setting",
+  "displayOrder": 6,
+  "description": "系统管理、系统监控、八大公共中台",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/sys-mgt-mon/sys-mgt",
+      "title": "系统管理",
+      "displayOrder": 1,
+      "dir": "sys-mgt",
+      "items": [
+        { "path": "/sys-mgt-mon/sys-mgt/user", "title": "用户管理", "icon": "UserFilled", "component": "sys-mgt-mon/sys-mgt/User.vue" },
+        { "path": "/sys-mgt-mon/sys-mgt/role", "title": "角色管理", "icon": "UserFilled", "component": "sys-mgt-mon/sys-mgt/Role.vue" },
+        { "path": "/sys-mgt-mon/sys-mgt/menu", "title": "菜单管理", "icon": "Document", "component": "sys-mgt-mon/sys-mgt/Menu.vue" },
+        { "path": "/sys-mgt-mon/sys-mgt/dict", "title": "字典管理", "icon": "Notebook", "component": "sys-mgt-mon/sys-mgt/Dict.vue" },
+        { "path": "/sys-mgt-mon/sys-mgt/log", "title": "日志管理", "icon": "Document", "component": "sys-mgt-mon/sys-mgt/Log.vue" },
+        { "path": "/sys-mgt-mon/sys-mgt/module-selector", "title": "模块选装", "icon": "SetUp", "component": "sys-mgt-mon/sys-mgt/ModuleSelector.vue" }
+      ]
+    },
+    {
+      "key": "/sys-mgt-mon/sys-monitor",
+      "title": "系统监控",
+      "displayOrder": 2,
+      "dir": "sys-monitor",
+      "items": [
+        { "path": "/sys-mgt-mon/sys-monitor/server", "title": "服务器监控", "icon": "Monitor", "component": "sys-mgt-mon/sys-monitor/Server.vue" },
+        { "path": "/sys-mgt-mon/sys-monitor/database", "title": "数据库监控", "icon": "Coin", "component": "sys-mgt-mon/sys-monitor/Database.vue" },
+        { "path": "/sys-mgt-mon/sys-monitor/performance", "title": "性能监控", "icon": "DataLine", "component": "sys-mgt-mon/sys-monitor/Performance.vue" },
+        { "path": "/sys-mgt-mon/sys-monitor/alert", "title": "告警管理", "icon": "Bell", "component": "sys-mgt-mon/sys-monitor/Alert.vue" }
+      ]
+    },
+    {
+      "key": "/sys-mgt-mon/data",
+      "title": "数据中台",
+      "displayOrder": 3,
+      "dir": "data",
+      "items": [
+        { "path": "/sys-mgt-mon/data/standard", "title": "数据标准", "icon": "Document", "component": "sys-mgt-mon/data/Standard.vue" },
+        { "path": "/sys-mgt-mon/data/master", "title": "主数据", "icon": "Coin", "component": "sys-mgt-mon/data/Master.vue" },
+        { "path": "/sys-mgt-mon/data/metadata", "title": "元数据", "icon": "Collection", "component": "sys-mgt-mon/data/Metadata.vue" },
+        { "path": "/sys-mgt-mon/data/quality", "title": "数据质量", "icon": "CircleCheck", "component": "sys-mgt-mon/data/Quality.vue" },
+        { "path": "/sys-mgt-mon/data/integration", "title": "数据集成", "icon": "Link", "component": "sys-mgt-mon/data/Integration.vue" },
+        { "path": "/sys-mgt-mon/data/asset", "title": "数据资产", "icon": "Box", "component": "sys-mgt-mon/data/Asset.vue" },
+        { "path": "/sys-mgt-mon/data/dict-type", "title": "统一字典", "icon": "Notebook", "component": "sys-mgt-mon/data/DictType.vue" },
+        { "path": "/sys-mgt-mon/data/dict-item", "title": "字典项", "icon": "CollectionTag", "component": "sys-mgt-mon/data/DictItem.vue" },
+        { "path": "/sys-mgt-mon/data/service", "title": "数据服务", "icon": "Connection", "component": "sys-mgt-mon/data/Service.vue" }
+      ]
+    },
+    {
+      "key": "/sys-mgt-mon/file",
+      "title": "文件中台",
+      "displayOrder": 4,
+      "dir": "file",
+      "items": [
+        { "path": "/sys-mgt-mon/file/record", "title": "文件记录", "icon": "Folder", "component": "sys-mgt-mon/file/Record.vue" },
+        { "path": "/sys-mgt-mon/file/version", "title": "文件版本", "icon": "Files", "component": "sys-mgt-mon/file/Version.vue" },
+        { "path": "/sys-mgt-mon/file/attachment", "title": "附件绑定", "icon": "Paperclip", "component": "sys-mgt-mon/file/Attachment.vue" },
+        { "path": "/sys-mgt-mon/file/log", "title": "操作日志", "icon": "Document", "component": "sys-mgt-mon/file/Log.vue" }
+      ]
+    },
+    {
+      "key": "/sys-mgt-mon/message",
+      "title": "消息中心",
+      "displayOrder": 5,
+      "dir": "message",
+      "items": [
+        { "path": "/sys-mgt-mon/message/record", "title": "消息记录", "icon": "Bell", "component": "sys-mgt-mon/message/Record.vue" },
+        { "path": "/sys-mgt-mon/message/template", "title": "消息模板", "icon": "Postcard", "component": "sys-mgt-mon/message/Template.vue" },
+        { "path": "/sys-mgt-mon/message/channel", "title": "渠道配置", "icon": "Connection", "component": "sys-mgt-mon/message/Channel.vue" },
+        { "path": "/sys-mgt-mon/message/stat", "title": "消息统计", "icon": "DataLine", "component": "sys-mgt-mon/message/Stat.vue" }
+      ]
+    },
+    {
+      "key": "/sys-mgt-mon/iot",
+      "title": "物联网IOT",
+      "displayOrder": 6,
+      "dir": "iot",
+      "items": [
+        { "path": "/sys-mgt-mon/iot/device", "title": "设备管理", "icon": "Cpu", "component": "sys-mgt-mon/iot/Device.vue" },
+        { "path": "/sys-mgt-mon/iot/thing-model", "title": "物模型", "icon": "Box", "component": "sys-mgt-mon/iot/ThingModel.vue" },
+        { "path": "/sys-mgt-mon/iot/telemetry", "title": "遥测数据", "icon": "Odometer", "component": "sys-mgt-mon/iot/Telemetry.vue" },
+        { "path": "/sys-mgt-mon/iot/command", "title": "指令下发", "icon": "Position", "component": "sys-mgt-mon/iot/Command.vue" },
+        { "path": "/sys-mgt-mon/iot/rule", "title": "规则引擎", "icon": "SetUp", "component": "sys-mgt-mon/iot/Rule.vue" },
+        { "path": "/sys-mgt-mon/iot/alert", "title": "告警联动", "icon": "Warning", "component": "sys-mgt-mon/iot/Alert.vue" },
+        { "path": "/sys-mgt-mon/iot/gateway", "title": "边缘网关", "icon": "Connection", "component": "sys-mgt-mon/iot/Gateway.vue" }
+      ]
+    },
+    {
+      "key": "/sys-mgt-mon/bi",
+      "title": "报表BI",
+      "displayOrder": 7,
+      "dir": "bi",
+      "items": [
+        { "path": "/sys-mgt-mon/bi/datasource", "title": "数据源", "icon": "Coin", "component": "sys-mgt-mon/bi/Datasource.vue" },
+        { "path": "/sys-mgt-mon/bi/dataset", "title": "数据集", "icon": "Files", "component": "sys-mgt-mon/bi/Dataset.vue" },
+        { "path": "/sys-mgt-mon/bi/metric", "title": "指标管理", "icon": "DataLine", "component": "sys-mgt-mon/bi/Metric.vue" },
+        { "path": "/sys-mgt-mon/bi/report", "title": "报表设计", "icon": "PieChart", "component": "sys-mgt-mon/bi/Report.vue" },
+        { "path": "/sys-mgt-mon/bi/chart", "title": "图表组件", "icon": "Histogram", "component": "sys-mgt-mon/bi/Chart.vue" },
+        { "path": "/sys-mgt-mon/bi/subscription", "title": "定时订阅", "icon": "AlarmClock", "component": "sys-mgt-mon/bi/Subscription.vue" }
+      ]
+    },
+    {
+      "key": "/sys-mgt-mon/screen",
+      "title": "大屏中台",
+      "displayOrder": 8,
+      "dir": "screen",
+      "items": [
+        { "path": "/sys-mgt-mon/screen/template", "title": "大屏模板", "icon": "Monitor", "component": "sys-mgt-mon/screen/Template.vue" },
+        { "path": "/sys-mgt-mon/screen/component", "title": "组件库", "icon": "Grid", "component": "sys-mgt-mon/screen/Component.vue" },
+        { "path": "/sys-mgt-mon/screen/instance", "title": "大屏实例", "icon": "Platform", "component": "sys-mgt-mon/screen/Instance.vue" },
+        { "path": "/sys-mgt-mon/screen/datasource", "title": "数据对接", "icon": "Link", "component": "sys-mgt-mon/screen/Datasource.vue" }
+      ]
+    },
+    {
+      "key": "/sys-mgt-mon/flow",
+      "title": "流程引擎",
+      "displayOrder": 9,
+      "dir": "flow",
+      "items": [
+        { "path": "/sys-mgt-mon/flow/definition", "title": "流程定义", "icon": "Document", "component": "sys-mgt-mon/flow/Definition.vue" },
+        { "path": "/sys-mgt-mon/flow/node", "title": "节点配置", "icon": "SetUp", "component": "sys-mgt-mon/flow/Node.vue" },
+        { "path": "/sys-mgt-mon/flow/instance", "title": "流程实例", "icon": "Connection", "component": "sys-mgt-mon/flow/Instance.vue" },
+        { "path": "/sys-mgt-mon/flow/todo", "title": "待办任务", "icon": "Bell", "component": "sys-mgt-mon/flow/Todo.vue" },
+        { "path": "/sys-mgt-mon/flow/done", "title": "已办任务", "icon": "CircleCheck", "component": "sys-mgt-mon/flow/Done.vue" },
+        { "path": "/sys-mgt-mon/flow/cc", "title": "抄送我的", "icon": "Postcard", "component": "sys-mgt-mon/flow/Cc.vue" },
+        { "path": "/sys-mgt-mon/flow/callback", "title": "回调日志", "icon": "Document", "component": "sys-mgt-mon/flow/Callback.vue" },
+        { "path": "/sys-mgt-mon/flow/timeout", "title": "超时提醒", "icon": "AlarmClock", "component": "sys-mgt-mon/flow/Timeout.vue" }
+      ]
+    }
+  ]
+}

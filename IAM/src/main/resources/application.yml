@@ -1,0 +1,82 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: iam-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:mysql}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: h2
+  datasource:
+    url: jdbc:h2:mem:iamdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/iam_schema.sql
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+logging:
+  level:
+    com.example.iam: DEBUG
+    com.example.iam.mapper: DEBUG
+
+jwt:
+  secret: ${JWT_SECRET:eOpt-IAM-JWT-Secret-Key-2024-At-Least-32-Bytes-Long}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:iam_db}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&useUnicode=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Sun-0126King-0325}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/iam_schema.sql
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+logging:
+  level:
+    com.example.iam: DEBUG
+    com.example.iam.mapper: DEBUG
+
+jwt:
+  secret: ${JWT_SECRET:eOpt-IAM-JWT-Secret-Key-2024-At-Least-32-Bytes-Long}
+  expiration: ${JWT_EXPIRATION:86400000}

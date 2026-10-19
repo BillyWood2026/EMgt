@@ -1,0 +1,34 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: recruitment-mgt
+  datasource:
+    url: jdbc:mysql://localhost:3306/recruitment_mgt?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: Sun-0126King-0325
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
+      table-underline: true
+  mapper-locations: classpath:mapper/**/*.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.example.recruitment: DEBUG

@@ -1,0 +1,60 @@
+{
+  "key": "/eehs",
+  "title": "环境健康安全能源",
+  "icon": "WarningFilled",
+  "displayOrder": 3,
+  "description": "EHS+能源一体化管理平台（环境管理/安全管理/职业健康管理/能源管理 四个微服务）",
+  "version": "2.0.0",
+  "subModules": [
+    {
+      "key": "/eehs/safety",
+      "title": "安全管理",
+      "displayOrder": 1,
+      "dir": "safety-mgt",
+      "items": [
+        { "path": "/eehs/safety/overview", "title": "安全概览", "icon": "DataBoard", "component": "eehs/safety-mgt/Safety.vue" },
+        { "path": "/eehs/safety/inspection", "title": "安全检查", "icon": "Warning", "component": "eehs/safety-mgt/Inspection.vue" },
+        { "path": "/eehs/safety/incident", "title": "事故管理", "icon": "CircleClose", "component": "eehs/safety-mgt/Incident.vue" },
+        { "path": "/eehs/safety/policy", "title": "安全制度", "icon": "Document", "component": "eehs/safety-mgt/Policy.vue" },
+        { "path": "/eehs/safety/training", "title": "安全培训", "icon": "VideoPlay", "component": "eehs/safety-mgt/Training.vue" }
+      ]
+    },
+    {
+      "key": "/eehs/environment",
+      "title": "环境管理",
+      "displayOrder": 2,
+      "dir": "environ-mgt",
+      "items": [
+        { "path": "/eehs/environment/overview", "title": "环境概览", "icon": "DataBoard", "component": "eehs/env-mgt/Environment.vue" },
+        { "path": "/eehs/environment/monitor", "title": "环境监测", "icon": "Monitor", "component": "eehs/environ-mgt/Monitor.vue" },
+        { "path": "/eehs/environment/emission", "title": "排污管理", "icon": "TrendCharts", "component": "eehs/environ-mgt/Emission.vue" },
+        { "path": "/eehs/environment/policy", "title": "环保政策", "icon": "Document", "component": "eehs/environ-mgt/Policy.vue" },
+        { "path": "/eehs/environment/waste", "title": "废弃物管理", "icon": "Files", "component": "eehs/environ-mgt/Waste.vue" }
+      ]
+    },
+    {
+      "key": "/eehs/occupational-health",
+      "title": "职业健康管理",
+      "displayOrder": 3,
+      "dir": "ohm",
+      "items": [
+        { "path": "/eehs/occupational-health/examination", "title": "职业健康检查", "icon": "FirstAidKit", "component": "eehs/ohm/Examination.vue" },
+        { "path": "/eehs/occupational-health/health", "title": "健康管理", "icon": "Heart", "component": "eehs/ohm/Health.vue" },
+        { "path": "/eehs/occupational-health/overview", "title": "健康概览", "icon": "DataBoard", "component": "eehs/health-mgt/Health.vue" },
+        { "path": "/eehs/occupational-health/protection", "title": "防护管理", "icon": "Shield", "component": "eehs/ohm/Protection.vue" }
+      ]
+    },
+    {
+      "key": "/eehs/energy",
+      "title": "能源管理",
+      "displayOrder": 4,
+      "dir": "energy-mgt",
+      "items": [
+        { "path": "/eehs/energy/index", "title": "能源概览", "icon": "DataBoard", "component": "eehs/energy-mgt/Energy.vue" },
+        { "path": "/eehs/energy/saving", "title": "节能项目", "icon": "TrendCharts", "component": "eehs/energy-mgt/Saving.vue" },
+        { "path": "/eehs/energy/analysis", "title": "能源分析", "icon": "DataAnalysis", "component": "eehs/energy-mgt/Analysis.vue" },
+        { "path": "/eehs/energy/consumption", "title": "能耗统计", "icon": "DataLine", "component": "eehs/energy-mgt/Consumption.vue" }
+      ]
+    }
+  ]
+}

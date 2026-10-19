@@ -1,0 +1,37 @@
+# Service Registry (Nacos) Configuration
+# This module is OPTIONAL - can be skipped for standalone deployment
+
+server:
+  port: 8848
+
+spring:
+  application:
+    name: service-registry
+  cloud:
+    nacos:
+      discovery:
+        # Service registration switch - set to false to disable
+        enabled: true
+        register-enabled: false
+        # Standalone mode (no embedded cluster)
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        group: ${SERVICE_GROUP:DEFAULT_GROUP}
+      config:
+        enabled: false  # This module only handles service registry, not config
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Logging
+logging:
+  level:
+    com.alibaba.nacos: INFO
+    com.example.serviceregistry: DEBUG

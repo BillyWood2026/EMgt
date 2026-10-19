@@ -1,0 +1,187 @@
+Normal|统一流程引擎（BPMN）需求规格书
+Normal|公共中台支撑层需求规格书
+Normal|目  录
+Normal|（打开文档后按 F9 或右键“更新域”刷新目录页码）
+toc 1|1 引言	1
+toc 2|1.1 文档目的	1
+toc 2|1.2 适用范围	1
+toc 2|1.3 读者对象	1
+toc 2|1.4 术语、定义与缩略语	1
+toc 2|1.5 参考文档	2
+toc 1|2 总体概述	2
+toc 2|2.1 项目背景	2
+toc 2|2.2 建设目标	2
+toc 2|2.3 架构定位	2
+toc 2|2.4 与其他中台关系	2
+toc 1|3 对标最佳实践	3
+toc 1|4 差异化技术细则	3
+toc 1|5 详细功能需求	4
+toc 2|5.1 可视化流程设计	4
+toc 2|5.2 审批节点配置	4
+toc 2|5.3 流转规则配置	4
+toc 2|5.4 流程发起与待办	5
+toc 2|5.5 流程超时提醒	5
+toc 2|5.6 流程撤回与驳回	5
+toc 2|5.7 流程回调与业务联动	5
+toc 2|5.8 流程监控与查询	5
+toc 1|6 接口需求	6
+toc 2|6.1 接口清单	6
+toc 2|6.2 核心接口定义示例	6
+toc 2|6.3 错误码规范	7
+toc 1|7 数据模型需求	7
+toc 1|8 非功能需求	8
+toc 2|8.1 性能需求	8
+toc 2|8.2 可用性需求	8
+toc 2|8.3 安全性需求	8
+toc 2|8.4 可扩展性需求	8
+toc 2|8.5 兼容性需求	8
+toc 1|9 约束与依赖	8
+toc 1|10 验收标准	9
+Heading 1|1 引言
+Heading 2|1.1 文档目的
+Normal|本文档为统一流程引擎（BPMN）需求规格说明书，用于明确统一流程引擎的业务定位、整体架构、功能需求、接口规范、数据模型、非功能需求、约束依赖与验收标准，作为统一流程引擎设计、开发、测试、验收与运维的基准依据。
+Heading 2|1.2 适用范围
+Normal|统一流程引擎为全平台通用审批流程基础服务，适用于全平台所有业务模块的申请、审批、复核、流转、会签、超时提醒、流程监控等场景；业务模块不开发任何自研流程内核、待办、路由。
+Heading 2|1.3 读者对象
+Normal|产品经理、架构师、前后端开发工程师、测试工程师、运维工程师、项目验收人员。
+Heading 2|1.4 术语、定义与缩略语
+Heading 2|1.5 参考文档
+Normal|[1] 《公共中台支撑层总体需求规格书》（00总纲）
+Normal|[2] BPMN 2.0 规范（OMG Document formal/2011-01-03）
+Normal|[3] Camunda/Flowable 引擎最佳实践
+Normal|[4] 《微服务架构设计与开发规范》
+Heading 1|2 总体概述
+Heading 2|2.1 项目背景
+Normal|原有平台各业务模块流程能力碎片化，审批规则散落、流程无法复用、状态不可追踪、超时无人处理。建设统一流程引擎，以BPMN 2.0标准统一全平台审批流程建模、执行、监控与治理。
+Heading 2|2.2 建设目标
+Normal|1. 标准建模：全面遵循BPMN 2.0规范，流程模型可导出、可校验、可移植。
+Normal|2. 零代码配置：可视化拖拽流程设计器，业务人员零代码搭建流程模板。
+Normal|3. 高可靠流转：状态幂等、事务一致、超时调度、异常重试、版本隔离。
+Normal|4. 全链路可观测：流程轨迹完整记录，卡点、超时、异常可视化管理。
+Normal|5. 能力解耦：业务模块只传业务参数，引擎负责流转内核。
+Heading 2|2.3 架构定位
+Normal|统一流程引擎基于BPMN 2.0内核（选型对标Camunda/Flowable：优先采用Flowable满足本地化部署与BPMN/DMN/CMMN全特性需求，或采用Camunda 8满足云原生高并发编排，选型在架构评审阶段确定并冻结）独立部署，通过REST API与事件回调（Webhook）与业务模块解耦联动。
+Heading 2|2.4 与其他中台关系
+Heading 1|3 对标最佳实践
+Normal|设计原则：标准优先（BPMN 2.0）、状态幂等、版本隔离、异步解耦、事务一致、可观测。
+Heading 1|4 差异化技术细则
+Normal|流程中台存在状态流转、条件分支、异步执行、超时调度、版本回溯等特殊场景，适用以下专属强制技术规范（总纲通用规范继续生效）：
+Normal|1. 流程状态幂等流转：流程提交、审批、驳回、撤回操作全部做业务幂等控制，基于流程实例ID+节点ID做唯一锁（分布式锁），防止重复审批、重复流转导致状态错乱。
+Normal|2. 定时任务专属调度：流程超时、定时审批、周期流程基于统一任务调度中台（分布式定时任务）实现，支持任务分片、任务重试、任务容错；宕机重启后自动恢复未完成流程任务，不丢失流程节点。
+Normal|3. 流程版本管理机制：流程模板发布后生成新版本，历史实例沿用旧版本模板，新实例采用最新模板，新旧实例版本隔离、互不影响，支持模板版本一键回滚。
+Normal|4. 异步节点解耦机制：自动执行节点、通知节点采用异步线程池执行，独立线程池隔离，防止异步任务堆积阻塞主流程流转；异步执行失败自动重试3次，重试失败写入异常日志并触发告警。
+Normal|5. 流程事务专属控制：单节点审批事务本地一致性，跨节点状态变更采用最终一致性方案（可靠消息），保证流程状态、操作日志、审批记录数据统一。
+Normal|6. 流程引擎隔离机制：流程引擎独立数据库，不与其他中台共享存储；引擎内核与业务逻辑完全隔离，业务回调通过异步事件驱动。
+Heading 1|5 详细功能需求
+Heading 2|5.1 可视化流程设计
+Normal|提供可视化拖拽流程设计器，支持零代码搭建通用业务流程模板。可自定义流程名称、编码、适用场景、流程描述；支持开始节点、结束节点、人工审批节点、自动执行节点、条件分支节点、并行节点、子流程节点、消息事件节点等通用节点类型；支持流程模板保存、发布、停用、版本管理、回溯复用；提供模板分页查询与预览能力；支持BPMN XML导入导出。
+Heading 2|5.2 审批节点配置
+Normal|支持对每个审批节点精细化配置：指定审批用户、审批角色、审批部门；支持或签、会签、依次审批等多人审批模式；支持加签（前加签/后加签）、转办、委托；支持配置节点审批权限、表单字段显隐、字段编辑权限、审批意见必填规则；支持审批时限配置与超时策略。
+Heading 2|5.3 流转规则配置
+Normal|支持基于业务表单字段配置条件流转规则（条件表达式），实现不同业务数据差异化流转；支持自动流转、条件跳转、指定节点跳转、流程终止等通用能力；支持流转优先级配置，解决多条件冲突问题；支持规则在线测试与表达式校验。
+Heading 2|5.4 流程发起与待办
+Normal|业务模块通过OpenAPI发起流程：传入流程模板编码、业务单据ID、业务JSON、业务附件ID集合；引擎创建流程实例并返回流程实例ID；待办任务统一由引擎管理（不依赖业务模块自建待办），支持待办查询、待办提醒（联动消息中心）、待办超时预警；支持发起人撤回（未终审前）、流程作废。
+Heading 2|5.5 流程超时提醒
+Normal|支持自定义审批节点超时时间，分为普通超时、严重超时两个等级；超时后自动触发多渠道消息推送（站内信、企业微信、短信），提醒对应审批人及时处理；支持超时策略配置：自动流转、自动驳回、日志告警；支持超时统计报表。
+Heading 2|5.6 流程撤回与驳回
+Normal|支持流程发起人在未终审完成前撤回流程，撤回后流程终止，可重新发起申请；支持审批人驳回操作，可填写驳回原因，支持驳回至发起节点或指定历史节点，支持多级驳回、修改重提；系统完整记录所有撤回、驳回操作日志（操作人、时间、原因、状态变更），全程可追溯。
+Heading 2|5.7 流程回调与业务联动
+Normal|流程审批完成后由引擎回调业务接口（Webhook/消息队列）：更新业务单据状态、生成历史版本、触发业务附件只读（调用集中文件管理batchSetBusinessReadOnly）、联动数据同步；回调支持重试与幂等（基于流程实例ID+节点ID）。
+Heading 2|5.8 流程监控与查询
+Normal|提供全平台流程实例统一查询与监控能力：按流程状态、发起时间、发起人、流程类型多维度检索；查看流程完整流转轨迹、各节点审批记录、超时记录、撤回驳回记录；实时监控流程运行状态（运行中、已办结、已驳回、已撤回、已超时、已终止）；流程卡点分析与效率统计输出至BI。
+Heading 1|6 接口需求
+Heading 2|6.1 接口清单
+Heading 2|6.2 核心接口定义示例
+Normal|（1）发起流程 POST /api/workflow/v1/instances
+Normal|请求：{"definitionCode":"leave_approval","businessBillId":"L2026100001","businessData":{"leaveDays":3,"reason":"年假"},"attachmentIds":["F001","F002"],"initiator":"U001"}
+Normal|响应：{"code":0,"msg":"ok","data":{"instanceId":"PI20261000000001","status":"RUNNING","currentTaskId":"T001"}}
+Normal|（2）审批操作 POST /api/workflow/v1/tasks/{taskId}/complete
+Normal|请求：{"taskId":"T001","action":"APPROVE","comment":"同意","assignee":"U002"}
+Normal|响应：{"code":0,"msg":"ok","data":{"instanceId":"PI...","status":"APPROVED","nextTaskId":"T002"}}
+Normal|错误码：20001 任务不存在；20002 任务已处理（幂等冲突）；20003 无审批权限；20004 流程已终止
+Heading 2|6.3 错误码规范
+Heading 1|7 数据模型需求
+Normal|说明：所有表统一包含 create_time、update_time、is_deleted 通用字段；wf_task_history 只增不改。
+Heading 1|8 非功能需求
+Heading 2|8.1 性能需求
+Normal|1. 流程发起接口响应≤500ms，审批操作响应≤300ms，待办查询≤200ms。
+Normal|2. 单引擎支撑日流程实例1万+、在线流程5万+；高并发场景支持引擎水平扩展。
+Normal|3. 流程轨迹查询百万级历史数据无卡顿。
+Heading 2|8.2 可用性需求
+Normal|1. 服务可用性≥99.95%；引擎集群部署，宕机后未完成任务自动恢复。
+Normal|2. 审批操作幂等，重复请求不产生重复流转。
+Heading 2|8.3 安全性需求
+Normal|1. 审批权限由IAM统一校验，无权限禁止操作；流程数据访问受数据权限管控。
+Normal|2. 审批记录不可篡改；回调接口签名校验（HMAC）。
+Heading 2|8.4 可扩展性需求
+Normal|1. 节点类型插件化扩展（新增自动节点处理器）。
+Normal|2. 支持DMN决策模型扩展；支持子流程与跨中台编排。
+Heading 2|8.5 兼容性需求
+Normal|1. BPMN 2.0标准XML导入导出，可迁移至其他标准引擎。
+Normal|2. 流程设计器兼容主流浏览器。
+Heading 1|9 约束与依赖
+Normal|1. 依赖统一任务调度中台（超时调度）、统一消息中心（待办提醒）、统一IAM引擎（权限）、集中文件管理（附件只读联动）、统一监控审计中台（审计）。
+Normal|2. 流程引擎内核选型（Flowable/Camunda）在架构评审阶段冻结，选型后不得在业务代码中直接依赖引擎私有API。
+Normal|3. 开发约束：业务模块禁止自研流程内核与待办中心，禁止直接操作引擎数据库。
+Heading 1|10 验收标准
+Normal|1. BPMN 2.0建模、导入导出、校验通过，覆盖人工/自动/条件/并行/子流程节点。
+Normal|2. 或签、会签、依次审批、加签、转办、委托全功能验证通过。
+Normal|3. 幂等流转验证：重复审批/重复回调不产生状态错乱。
+Normal|4. 版本隔离验证：历史实例沿用旧版本模板，新实例用新模板，一键回滚生效。
+Normal|5. 超时提醒与超时策略（自动流转/驳回/告警）全部生效。
+Normal|6. 回调联动（单据状态更新、附件只读、历史版本生成）端到端闭环。
+Normal|7. 性能指标达标；流程监控与卡点分析可用。
+TBL|文档名称 | 公共中台支撑层需求规格书
+TBL|文档编号 | 【文档编号】
+TBL|版本/状态 | V1.0
+TBL|密级 | 【密级】
+TBL|编制单位 | 【编制单位】
+TBL|编制日期 | 2026年10月
+TBL|术语/缩略语 | 释义说明
+TBL|BPMN | Business Process Model and Notation，业务流程建模与标注（2.0为OMG标准）
+TBL|流程模板 | 基于BPMN 2.0建模的流程定义，可发布、版本化
+TBL|流程实例 | 流程模板的一次运行实例，携带业务数据与流转状态
+TBL|节点 | 流程中的任务/事件/网关，含人工审批、自动执行、条件分支、并行等类型
+TBL|或签 | 多人审批，任一审批人通过即通过
+TBL|会签 | 多人审批，全部审批人通过才通过
+TBL|依次审批 | 多人按顺序审批，任一驳回即驳回
+TBL|DMN | Decision Model and Notation，决策模型与标注（可选扩展）
+TBL|中台 | 与流程引擎关系
+TBL|统一IAM引擎 | 审批人解析（用户/角色/部门）与节点权限校验调用IAM
+TBL|统一消息中心 | 审批待办、超时提醒通过消息中心多渠道推送
+TBL|集中文件管理 | 流程附件引用业务附件ID集合，审批生效回调批量设置附件只读
+TBL|集中数据管理平台 | 流程表单字段字典、主数据校验调用数据管理平台
+TBL|统一监控审计中台 | 流程操作日志、审批记录、异常事件写入审计中台
+TBL|统一报表及BI中台 | 流程效率、超时率、卡点分析数据输出给BI
+TBL|对标对象 | 关键实践 | 本中台落地
+TBL|Camunda 8 | 云原生流程编排；Zeebe分区横向扩展；BPMN编排微服务、消息、设备；Operate可视化运维 | 支持高并发流程编排与分区扩展；流程运维可视
+TBL|Flowable | 完整BPMN/DMN/CMMN功能；本地化灵活部署；异步执行与多实例 | 本地化部署选型；异步节点与多实例任务
+TBL|华为MetaERP | 总体控制+业务流设计；流程与业务数据一致联动 | 审批完成回调业务接口，自动更新正式数据并生成历史版本
+TBL|金蝶苍穹 | 流程服务与低代码一体；流程/数据/AI融合 | 流程设计器与表单、数据联动配置
+TBL|接口名称 | 方法 | 路径 | 说明
+TBL|模板保存 | POST | /api/workflow/v1/definitions | 流程模板保存（草稿）
+TBL|模板发布 | POST | /api/workflow/v1/definitions/{id}/deploy | 发布流程模板生成新版本
+TBL|模板停用 | POST | /api/workflow/v1/definitions/{id}/suspend | 停用流程模板
+TBL|模板查询 | GET | /api/workflow/v1/definitions | 模板分页查询/详情/预览
+TBL|发起流程 | POST | /api/workflow/v1/instances | 发起流程实例（传模板编码+业务参数）
+TBL|审批操作 | POST | /api/workflow/v1/tasks/{taskId}/complete | 通过/驳回/转办/加签/委托
+TBL|待办查询 | GET | /api/workflow/v1/tasks/todo | 查询当前用户待办任务
+TBL|已办查询 | GET | /api/workflow/v1/tasks/done | 查询当前用户已办任务
+TBL|撤回流程 | POST | /api/workflow/v1/instances/{id}/withdraw | 发起人撤回流程
+TBL|终止流程 | POST | /api/workflow/v1/instances/{id}/terminate | 终止流程
+TBL|实例查询 | GET | /api/workflow/v1/instances/{id} | 流程实例详情与流转轨迹
+TBL|回调注册 | POST | /api/workflow/v1/callbacks | 业务模块注册审批完成回调地址
+TBL|超时配置 | POST | /api/workflow/v1/definitions/{id}/timeout | 节点超时与超时策略配置
+TBL|错误码段 | 含义
+TBL|20001-20099 | 任务/审批类错误
+TBL|20100-20199 | 流程模板/版本类错误
+TBL|20200-20299 | 流程实例/流转类错误
+TBL|20300-20399 | 回调/事件类错误
+TBL|表名 | 核心字段 | 说明
+TBL|wf_definition | id, def_code, def_name, bpmn_xml, version, status, category | 流程模板定义表（BPMN XML）
+TBL|wf_instance | id, def_id, business_bill_id, business_json, initiator, status, start_time, end_time | 流程实例表
+TBL|wf_task | id, instance_id, node_id, node_name, assignee_type, assignee_ids, action, comment, status, due_time | 流程任务表（审批节点）
+TBL|wf_task_history | id, instance_id, node_id, operator, action, comment, operate_time, ip | 任务历史/审批记录表（只增不改）
+TBL|wf_timeout_config | id, def_id, node_id, timeout_hours, level, strategy | 超时配置表
+TBL|wf_callback_config | id, service_code, instance_id, callback_url, retry_times | 回调注册表
+TBL|wf_event_log | id, instance_id, event_type, payload, status, retry_count | 流程事件日志表

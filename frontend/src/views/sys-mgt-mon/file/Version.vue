@@ -1,0 +1,128 @@
+<template>
+  <div class="page-container">
+    <div class="page-header">
+      <h2>文件版本</h2>
+      <div>
+        <el-input v-model="keyword" placeholder="搜索关键词" clearable style="width:200px;margin-right:8px" @keyup.enter="loadData" />
+        <el-button style="margin-right:8px" @click="loadData">搜索</el-button>
+        <el-button type="primary" @click="handleAdd">新增</el-button>
+      </div>
+    </div>
+    <el-table :data="tableData" border stripe size="small" v-loading="loading" style="margin-top:16px">
+      <el-table-column prop="fileId" label="文件ID" />
+      <el-table-column prop="versionNo" label="版本号" />
+      <el-table-column prop="fileSize" label="大小(B)" />
+      <el-table-column prop="storagePath" label="存储路径" />
+      <el-table-column prop="remark" label="变更说明" />
+      <el-table-column label="操作" width="160" fixed="right">
+        <template #default="{row}">
+          <el-button size="small" type="primary" @click="handleEdit(row)">编辑</el-button>
+          <el-button size="small" type="danger" @click="handleDelete(row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="700px">
+      <el-form :model="formData" label-width="120px">
+        <el-form-item label="文件ID">
+          <el-input-number v-model="formData.fileId" style="width:100%" :controls="false" />
+        </el-form-item>
+        <el-form-item label="版本号">
+          <el-input v-model="formData.versionNo" placeholder="请输入版本号" />
+        </el-form-item>
+        <el-form-item label="大小(B)">
+          <el-input-number v-model="formData.fileSize" style="width:100%" :controls="false" />
+        </el-form-item>
+        <el-form-item label="存储路径">
+          <el-input v-model="formData.storagePath" placeholder="请输入存储路径" />
+        </el-form-item>
+        <el-form-item label="变更说明">
+          <el-input v-model="formData.remark" type="textarea" :rows="3" placeholder="请输入变更说明" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="dialogVisible=false">取消</el-button>
+        <el-button type="primary" @click="handleSubmit">保存</el-button>
+      </template>
+    </el-dialog>
+  </div>
+</template>
+<script setup>
+import { ref, reactive, onMounted } from 'vue'
+import { fileApi } from '@/api/platform'
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+const api = fileApi.version
+const loading = ref(false)
+const tableData = ref([])
+const keyword = ref('')
+const dialogVisible = ref(false)
+const dialogTitle = ref('新增文件版本')
+const formData = reactive({
+  id: null,
+  fileId: null,
+  versionNo: '',
+  fileSize: null,
+  storagePath: '',
+  remark: ''
+})
+
+function resetForm() {
+  formData.id = null
+  formData.fileId = null
+  formData.versionNo = ''
+  formData.fileSize = null
+  formData.storagePath = ''
+  formData.remark = ''
+}
+
+async function loadData() {
+  loading.value = true
+  try {
+    const res = await api.list(keyword.value)
+    if (res.data.code === 200) tableData.value = res.data.data || []
+    else ElMessage.error(res.data.message || '加载失败')
+  } catch (e) { ElMessage.error('加载失败') }
+  finally { loading.value = false }
+}
+
+function handleAdd() {
+  dialogTitle.value = '新增文件版本'
+  resetForm()
+  dialogVisible.value = true
+}
+
+function handleEdit(row) {
+  dialogTitle.value = '编辑文件版本'
+  Object.assign(formData, row)
+  dialogVisible.value = true
+}
+
+async function handleDelete(row) {
+  try {
+    await ElMessageBox.confirm('确认删除该条记录？', '提示', { type: 'warning' })
+    const res = await api.remove(row.id)
+    if (res.data.code === 200) { ElMessage.success('删除成功'); loadData() }
+    else ElMessage.error(res.data.message || '删除失败')
+  } catch (e) {}
+}
+
+async function handleSubmit() {
+  try {
+    const res = formData.id ? await api.update(formData.id, formData) : await api.save(formData)
+    if (res.data.code === 200) {
+      ElMessage.success('保存成功')
+      dialogVisible.value = false
+      loadData()
+    } else {
+      ElMessage.error(res.data.message || '保存失败')
+    }
+  } catch (e) { ElMessage.error('保存失败') }
+}
+
+onMounted(loadData)
+</script>
+<style scoped>
+.page-container { padding: 20px; }
+.page-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+</style>

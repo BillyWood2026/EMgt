@@ -1,0 +1,219 @@
+Normal|统一IAM引擎需求规格书
+Normal|公共中台支撑层需求规格书
+Normal|目  录
+Normal|（打开文档后按 F9 或右键“更新域”刷新目录页码）
+toc 1|1 引言	1
+toc 2|1.1 文档目的	1
+toc 2|1.2 适用范围	1
+toc 2|1.3 读者对象	1
+toc 2|1.4 术语、定义与缩略语	1
+toc 2|1.5 参考文档	2
+toc 1|2 总体概述	2
+toc 2|2.1 项目背景	2
+toc 2|2.2 建设目标	2
+toc 2|2.3 架构定位	2
+toc 2|2.4 与其他中台关系	3
+toc 1|3 对标最佳实践	3
+toc 2|3.1 行业对标	3
+toc 2|3.2 设计原则	4
+toc 1|4 差异化技术细则	4
+toc 1|5 详细功能需求	5
+toc 2|5.1 租户管理	5
+toc 2|5.2 身份源与组织管理	5
+toc 2|5.3 统一账号管理	5
+toc 2|5.4 认证管理	5
+toc 2|5.5 角色管理	6
+toc 2|5.6 菜单与按钮权限管控	6
+toc 2|5.7 数据权限管控	6
+toc 2|5.8 ABAC策略引擎（扩展）	7
+toc 2|5.9 安全审计	7
+toc 1|6 接口需求	7
+toc 2|6.1 通用接口规范	7
+toc 2|6.2 接口清单	7
+toc 2|6.3 核心接口定义示例	8
+toc 2|6.4 错误码规范	8
+toc 1|7 数据模型需求	8
+toc 2|7.1 核心表结构	8
+toc 1|8 非功能需求	9
+toc 2|8.1 性能需求	9
+toc 2|8.2 可用性需求	10
+toc 2|8.3 安全性需求	10
+toc 2|8.4 可扩展性需求	10
+toc 2|8.5 兼容性需求	10
+toc 1|9 约束与依赖	10
+toc 1|10 验收标准	10
+Heading 1|1 引言
+Heading 2|1.1 文档目的
+Normal|本文档为统一IAM引擎（Identity and Access Management，身份识别与访问管理）需求规格说明书，用于明确统一IAM引擎的业务定位、整体架构、功能需求、接口规范、数据模型、非功能需求、约束依赖与验收标准，作为统一IAM引擎设计、开发、测试、验收与运维的基准依据。
+Heading 2|1.2 适用范围
+Normal|统一IAM引擎为全平台唯一身份认证与权限管控核心基座，适用于全平台所有业务模块的身份认证、单点登录（SSO）、权限授权、数据隔离与安全审计场景；是所有其他中台（流程、数据、文件、消息、IOT、报表、大屏）安全调用的依赖底层。
+Heading 2|1.3 读者对象
+Normal|产品经理、架构师、前后端开发工程师、测试工程师、运维工程师、安全合规人员、项目验收人员。
+Heading 2|1.4 术语、定义与缩略语
+Heading 2|1.5 参考文档
+Normal|[1] 《公共中台支撑层总体需求规格书》（00总纲）
+Normal|[2] RFC 6749《OAuth 2.0 Authorization Framework》
+Normal|[3] OpenID Connect Core 1.0 规范
+Normal|[4] 《信息安全技术 网络安全等级保护基本要求》（GB/T 22239）
+Normal|[5] 《企业级信息系统安全设计规范》
+Heading 1|2 总体概述
+Heading 2|2.1 项目背景
+Normal|原有平台各业务模块身份认证与权限体系各自为政，账号不统一、登录不互通、权限标准不一，存在弱口令、越权访问、权限滞后、审计缺失等安全隐患。建设统一IAM引擎，构建全平台统一身份、统一认证、统一授权、统一审计的安全基座。
+Heading 2|2.2 建设目标
+Normal|1. 统一身份：建立全平台唯一账号体系，支持多租户、多身份源、组织岗位全生命周期管理。
+Normal|2. 统一认证：基于OIDC/OAuth2.0标准协议，提供单点登录、多因素认证、统一会话管理。
+Normal|3. 统一授权：RBAC+ABAC混合授权模型，覆盖菜单、按钮、数据、字段四级精细化权限。
+Normal|4. 统一审计：认证与授权全链路审计，日志不可篡改，满足等保合规。
+Normal|5. 零信任落地：以“持续验证、最小权限”为原则，网关粗校验+服务内细校验双重兜底。
+Heading 2|2.3 架构定位
+Normal|统一IAM引擎位于中台支撑层安全核心位置，是全部中台与业务模块的安全依赖：所有接口通过API网关完成Token认证与粗粒度权限校验，服务内部通过IAM SDK完成精细权限与数据权限二次校验；权限数据采用“本地缓存+Redis分布式缓存”二级缓存，支持高并发鉴权。
+Normal|统一IAM引擎对标Keycloak、阿里云IDaaS、华为云IAM等业界成熟实践，采用标准协议实现，避免绑定私有实现，支持未来与外部身份源（企业微信、钉钉、AD域等）联邦集成。
+Heading 2|2.4 与其他中台关系
+Heading 1|3 对标最佳实践
+Heading 2|3.1 行业对标
+Heading 2|3.2 设计原则
+Normal|1. 标准协议优先：认证基于OIDC/OAuth2.0，令牌基于JWT，避免私有协议锁定。
+Normal|2. 最小权限原则：默认拒绝，按需授权，权限变更实时生效。
+Normal|3. 前后端分离原则：前端只做UI渲染，所有权限逻辑后端强制固化，禁止前端控制权限有效性。
+Normal|4. 双重兜底原则：网关粗校验+服务内精细校验+数据权限二次校验。
+Normal|5. 全链路可审计原则：认证、授权、权限变更、跨租户操作全量审计。
+Heading 1|4 差异化技术细则
+Normal|统一IAM引擎为全平台安全核心基座，是所有中台的依赖底层，权限校验贯穿全链路，适用以下专属强制技术规范（总纲通用规范继续生效）：
+Normal|1. 多级缓存专属机制：权限数据采用“本地缓存+Redis分布式缓存”二级缓存架构，优先读取本地缓存降低中间件压力；租户权限、角色权限、按钮权限缓存有效期10分钟，用户数据权限缓存有效期5分钟；权限变更后自动双缓存清空刷新，保证权限实时生效。
+Normal|2. 数据权限SQL自动拦截：基于MyBatis插件实现无侵入数据权限自动拼接，禁止业务代码手动判断数据范围；支持部门层级递归数据自动聚合、自定义数据规则动态解析，适配多层级组织架构权限隔离。
+Normal|3. 全链路权限兜底校验：网关层做Token与接口权限粗校验，服务内部做精细权限+数据权限二次校验，双重兜底。
+Normal|4. 租户数据强隔离：采用单库多租户隔离模式，所有数据表自动携带租户ID，SQL查询强制拼接租户条件，禁止出现跨租户查询漏洞；超级管理员支持租户切换查询，留存跨租户操作审计日志。
+Normal|5. 密码安全专属策略：用户密码采用BCrypt强哈希加密（加盐），不存储明文与可逆密文；支持密码过期提醒、弱密码校验、登录异地判定、连续错误锁定机制。
+Normal|6. 令牌安全策略：Access Token有效期默认2小时，Refresh Token有效期默认7天，支持滑动续期；令牌签名密钥集中管理、定期轮换；支持令牌撤销（黑名单）与异常登录风控。
+Normal|7. 多因素认证：支持短信验证码、邮箱验证码、TOTP动态令牌、企业微信扫码等MFA方式，高危操作（导出、删除、密钥重置）强制二次认证。
+Heading 1|5 详细功能需求
+Heading 2|5.1 租户管理
+Normal|支持多租户隔离机制，各租户拥有独立的身份体系与权限体系，数据完全隔离。
+Normal|功能点：租户新增、编辑、启用、停用、删除；配置租户名称、编码、有效期、备注、资源配额；租户分页查询、详情查询、条件检索；租户资源额度限制（账号数、角色数、菜单数）。
+Normal|业务规则：租户编码全局唯一；停用租户禁止登录与调用；租户删除仅逻辑删除；超级管理员支持跨租户切换查询并强制审计。
+Heading 2|5.2 身份源与组织管理
+Normal|支持内置身份源与外部身份源（企业微信、钉钉、AD/LDAP）同步接入；统一组织架构管理（公司、部门、岗位、职务），组织树支持多层级、排序、启停、人员挂载；组织人员变动自动联动刷新数据权限。
+Normal|业务规则：组织编码唯一；人员与组织关系变更实时推送权限刷新事件；外部身份源同步支持增量同步与冲突策略配置。
+Heading 2|5.3 统一账号管理
+Normal|构建全平台唯一账号体系：账号新增、编辑、启用、禁用、重置密码、批量导入导出；账号属性包含用户名、手机号、邮箱、租户、部门、岗位、状态等通用字段；账号唯一校验、密码复杂度校验、登录过期策略、账号锁定策略；支持一人多角色配置。
+Heading 2|5.4 认证管理
+Normal|1. 用户名密码认证：BCrypt校验、验证码、失败锁定（连续5次锁定30分钟）、异地登录提醒。
+Normal|2. 单点登录（SSO）：基于OIDC授权码模式，登录一次全平台通行；支持登出全系统会话失效。
+Normal|3. 多因素认证（MFA）：短信/邮箱验证码、TOTP动态令牌、企业微信扫码；支持按用户、按操作级别配置MFA策略。
+Normal|4. 会话管理：会话超时（默认30分钟）、最大会话数限制、会话撤销、在线用户查询与强制下线。
+Normal|5. 令牌管理：Access/Refresh Token签发、刷新、撤销、黑名单；支持Client（应用）注册与管理，支持API Key/客户端凭证模式供服务间调用。
+Heading 2|5.5 角色管理
+Normal|基于标准RBAC权限模型设计通用角色体系：自定义角色、角色分类、角色启停、角色复制；区分超级管理员、运维角色、业务管理员、普通业务角色等通用角色类型；支持批量分配菜单权限、按钮权限、数据权限，支持角色权限批量同步。
+Heading 2|5.6 菜单与按钮权限管控
+Normal|统一维护全平台业务菜单与功能页面：菜单层级配置、排序、图标、路由、权限标识；按角色分配菜单访问权限（页面级控制）；对页面操作按钮（新增、编辑、删除、查询、导入、导出、审核等）配置唯一权限标识并绑定角色；前端无权限自动隐藏按钮，后端接口二次权限校验。
+Heading 2|5.7 数据权限管控
+Normal|提供五种通用数据权限维度：全部数据、本部门数据、本部门及下属数据、个人数据、自定义数据范围；支持按部门、岗位、用户、业务归属配置数据权限；基于MyBatis插件自动拼接数据权限SQL；支持字段级权限（表单字段显隐、可编辑性）。
+Normal|业务规则：数据权限规则支持部门层级递归聚合；自定义规则支持动态表达式解析；权限变更后双缓存实时刷新。
+Heading 2|5.8 ABAC策略引擎（扩展）
+Normal|支持基于属性的授权策略：以主体属性（用户、部门、岗位、标签）、资源属性（资源类型、密级、归属）、环境属性（时间、IP、终端）动态计算授权结果；策略支持条件组合（AND/OR/NOT）、策略优先级、策略版本与生效时间。
+Heading 2|5.9 安全审计
+Normal|记录登录、登出、认证失败、令牌签发/撤销、权限变更、角色分配、租户切换、MFA绑定等全量行为；审计字段包含操作人、IP、设备、时间、操作内容、操作结果、请求ID；审计日志不可篡改、永久留存，同步写入统一监控审计中台。
+Heading 1|6 接口需求
+Heading 2|6.1 通用接口规范
+Normal|统一遵循总纲4.4统一接口技术规范：HTTPS、统一返回结构体、幂等、版本管理、Swagger文档。
+Heading 2|6.2 接口清单
+Heading 2|6.3 核心接口定义示例
+Normal|（1）登录接口 POST /api/iam/v1/auth/login
+Normal|请求：{"username":"zhangsan","password":"******","tenantCode":"T001","captcha":"a1b2"}
+Normal|响应：{"code":0,"msg":"ok","data":{"accessToken":"eyJhbGci...","refreshToken":"...","expiresIn":7200,"userInfo":{"userId":"U001","userName":"张三","deptId":"D001"}}}
+Normal|错误码：10001 用户名或密码错误；10002 账号已锁定；10003 验证码错误；10004 租户已停用
+Normal|（2）权限校验接口 POST /api/iam/v1/auth/check-permission
+Normal|请求：{"userId":"U001","resourceCode":"salary:query","action":"query","context":{"deptId":"D001","billId":"B001"}}
+Normal|响应：{"code":0,"msg":"ok","data":{"allowed":true,"dataScope":"dept_and_children","fields":["name","salary"]}}
+Heading 2|6.4 错误码规范
+Heading 1|7 数据模型需求
+Heading 2|7.1 核心表结构
+Normal|说明：所有表统一包含 create_time、update_time、is_deleted 通用字段；审计日志表禁止update/delete操作，仅允许insert与归档。
+Heading 1|8 非功能需求
+Heading 2|8.1 性能需求
+Normal|1. 登录接口响应≤500ms（含密码哈希校验）；令牌校验接口响应≤50ms（本地缓存命中）。
+Normal|2. 权限查询支持百万级用户、十万级并发鉴权，缓存命中率≥99%。
+Normal|3. 全量权限数据本地缓存加载时间≤5s，支持异步预热。
+Heading 2|8.2 可用性需求
+Normal|1. 服务可用性≥99.95%；IAM故障时授权决策走本地策略缓存兜底（降级为最近有效权限），避免全平台不可用。
+Normal|2. 令牌签发与校验支持水平扩展，无单点。
+Heading 2|8.3 安全性需求
+Normal|1. 密码BCrypt加盐哈希，禁止明文存储与传输；传输全程HTTPS。
+Normal|2. 防暴力破解（验证码+锁定）、防撞库、防越权；审计日志防篡改。
+Normal|3. 满足等保二级及以上安全要求，关键操作MFA。
+Heading 2|8.4 可扩展性需求
+Normal|支持新增认证源（协议插件化）、新增权限模型（RBAC/ABAC策略可插拔）、支持与外部IDaaS联邦对接。
+Heading 2|8.5 兼容性需求
+Normal|兼容主流浏览器与移动端；SDK支持Java/前端组件，提供标准RESTful接口供其他语言调用。
+Heading 1|9 约束与依赖
+Normal|1. 依赖平台网关、Nacos注册/配置中心、Redis、MySQL。
+Normal|2. 依赖短信/邮件通道（验证码、MFA）。
+Normal|3. 依赖统一监控审计中台（审计日志持久化）与统一消息中心（通知）。
+Normal|4. 开发约束：严格遵循总纲代码/接口/安全规范，禁止业务模块自建账号权限体系。
+Heading 1|10 验收标准
+Normal|1. 账号、租户、角色、菜单、按钮、数据、字段权限全功能落地，权限实时生效（缓存刷新≤10s）。
+Normal|2. OIDC/OAuth2.0标准流程通过协议一致性测试，SSO全平台登录登出闭环。
+Normal|3. 数据权限SQL自动拦截生效，越权查询零漏报；渗透测试无高危漏洞。
+Normal|4. 审计日志完整、不可篡改；密码策略、MFA、锁定策略全部生效。
+Normal|5. 性能指标达标：令牌校验P99≤50ms、登录P99≤500ms、缓存命中率≥99%。
+Normal|6. 全部业务模块完成IAM接入改造，原有自建权限体系全部下线。
+TBL|文档名称 | 公共中台支撑层需求规格书
+TBL|文档编号 | 【文档编号】
+TBL|版本/状态 | V1.0
+TBL|密级 | 【密级】
+TBL|编制单位 | 【编制单位】
+TBL|编制日期 | 2026年10月
+TBL|术语/缩略语 | 释义说明
+TBL|IAM | Identity and Access Management，统一身份识别与访问管理
+TBL|SSO | Single Sign-On，单点登录，一次认证多系统通行
+TBL|OIDC | OpenID Connect，基于OAuth2.0的身份认证协议
+TBL|JWT | JSON Web Token，无状态访问令牌
+TBL|RBAC | 基于角色的权限访问控制模型
+TBL|ABAC | 基于属性的访问控制模型
+TBL|MFA | 多因素认证，口令+动态令牌/生物特征等组合认证
+TBL|数据权限 | 控制用户可访问数据范围（全部/本部门/本部门及下级/本人/自定义）的权限机制
+TBL|字段级权限 | 控制表单/详情字段的可见可编辑范围的权限机制
+TBL|中台 | 与IAM关系
+TBL|统一流程引擎 | 审批人解析、流程权限校验调用IAM；流程回调联动人员组织变更
+TBL|集中数据管理平台 | 主数据/字典数据的访问控制由IAM数据权限管控
+TBL|集中文件管理 | 文件预览下载鉴权由IAM完成，业务模块传入业务上下文
+TBL|统一消息中心 | 接收人解析与消息权限校验依赖IAM组织人员数据
+TBL|统一物联网IOT | 设备鉴权（X.509/Token）与设备权限隔离依赖IAM
+TBL|统一报表及BI中台 | 报表查看、数据行级权限由IAM数据权限拦截
+TBL|统一大屏显示中台 | 大屏访问权限、涉密大屏白名单由IAM管控
+TBL|对标对象 | 关键实践 | 本中台落地
+TBL|Keycloak | OIDC/OAuth2.0/SAML标准协议；JWT令牌与Token交换；realm多租；Client权限管理；协议映射器（groups claim） | 支持OIDC授权码/客户端凭证等流程；租户=realm；JWT含groups/roles声明
+TBL|阿里云IDaaS | 身份源管理、认证源联邦、组织同步、行为审计 | 多身份源接入与组织同步；认证行为全审计
+TBL|华为云IAM | 细粒度权限策略（Policy）、项目级隔离、临时凭证 | ABAC策略引擎；租户/项目级数据隔离
+TBL|零信任最佳实践 | 持续验证、最小权限、会话超时、定期权限审阅 | 令牌短时有效+刷新机制；权限定期审阅流程
+TBL|接口名称 | 方法 | 路径 | 说明
+TBL|登录 | POST | /api/iam/v1/auth/login | 用户名密码登录，返回Access/Refresh Token
+TBL|OIDC授权 | GET | /api/iam/v1/auth/authorize | OIDC授权码流程入口
+TBL|令牌刷新 | POST | /api/iam/v1/auth/token/refresh | 刷新Access Token
+TBL|令牌撤销 | POST | /api/iam/v1/auth/token/revoke | 撤销令牌（登出）
+TBL|令牌校验 | POST | /api/iam/v1/auth/token/introspect | 网关/服务校验令牌有效性
+TBL|权限校验 | POST | /api/iam/v1/auth/check-permission | 校验用户对指定资源的操作权限
+TBL|获取用户权限 | GET | /api/iam/v1/auth/user/permissions | 获取当前用户菜单/按钮/数据权限
+TBL|账号管理 | POST | /api/iam/v1/users | 账号新增/编辑/启停/重置密码/导入导出
+TBL|角色管理 | POST | /api/iam/v1/roles | 角色CRUD与权限分配
+TBL|租户管理 | POST | /api/iam/v1/tenants | 租户CRUD与配额管理
+TBL|组织管理 | POST | /api/iam/v1/orgs | 组织架构CRUD与人员挂载
+TBL|数据权限规则 | POST | /api/iam/v1/data-rules | 数据权限规则配置
+TBL|权限刷新事件 | POST | /api/iam/v1/events/permission-refresh | 权限变更事件推送（内部）
+TBL|审计上报 | POST | /api/iam/v1/audit/events | 认证授权审计事件上报
+TBL|错误码段 | 含义
+TBL|10001-10099 | 认证类错误（凭证、验证码、锁定、过期）
+TBL|10100-10199 | 授权类错误（无权限、数据越权）
+TBL|10200-10299 | 账号/组织/租户类错误
+TBL|10300-10399 | 令牌类错误（无效、撤销、过期）
+TBL|表名 | 核心字段 | 说明
+TBL|sys_tenant | id, tenant_code, tenant_name, status, expire_time, quota | 租户表
+TBL|sys_user | id, tenant_id, username, password_hash, phone, email, dept_id, post_id, status, mfa_flag | 账号表（密码仅存BCrypt哈希）
+TBL|sys_dept | id, tenant_id, parent_id, dept_code, dept_name, sort, status | 组织部门表
+TBL|sys_role | id, tenant_id, role_code, role_name, role_type, status | 角色表
+TBL|sys_menu | id, tenant_id, parent_id, menu_code, menu_name, route, icon, perms, type, sort | 菜单/权限点表（含按钮权限标识）
+TBL|sys_role_menu | role_id, menu_id | 角色-菜单关联表
+TBL|sys_user_role | user_id, role_id | 用户-角色关联表
+TBL|sys_data_rule | id, tenant_id, rule_code, rule_type, rule_scope, rule_expression, status | 数据权限规则表
+TBL|sys_oauth_client | id, client_id, client_secret_hash, grant_types, redirect_uris, scopes | OAuth2客户端表
+TBL|sys_audit_log | id, tenant_id, user_id, action, resource, ip, device, result, trace_id, detail | 审计日志表（只增不改）

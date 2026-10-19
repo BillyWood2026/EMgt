@@ -1,0 +1,81 @@
+appId: com.emgt.hrm
+productName: HRM Platform
+copyright: Copyright (c) 2026 EMgt
+asar: true
+directories:
+  output: release
+  buildResources: build
+
+# Application sources only; big binary assets go via extraResources per platform.
+files:
+  - src/**/*
+  - "!src/config/**"
+  - package.json
+
+# Shared extra resources (all platforms)
+extraResources:
+  - from: vendor/jars
+    to: jars
+  - from: vendor/frontend
+    to: frontend
+  - from: vendor/db-dump
+    to: db-dump
+  - from: src/config
+    to: config
+
+win:
+  target:
+    - nsis
+  icon: build/icon.ico
+  extraResources:
+    - from: runtime/win/jre
+      to: runtime/jre
+    - from: runtime/win/mysql
+      to: runtime/mysql
+  artifactName: ${productName}-Setup-${version}-win-x64.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: HRM Platform
+  runAfterFinish: true
+  include: build/installer.nsh
+  license: build/license.txt
+  deleteAppDataOnUninstall: false
+
+linux:
+  target:
+    - AppImage
+    - deb
+  icon: build/icon.png
+  category: Office
+  extraResources:
+    - from: runtime/linux/jre
+      to: runtime/jre
+    - from: runtime/linux/mysql
+      to: runtime/mysql
+  artifactName: ${productName}-${version}-linux-x64.${ext}
+
+deb:
+  depends:
+    - libaio1
+    - libtinfo5
+    - libncurses5
+    - libnuma1
+
+mac:
+  target:
+    - dmg
+  icon: build/icon.icns
+  category: public.app-category.productivity
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  artifactName: ${productName}-${version}-mac-${arch}.${ext}
+
+# NOTE: mac arch-specific runtimes live in runtime/darwin-x64 and runtime/darwin-arm64.
+# Build with the complete per-arch override configs instead of this base file:
+#   electron-builder --mac dmg --x64   --config electron-builder.mac-x64.yml
+#   electron-builder --mac dmg --arm64 --config electron-builder.mac-arm64.yml

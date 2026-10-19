@@ -1,0 +1,425 @@
+{
+  "key": "/party-mgt",
+  "title": "党务管理",
+  "icon": "Flag",
+  "displayOrder": 6,
+  "description": "党组织、党籍党费、党员、宣传、舆情、活动、考核、纪检、廉政、统计分析一体化管理",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/party-mgt/org",
+      "title": "党组织管理",
+      "displayOrder": 1,
+      "dir": "org",
+      "items": [
+        {
+          "path": "/party-mgt/org/organization",
+          "title": "组织架构",
+          "icon": "OfficeBuilding",
+          "component": "party-mgt/org/OrgStructure.vue",
+          "cfgKey": "partyOrg"
+        },
+        {
+          "path": "/party-mgt/org/term-election",
+          "title": "换届选举",
+          "icon": "OfficeBuilding",
+          "component": "party-mgt/org/TermElection.vue",
+          "cfgKey": "termElection"
+        },
+        {
+          "path": "/party-mgt/org/life-meeting",
+          "title": "组织与民主生活会",
+          "icon": "OfficeBuilding",
+          "component": "party-mgt/org/LifeMeeting.vue",
+          "cfgKey": "lifeMeeting"
+        },
+        {
+          "path": "/party-mgt/org/democratic-appraisal",
+          "title": "民主评议党员",
+          "icon": "OfficeBuilding",
+          "component": "party-mgt/org/DemocraticAppraisal.vue",
+          "cfgKey": "democraticAppraisal"
+        },
+        {
+          "path": "/party-mgt/org/heart-talk",
+          "title": "谈心谈话",
+          "icon": "OfficeBuilding",
+          "component": "party-mgt/org/HeartTalk.vue",
+          "cfgKey": "heartTalk"
+        },
+        {
+          "path": "/party-mgt/org/publicity",
+          "title": "党务公开",
+          "icon": "OfficeBuilding",
+          "component": "party-mgt/org/Publicity.vue",
+          "cfgKey": "partyPublicity"
+        }
+      ]
+    },
+    {
+      "key": "/party-mgt/membership",
+      "title": "党籍党费管理",
+      "displayOrder": 2,
+      "dir": "membership",
+      "items": [
+        {
+          "path": "/party-mgt/membership/membership",
+          "title": "党籍管理",
+          "icon": "Postcard",
+          "component": "party-mgt/membership/Membership.vue",
+          "cfgKey": "partyMembership"
+        },
+        {
+          "path": "/party-mgt/membership/development",
+          "title": "发展党员",
+          "icon": "Postcard",
+          "component": "party-mgt/membership/Development.vue",
+          "cfgKey": "memberDevelopment"
+        },
+        {
+          "path": "/party-mgt/membership/dues-payment",
+          "title": "党费收缴",
+          "icon": "Postcard",
+          "component": "party-mgt/membership/DuesPayment.vue",
+          "cfgKey": "duesPayment"
+        },
+        {
+          "path": "/party-mgt/membership/dues-expense",
+          "title": "党费使用",
+          "icon": "Postcard",
+          "component": "party-mgt/membership/DuesExpense.vue",
+          "cfgKey": "duesExpense"
+        },
+        {
+          "path": "/party-mgt/membership/dues-publication",
+          "title": "党费公示统计",
+          "icon": "Postcard",
+          "component": "party-mgt/membership/DuesPublication.vue",
+          "cfgKey": "duesPublication"
+        }
+      ]
+    },
+    {
+      "key": "/party-mgt/member",
+      "title": "党员管理",
+      "displayOrder": 3,
+      "dir": "member",
+      "items": [
+        {
+          "path": "/party-mgt/member/info",
+          "title": "党员信息档案",
+          "icon": "User",
+          "component": "party-mgt/member/MemberProfile.vue",
+          "cfgKey": "partyMember"
+        },
+        {
+          "path": "/party-mgt/member/relation-transfer",
+          "title": "组织关系转接",
+          "icon": "User",
+          "component": "party-mgt/member/RelationTransfer.vue",
+          "cfgKey": "relationTransfer"
+        },
+        {
+          "path": "/party-mgt/member/score",
+          "title": "党员积分",
+          "icon": "User",
+          "component": "party-mgt/member/MemberScore.vue",
+          "cfgKey": "memberScore"
+        },
+        {
+          "path": "/party-mgt/member/floating",
+          "title": "流动党员",
+          "icon": "User",
+          "component": "party-mgt/member/FloatingMember.vue",
+          "cfgKey": "floatingMember"
+        },
+        {
+          "path": "/party-mgt/member/care",
+          "title": "关怀帮扶",
+          "icon": "User",
+          "component": "party-mgt/member/CareAssistance.vue",
+          "cfgKey": "careAssistance"
+        },
+        {
+          "path": "/party-mgt/member/training",
+          "title": "教育培训",
+          "icon": "User",
+          "component": "party-mgt/member/EducationTraining.vue",
+          "cfgKey": "educationTraining"
+        }
+      ]
+    },
+    {
+      "key": "/party-mgt/news",
+      "title": "新闻宣传管理",
+      "displayOrder": 4,
+      "dir": "news",
+      "items": [
+        {
+          "path": "/party-mgt/news/column",
+          "title": "新闻栏目",
+          "icon": "ChatLineSquare",
+          "component": "party-mgt/news/NewsColumn.vue",
+          "cfgKey": "newsColumn"
+        },
+        {
+          "path": "/party-mgt/news/article",
+          "title": "稿件管理",
+          "icon": "ChatLineSquare",
+          "component": "party-mgt/news/NewsArticle.vue",
+          "cfgKey": "newsArticle"
+        },
+        {
+          "path": "/party-mgt/news/review",
+          "title": "三级审核",
+          "icon": "ChatLineSquare",
+          "component": "party-mgt/news/NewsReview.vue",
+          "cfgKey": "newsReview"
+        },
+        {
+          "path": "/party-mgt/news/recommendation",
+          "title": "置顶推荐",
+          "icon": "ChatLineSquare",
+          "component": "party-mgt/news/NewsRecommendation.vue",
+          "cfgKey": "newsRecommendation"
+        },
+        {
+          "path": "/party-mgt/news/read-stat",
+          "title": "阅读统计",
+          "icon": "ChatLineSquare",
+          "component": "party-mgt/news/NewsReadStat.vue",
+          "cfgKey": "newsReadStat"
+        },
+        {
+          "path": "/party-mgt/news/publish",
+          "title": "多端发布",
+          "icon": "ChatLineSquare",
+          "component": "party-mgt/news/NewsPublish.vue",
+          "cfgKey": "newsPublish"
+        }
+      ]
+    },
+    {
+      "key": "/party-mgt/opinion",
+      "title": "舆情监控管理",
+      "displayOrder": 5,
+      "dir": "opinion",
+      "items": [
+        {
+          "path": "/party-mgt/opinion/collection",
+          "title": "舆情采集",
+          "icon": "Warning",
+          "component": "party-mgt/opinion/OpinionCollection.vue",
+          "cfgKey": "opinionCollection"
+        },
+        {
+          "path": "/party-mgt/opinion/analysis",
+          "title": "舆情分析",
+          "icon": "Warning",
+          "component": "party-mgt/opinion/OpinionAnalysis.vue",
+          "cfgKey": "opinionAnalysis"
+        },
+        {
+          "path": "/party-mgt/opinion/alert",
+          "title": "分级预警",
+          "icon": "Warning",
+          "component": "party-mgt/opinion/OpinionAlert.vue",
+          "cfgKey": "opinionAlert"
+        },
+        {
+          "path": "/party-mgt/opinion/handle",
+          "title": "处置闭环",
+          "icon": "Warning",
+          "component": "party-mgt/opinion/OpinionHandle.vue",
+          "cfgKey": "opinionHandle"
+        },
+        {
+          "path": "/party-mgt/opinion/report",
+          "title": "舆情报告",
+          "icon": "Warning",
+          "component": "party-mgt/opinion/OpinionReport.vue",
+          "cfgKey": "opinionReport"
+        }
+      ]
+    },
+    {
+      "key": "/party-mgt/activity",
+      "title": "党组织活动管理",
+      "displayOrder": 6,
+      "dir": "activity",
+      "items": [
+        {
+          "path": "/party-mgt/activity/plan",
+          "title": "活动计划",
+          "icon": "Calendar",
+          "component": "party-mgt/activity/ActivityPlan.vue",
+          "cfgKey": "activityPlan"
+        },
+        {
+          "path": "/party-mgt/activity/enrollment",
+          "title": "报名签到",
+          "icon": "Calendar",
+          "component": "party-mgt/activity/ActivityEnrollment.vue",
+          "cfgKey": "activityEnrollment"
+        },
+        {
+          "path": "/party-mgt/activity/record",
+          "title": "活动记录归档",
+          "icon": "Calendar",
+          "component": "party-mgt/activity/ActivityRecord.vue",
+          "cfgKey": "activityRecord"
+        },
+        {
+          "path": "/party-mgt/activity/three-lesson",
+          "title": "三会一课台账",
+          "icon": "Calendar",
+          "component": "party-mgt/activity/ThreeMeetingsLesson.vue",
+          "cfgKey": "threeMeetingsLesson"
+        },
+        {
+          "path": "/party-mgt/activity/assessment",
+          "title": "活动统计考核",
+          "icon": "Calendar",
+          "component": "party-mgt/activity/ActivityAssessment.vue",
+          "cfgKey": "activityAssessment"
+        }
+      ]
+    },
+    {
+      "key": "/party-mgt/assessment",
+      "title": "党建考核评价",
+      "displayOrder": 7,
+      "dir": "assessment",
+      "items": [
+        {
+          "path": "/party-mgt/assessment/indicator",
+          "title": "指标体系",
+          "icon": "DataAnalysis",
+          "component": "party-mgt/assessment/Indicator.vue",
+          "cfgKey": "assessmentIndicator"
+        },
+        {
+          "path": "/party-mgt/assessment/scheme",
+          "title": "考核方案",
+          "icon": "DataAnalysis",
+          "component": "party-mgt/assessment/Scheme.vue",
+          "cfgKey": "assessmentScheme"
+        },
+        {
+          "path": "/party-mgt/assessment/process",
+          "title": "考核流程",
+          "icon": "DataAnalysis",
+          "component": "party-mgt/assessment/Process.vue",
+          "cfgKey": "assessmentProcess"
+        },
+        {
+          "path": "/party-mgt/assessment/algorithm",
+          "title": "评分算法",
+          "icon": "DataAnalysis",
+          "component": "party-mgt/assessment/Algorithm.vue",
+          "cfgKey": "scoreAlgorithm"
+        },
+        {
+          "path": "/party-mgt/assessment/result",
+          "title": "结果应用",
+          "icon": "DataAnalysis",
+          "component": "party-mgt/assessment/Result.vue",
+          "cfgKey": "assessmentResult"
+        }
+      ]
+    },
+    {
+      "key": "/party-mgt/stats",
+      "title": "统计分析中心",
+      "displayOrder": 10,
+      "dir": "stats",
+      "items": [
+        {
+          "path": "/party-mgt/stats/dashboard",
+          "title": "党建驾驶舱",
+          "icon": "TrendCharts",
+          "component": "party-mgt/stats/Dashboard.vue",
+          "cfgKey": "dashboardStat"
+        },
+        {
+          "path": "/party-mgt/stats/report",
+          "title": "固定报表",
+          "icon": "TrendCharts",
+          "component": "party-mgt/stats/StatReport.vue",
+          "cfgKey": "statReport"
+        },
+        {
+          "path": "/party-mgt/stats/drill",
+          "title": "数据下钻",
+          "icon": "TrendCharts",
+          "component": "party-mgt/stats/DataDrill.vue",
+          "cfgKey": "statDrill"
+        }
+      ]
+    },
+    {
+      "key": "/party-mgt/system",
+      "title": "系统管理",
+      "displayOrder": 11,
+      "dir": "system",
+      "items": [
+        {
+          "path": "/party-mgt/system/user",
+          "title": "用户管理",
+          "icon": "Setting",
+          "component": "party-mgt/system/UserMgt.vue",
+          "cfgKey": "sysUser"
+        },
+        {
+          "path": "/party-mgt/system/role",
+          "title": "角色管理",
+          "icon": "Setting",
+          "component": "party-mgt/system/RoleMgt.vue",
+          "cfgKey": "sysRole"
+        },
+        {
+          "path": "/party-mgt/system/position",
+          "title": "组织岗位",
+          "icon": "Setting",
+          "component": "party-mgt/system/OrgPosition.vue",
+          "cfgKey": "sysPosition"
+        },
+        {
+          "path": "/party-mgt/system/dict",
+          "title": "数据字典",
+          "icon": "Setting",
+          "component": "party-mgt/system/DictMgt.vue",
+          "cfgKey": "sysDict"
+        },
+        {
+          "path": "/party-mgt/system/message",
+          "title": "消息通知",
+          "icon": "Setting",
+          "component": "party-mgt/system/MessageCenter.vue",
+          "cfgKey": "sysMessage"
+        },
+        {
+          "path": "/party-mgt/system/audit",
+          "title": "审计日志",
+          "icon": "Setting",
+          "component": "party-mgt/system/AuditLog.vue",
+          "cfgKey": "sysAudit"
+        },
+        {
+          "path": "/party-mgt/system/param",
+          "title": "参数配置",
+          "icon": "Setting",
+          "component": "party-mgt/system/ParamConfig.vue",
+          "cfgKey": "sysParam"
+        },
+        {
+          "path": "/party-mgt/system/backup",
+          "title": "备份恢复",
+          "icon": "Setting",
+          "component": "party-mgt/system/BackupMgt.vue",
+          "cfgKey": "sysBackup"
+        }
+      ]
+    }
+  ]
+}

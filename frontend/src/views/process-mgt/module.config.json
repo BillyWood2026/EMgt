@@ -1,0 +1,53 @@
+{
+  "key": "/process-mgt",
+  "title": "流程制度管理",
+  "icon": "FlowChart",
+  "displayOrder": 4,
+  "description": "流程设计、制度管理、审批监控、绩效评估全流程管控",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/process-mgt/workbench",
+      "title": "流程工作台",
+      "displayOrder": 1,
+      "dir": ".",
+      "items": [
+        { "path": "/process-mgt/workbench/index", "title": "工作台", "icon": "LayoutDashboard", "component": "process-mgt/ProcessWorkbench.vue" },
+        { "path": "/process-mgt/workbench/query", "title": "流程查询", "icon": "Search", "component": "process-mgt/ProcessQuery.vue" },
+        { "path": "/process-mgt/workbench/monitor", "title": "流程监控", "icon": "Monitor", "component": "process-mgt/ProcessMonitor.vue" },
+        { "path": "/process-mgt/workbench/approval", "title": "流程审批", "icon": "CheckCircle", "component": "process-mgt/ProcessApproval.vue" }
+      ]
+    },
+    {
+      "key": "/process-mgt/design",
+      "title": "流程设计",
+      "displayOrder": 2,
+      "dir": ".",
+      "items": [
+        { "path": "/process-mgt/design/designer", "title": "流程设计器", "icon": "Edit", "component": "process-mgt/ProcessDesigner.vue" },
+        { "path": "/process-mgt/design/template", "title": "流程模板", "icon": "Template", "component": "process-mgt/ProcessTemplate.vue" },
+        { "path": "/process-mgt/design/architecture", "title": "流程架构", "icon": "DataBoard", "component": "process-mgt/ProcessArchitecture.vue" },
+        { "path": "/process-mgt/design/publish", "title": "流程发布", "icon": "Send", "component": "process-mgt/ProcessPublish.vue" }
+      ]
+    },
+    {
+      "key": "/process-mgt/policy",
+      "title": "制度管理",
+      "displayOrder": 3,
+      "dir": ".",
+      "items": [
+        { "path": "/process-mgt/policy/designer", "title": "制度设计器", "icon": "FileEdit", "component": "process-mgt/PolicyDesigner.vue" }
+      ]
+    },
+    {
+      "key": "/process-mgt/management",
+      "title": "流程管理",
+      "displayOrder": 4,
+      "dir": ".",
+      "items": [
+        { "path": "/process-mgt/management/main", "title": "流程管理", "icon": "Setting", "component": "process-mgt/ProcessManagement.vue" },
+        { "path": "/process-mgt/management/risk", "title": "流程风险", "icon": "Warning", "component": "process-mgt/ProcessRisk.vue" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+﻿{
+    "summary":  {
+                    "pass_rate":  "85.71%",
+                    "failed":  1,
+                    "total":  7,
+                    "passed":  6
+                },
+    "results":  [
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:49:23",
+                        "Details":  "Response: 974ms, Threshold: 1000ms",
+                        "TestName":  "Login API Response Time"
+                    },
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:49:59",
+                        "Details":  "Success: 10/10, Avg: 3408ms, Max: 15231ms, Min: 86ms",
+                        "TestName":  "Sequential Requests (10x)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:49:59",
+                        "Details":  "Responded in 218ms",
+                        "TestName":  "IAM Service Availability"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:49:59",
+                        "Details":  "Responded in 62ms, Status: 500",
+                        "TestName":  "OrgMgt Service Availability"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:49:59",
+                        "Details":  "Responded in 24ms, Status: 500",
+                        "TestName":  "PerfMgt Service Availability"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:50:01",
+                        "Details":  "Success: 5/5, Avg: 326ms, Max: 417ms",
+                        "TestName":  "Repeated Login (5x)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:50:01",
+                        "Details":  "Responded in 8ms",
+                        "TestName":  "Error Response Time (invalid user)"
+                    }
+                ]
+}

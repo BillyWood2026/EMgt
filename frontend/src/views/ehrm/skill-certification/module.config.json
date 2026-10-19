@@ -1,0 +1,82 @@
+{
+  "key": "/ehrm/skill-certification",
+  "title": "技能认证",
+  "icon": "Award",
+  "displayOrder": 7,
+  "description": "技能标准、认证申请、证书管理、技能档案全流程管理",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/ehrm/skill-certification/standard",
+      "title": "技能标准",
+      "displayOrder": 1,
+      "dir": ".",
+      "items": [
+        { "path": "/ehrm/skill-certification/standard/index", "title": "技能标准", "icon": "Document", "component": "ehrm/skill-certification/SkillStandard.vue" }
+      ]
+    },
+    {
+      "key": "/ehrm/skill-certification/apply",
+      "title": "认证申请",
+      "displayOrder": 2,
+      "dir": ".",
+      "items": [
+        { "path": "/ehrm/skill-certification/apply/index", "title": "认证申请", "icon": "Form", "component": "ehrm/skill-certification/SkillApply.vue" }
+      ]
+    },
+    {
+      "key": "/ehrm/skill-certification/review",
+      "title": "认证评审",
+      "displayOrder": 3,
+      "dir": ".",
+      "items": [
+        { "path": "/ehrm/skill-certification/review/index", "title": "认证评审", "icon": "CheckCircle", "component": "ehrm/skill-certification/SkillReview.vue" }
+      ]
+    },
+    {
+      "key": "/ehrm/skill-certification/certificate",
+      "title": "证书管理",
+      "displayOrder": 4,
+      "dir": ".",
+      "items": [
+        { "path": "/ehrm/skill-certification/certificate/index", "title": "证书管理", "icon": "CreditCard", "component": "ehrm/skill-certification/SkillCertificate.vue" }
+      ]
+    },
+    {
+      "key": "/ehrm/skill-certification/profile",
+      "title": "技能档案",
+      "displayOrder": 5,
+      "dir": ".",
+      "items": [
+        { "path": "/ehrm/skill-certification/profile/index", "title": "技能档案", "icon": "UserFilled", "component": "ehrm/skill-certification/SkillProfile.vue" }
+      ]
+    },
+    {
+      "key": "/ehrm/skill-certification/plan",
+      "title": "认证计划",
+      "displayOrder": 6,
+      "dir": ".",
+      "items": [
+        { "path": "/ehrm/skill-certification/plan/index", "title": "认证计划", "icon": "Calendar", "component": "ehrm/skill-certification/SkillPlan.vue" }
+      ]
+    },
+    {
+      "key": "/ehrm/skill-certification/warning",
+      "title": "到期预警",
+      "displayOrder": 7,
+      "dir": ".",
+      "items": [
+        { "path": "/ehrm/skill-certification/warning/index", "title": "到期预警", "icon": "Bell", "component": "ehrm/skill-certification/SkillWarning.vue" }
+      ]
+    },
+    {
+      "key": "/ehrm/skill-certification/index",
+      "title": "认证概览",
+      "displayOrder": 8,
+      "dir": ".",
+      "items": [
+        { "path": "/ehrm/skill-certification/index/main", "title": "认证概览", "icon": "LayoutDashboard", "component": "ehrm/skill-certification/SkillCertification.vue" }
+      ]
+    }
+  ]
+}

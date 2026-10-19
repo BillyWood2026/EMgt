@@ -1,0 +1,56 @@
+{
+  "key": "/org-mgt",
+  "title": "组织管理",
+  "icon": "OfficeBuilding",
+  "displayOrder": 2,
+  "description": "组织架构、岗位、职位等级、编制标准等组织管理功能",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/org-mgt/org-base",
+      "title": "基础设置",
+      "displayOrder": 1,
+      "dir": "org-base",
+      "items": [
+        { "path": "/org-mgt/structure", "title": "组织架构管理", "icon": "OfficeBuilding", "component": "org-mgt/OrgStructure.vue" },
+        { "path": "/org-mgt/position", "title": "岗位管理", "icon": "User", "component": "org-mgt/Position.vue" },
+        { "path": "/org-mgt/job-level", "title": "职位等级管理", "icon": "Medal", "component": "org-mgt/JobLevel.vue" }
+      ]
+    },
+    {
+      "key": "/org-mgt/org-staffing",
+      "title": "编制管理",
+      "displayOrder": 2,
+      "dir": "org-staffing",
+      "items": [
+        { "path": "/org-mgt/job-description", "title": "职务说明书", "icon": "Document", "component": "org-mgt/JobDescription.vue" },
+        { "path": "/org-mgt/staffing", "title": "编制标准", "icon": "Tickets", "component": "org-mgt/StaffingStandard.vue" },
+        { "path": "/org-mgt/personalized-quota", "title": "个性化编制配置", "icon": "Setting", "component": "org-mgt/PersonalizedQuota.vue" }
+      ]
+    },
+    {
+      "key": "/org-mgt/org-structure",
+      "title": "组织结构",
+      "displayOrder": 3,
+      "dir": "org-structure",
+      "items": [
+        { "path": "/org-mgt/span", "title": "管理幅度", "icon": "Share", "component": "org-mgt/ManagementSpan.vue" },
+        { "path": "/org-mgt/span-anomaly", "title": "管理幅度异常", "icon": "Warning", "component": "org-mgt/ManagementSpanAnomaly.vue" },
+        { "path": "/org-mgt/command-chain", "title": "命令链", "icon": "Connection", "component": "org-mgt/CommandChain.vue" },
+        { "path": "/org-mgt/hierarchy", "title": "职务层级", "icon": "Histogram", "component": "org-mgt/PositionHierarchy.vue" }
+      ]
+    },
+    {
+      "key": "/org-mgt/org-other",
+      "title": "其他功能",
+      "displayOrder": 4,
+      "dir": "org-other",
+      "items": [
+        { "path": "/org-mgt/change", "title": "组织变更", "icon": "RefreshRight", "component": "org-mgt/OrgChange.vue" },
+        { "path": "/org-mgt/virtual", "title": "虚拟组织", "icon": "Cpu", "component": "org-mgt/VirtualOrg.vue" },
+        { "path": "/org-mgt/permission", "title": "组织权限", "icon": "Key", "component": "org-mgt/OrgPermission.vue" },
+        { "path": "/org-mgt/chart", "title": "组织架构图", "icon": "Share", "component": "org-mgt/OrgChart.vue" }
+      ]
+    }
+  ]
+}

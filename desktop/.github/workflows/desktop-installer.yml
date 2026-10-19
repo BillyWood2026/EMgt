@@ -1,0 +1,73 @@
+name: Desktop Installer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2022
+            plat: win
+            builder_args: --win nsis
+          - os: ubuntu-22.04
+            plat: linux
+            builder_args: --linux AppImage deb
+          - os: macos-13
+            plat: darwin-x64
+            builder_args: --mac dmg --x64
+          - os: macos-14
+            plat: darwin-arm64
+            builder_args: --mac dmg --arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Optional large vendor assets. These must be uploaded manually first
+      # to a GitHub release (e.g. tag "hrm-assets") in this repository.
+      - name: Download vendor assets (optional)
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p desktop/vendor
+          gh release download -R ${{ github.repository }} -p 'vendor-*' -D desktop/vendor || true
+
+      - name: Cache portable runtime
+        uses: actions/cache@v4
+        with:
+          path: desktop/runtime
+          key: runtime-${{ matrix.plat }}-jdk-17.0.13-11-mysql-8.4.6
+
+      - name: Download portable runtime (JRE + MySQL)
+        run: bash desktop/scripts/download-runtime.sh "${{ matrix.plat }}"
+
+      # Libraries needed by MySQL binaries and deb packaging checks.
+      - name: Install Linux system dependencies
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libaio1 libtinfo5 libncurses5 libnuma1
+
+      - name: Install npm dependencies
+        run: npm ci --prefix desktop
+
+      - name: Build installer
+        working-directory: desktop
+        run: npx electron-builder ${{ matrix.builder_args }} --publish never
+
+      - name: Upload installer artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: hrm-desktop-${{ matrix.plat }}
+          path: desktop/release/
+          if-no-files-found: warn

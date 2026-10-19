@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>HRM Platform - Starting</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #1f4e8c 0%, #12305a 100%); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  .head { padding: 28px 32px 12px; }
+  h1 { font-size: 22px; font-weight: 600; letter-spacing: 1px; }
+  .sub { font-size: 12px; opacity: .75; margin-top: 4px; }
+  .db { padding: 8px 32px; font-size: 13px; }
+  .bar-wrap { margin: 10px 32px; height: 6px; background: rgba(255,255,255,.15); border-radius: 3px; overflow: hidden; }
+  .bar { height: 100%; width: 0%; background: #4fc3f7; border-radius: 3px; transition: width .3s; }
+  .wave { padding: 8px 32px 0; font-size: 12px; opacity: .85; }
+  .grid { flex: 1; margin: 10px 24px 16px; padding: 10px; background: rgba(0,0,0,.18); border-radius: 8px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; overflow-y: auto; align-content: start; }
+  .cell { font-size: 11px; padding: 5px 6px; border-radius: 4px; background: rgba(255,255,255,.08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cell.up { background: #2e7d32; }
+  .cell.launched { background: #1565c0; animation: pulse 1.2s infinite; }
+  .cell.skip { background: #00695c; }
+  .cell.down, .cell.failed { background: #b71c1c; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+  .elapsed { padding: 0 32px 14px; font-size: 11px; opacity: .7; }
+</style>
+</head>
+<body>
+  <div class="head">
+    <h1>HRM Platform</h1>
+    <div class="sub">Starting services, please wait...</div>
+  </div>
+  <div class="db" id="dbStatus">Preparing database...</div>
+  <div class="bar-wrap"><div class="bar" id="bar"></div></div>
+  <div class="wave" id="waveLabel">Initializing...</div>
+  <div class="grid" id="grid"></div>
+  <div class="elapsed" id="elapsed">0s</div>
+<script>
+  const grid = document.getElementById('grid');
+  const bar = document.getElementById('bar');
+  const waveLabel = document.getElementById('waveLabel');
+  const dbStatus = document.getElementById('dbStatus');
+  const elapsedEl = document.getElementById('elapsed');
+  const cells = new Map();
+  const t0 = Date.now();
+  setInterval(() => { elapsedEl.textContent = Math.round((Date.now() - t0) / 1000) + 's'; }, 1000);
+
+  let totalWaves = 9, currentWave = 0, dbTotal = 0, dbDone = 0, svcTotal = 45;
+
+  function refreshBar() {
+    const svcDone = [...cells.values()].filter(s => s === 'up' || s === 'skip').length;
+    const svcPart = Math.min(svcDone / svcTotal, 1) * 70;
+    const dbPart = dbTotal ? (dbDone / dbTotal) * 25 : (dbDone > 0 ? 25 : 0);
+    bar.style.width = Math.min(5 + dbPart + svcPart, 100) + '%';
+  }
+
+  window.hrm.onDbProgress((p) => {
+    if (p.phase === 'init') { dbStatus.textContent = p.text; dbDone = 0; }
+    if (p.phase === 'import') { dbDone = p.done; dbTotal = p.total; dbStatus.textContent = `Importing database ${p.db} (${p.done}/${p.total})`; }
+    refreshBar();
+  });
+
+  window.hrm.onBootProgress((ev) => {
+    if (ev.type === 'wave-start') {
+      currentWave = ev.wave; totalWaves = ev.total;
+      if (ev.services) svcTotal = ev.services;
+      waveLabel.textContent = `Wave ${ev.wave} / ${ev.total} — launching services...`;
+      return;
+    }
+    if (ev.type === 'svc') {
+      if (!cells.has(ev.name)) {
+        const c = document.createElement('div');
+        c.className = 'cell';
+        c.title = `${ev.name} :${ev.port}`;
+        c.textContent = ev.name;
+        grid.appendChild(c);
+        cells.set(ev.name, '');
+        c.dataset.n = ev.name;
+      }
+      const c = [...grid.children].find(x => x.dataset.n === ev.name);
+      cells.set(ev.name, ev.status);
+      c.className = 'cell ' + ev.status;
+      c.textContent = ev.name + (ev.status === 'up' ? ' ✓' : ev.status === 'down' ? ' ✗' : ev.status === 'failed' ? ' ✗' : '');
+      refreshBar();
+    }
+  });
+
+  window.hrm.onBootDone((check) => {
+    bar.style.width = '100%';
+    waveLabel.textContent = `Ready — ${check.up}/${check.total} services up. Opening...`;
+    dbStatus.textContent = '';
+  });
+</script>
+</body>
+</html>

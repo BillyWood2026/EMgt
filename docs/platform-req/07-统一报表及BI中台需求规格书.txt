@@ -1,0 +1,189 @@
+Normal|统一报表及BI中台需求规格书
+Normal|公共中台支撑层需求规格书
+Normal|目  录
+Normal|（打开文档后按 F9 或右键“更新域”刷新目录页码）
+toc 1|1 引言	1
+toc 2|1.1 文档目的	1
+toc 2|1.2 适用范围	1
+toc 2|1.3 读者对象	1
+toc 2|1.4 术语、定义与缩略语	1
+toc 2|1.5 参考文档	1
+toc 1|2 总体概述	2
+toc 2|2.1 项目背景	2
+toc 2|2.2 建设目标	2
+toc 2|2.3 架构定位	2
+toc 2|2.4 与其他中台关系	2
+toc 1|3 对标最佳实践	3
+toc 1|4 差异化技术细则	3
+toc 1|5 详细功能需求	4
+toc 2|5.1 数据源与数据集管理	4
+toc 2|5.2 指标管理	4
+toc 2|5.3 报表设计	4
+toc 2|5.4 多维分析	4
+toc 2|5.5 自助分析	4
+toc 2|5.6 图表组件库	5
+toc 2|5.7 定时任务与订阅推送	5
+toc 2|5.8 报表导出与分享	5
+toc 2|5.9 报表权限与审计	5
+toc 1|6 接口需求	5
+toc 2|6.1 接口清单	5
+toc 2|6.2 核心接口定义示例	6
+toc 2|6.3 错误码规范	6
+toc 1|7 数据模型需求	6
+toc 1|8 非功能需求	7
+toc 2|8.1 性能需求	7
+toc 2|8.2 可用性需求	7
+toc 2|8.3 安全性需求	7
+toc 2|8.4 可扩展性需求	8
+toc 2|8.5 兼容性需求	8
+toc 1|9 约束与依赖	8
+toc 1|10 验收标准	8
+Heading 1|1 引言
+Heading 2|1.1 文档目的
+Normal|本文档为统一报表及BI中台需求规格说明书，用于明确统一报表及BI中台的业务定位、整体架构、功能需求、接口规范、数据模型、非功能需求、约束依赖与验收标准，作为统一报表及BI中台设计、开发、测试、验收与运维的基准依据。
+Heading 2|1.2 适用范围
+Normal|统一报表及BI中台为全平台统一数据分析与报表服务，适用于数据集管理、指标管理、报表设计、多维分析、图表分析、定时任务、订阅推送、导出下载等场景，覆盖全平台所有业务模块的报表与分析需求。
+Heading 2|1.3 读者对象
+Normal|数据分析师、BI工程师、产品经理、业务报表用户、前后端开发工程师、测试工程师、运维工程师、项目验收人员。
+Heading 2|1.4 术语、定义与缩略语
+Heading 2|1.5 参考文档
+Normal|[1] 《公共中台支撑层总体需求规格书》（00总纲）
+Normal|[2] 阿里QuickBI/瓴羊Dataphin实践
+Normal|[3] 帆软FineBI/FineReport实践
+Normal|[4] 金蝶轻分析数据可视化引擎实践
+Heading 1|2 总体概述
+Heading 2|2.1 项目背景
+Normal|原有平台各业务模块报表各自开发，报表引擎重复建设、指标口径不一、分析能力缺失、导出订阅靠手工。建设统一报表及BI中台，统一数据源接入、指标口径、报表设计、多维分析与订阅推送能力。
+Heading 2|2.2 建设目标
+Normal|1. 数据集统一：多数据源统一接入（业务库、数据服务API、数据管理平台指标），数据集统一管理。
+Normal|2. 口径统一：指标定义统一来源于集中数据管理平台，杜绝口径冲突。
+Normal|3. 报表零代码：可视化报表设计器，业务用户零代码搭建。
+Normal|4. 分析智能化：多维分析、钻取联动、自助分析、智能洞察。
+Normal|5. 分发自动化：定时生成、订阅推送、多种导出格式。
+Heading 2|2.3 架构定位
+Normal|统一报表及BI中台独立微服务部署，采用“数据接入层—指标数据集层—分析引擎层—展现服务层”架构：数据接入层对接多数据源；指标数据集层承接集中数据管理平台指标与数据集；分析引擎层提供查询加速、多维计算、预聚合；展现服务层提供报表设计器、分析交互、订阅导出。
+Heading 2|2.4 与其他中台关系
+Heading 1|3 对标最佳实践
+Heading 1|4 差异化技术细则
+Normal|报表BI中台承担大数据量分析、高频查询、定时任务职责，适用以下专属强制技术规范（总纲通用规范继续生效）：
+Normal|1. 大数据聚合预计算机制：百万级统计数据采用定时预聚合、预计算（Cube/物化视图），前端渲染直接读取聚合结果，避免实时查询数据库造成拖库、接口超时；预聚合任务调度联动统一任务调度中台。
+Normal|2. 组件数据独立缓存：每个报表组件/数据集独立缓存、独立刷新周期，支持不同组件差异化刷新频率，平衡实时性与服务压力。
+Normal|3. 行级数据权限隔离机制：报表数据访问统一由IAM数据权限拦截，行级安全（RLS）按用户/角色/部门动态过滤；涉密报表独立白名单放行，禁止跨权限读取数据。
+Normal|4. 查询超时熔断机制：分析查询统一超时控制（默认10s），慢查询自动熔断降级（返回缓存/提示）；大结果集强制分页与异步导出。
+Normal|5. 指标口径强绑定机制：报表指标必须引用集中数据管理平台指标编码，禁止报表内自定义同口径指标；指标变更自动提示影响报表清单（血缘联动）。
+Normal|6. 定时任务可靠机制：报表定时生成、订阅推送采用分布式调度，任务分片、失败重试、执行日志完备；节假日/周期策略可配置。
+Heading 1|5 详细功能需求
+Heading 2|5.1 数据源与数据集管理
+Normal|支持多数据源接入：业务数据库（MySQL/Oracle/PostgreSQL）、数据服务API、集中数据管理平台指标服务、文件数据源（Excel/CSV，联动集中文件管理解析）、IOT遥测数据源；数据集管理：SQL数据集、API数据集、指标数据集、多表关联数据集；数据集测试、发布、版本管理；数据集缓存与刷新策略配置。
+Heading 2|5.2 指标管理
+Normal|指标统一来源于集中数据管理平台：原子指标（事实表直接度量）、派生指标（原子+修饰+时间周期）、复合指标（比率、加权）；指标目录按业务域组织；指标血缘与影响分析；指标查询服务（按指标编码+维度）。
+Heading 2|5.3 报表设计
+Normal|可视化报表设计器：表格报表、交叉表、明细表、分组报表、主子报表；单元格样式、条件格式、公式计算、汇总统计；报表参数（筛选条件）设计；报表预览与调试；报表发布、下线、版本管理；支持复杂固定报表（类FineReport）与自助分析（类FineBI）双模式。
+Heading 2|5.4 多维分析
+Normal|OLAP多维分析：维度钻取（下钻/上卷）、切片、旋转；多指标组合分析；同比环比、占比、排名、累计计算；分析结果保存为个人分析/团队共享；分析导出一键生成报表。
+Heading 2|5.5 自助分析
+Normal|业务用户零代码拖拽式自助分析：字段拖拽、图表自动推荐、筛选联动、计算字段；分析工作台（数据集选择、可视化配置、仪表板组装）；自助分析模板复用。
+Heading 2|5.6 图表组件库
+Normal|提供全套通用图表组件：柱状图、折线图、饼图、环形图、条形图、面积图、散点图、雷达图、漏斗图、仪表盘、地图、表格、数字卡片、交叉表、富文本等；图表样式自定义、联动下钻、跳转；图表渲染性能优化（大数据量抽样/聚合）。
+Heading 2|5.7 定时任务与订阅推送
+Normal|报表定时生成（每日/每周/每月/自定义Cron）；订阅推送（邮件、企业微信、站内信），支持收件人配置、附送报表文件（Excel/PDF）；推送失败重试与告警；订阅管理（启停、频次、有效期）；报表水印与推送内容脱敏控制。
+Heading 2|5.8 报表导出与分享
+Normal|支持Excel（xlsx/csv）、PDF、图片（png）格式导出；导出大文件异步生成（联动集中文件管理存储）；导出权限校验与审计；报表分享（链接/二维码，有效期控制）；导出记录与下载中心。
+Heading 2|5.9 报表权限与审计
+Normal|报表查看、编辑、发布权限按角色/用户配置；行级数据权限由IAM数据权限拦截；报表访问日志（访问人、时间、报表、导出记录）完整记录；涉密报表独立管控。
+Heading 1|6 接口需求
+Heading 2|6.1 接口清单
+Heading 2|6.2 核心接口定义示例
+Normal|（1）报表渲染 POST /api/bi/v1/reports/RPT001/render
+Normal|请求：{"params":{"deptId":"D001","period":"2026-09"},"pageNum":1,"pageSize":20}
+Normal|响应：{"code":0,"msg":"ok","data":{"columns":[...],"rows":[...],"total":128,"summary":{"totalSalary":"8,860,000"}}}
+Normal|错误码：70001 报表不存在；70002 无查看权限；70003 数据源异常；70004 查询超时
+Normal|（2）报表导出 POST /api/bi/v1/reports/RPT001/export
+Normal|请求：{"format":"XLSX","params":{"period":"2026-09"}}
+Normal|响应：{"code":0,"msg":"ok","data":{"taskId":"EX1001","status":"PENDING","fileId":""}}
+Normal|说明：异步生成，完成后fileId写入并通知下载中心
+Heading 2|6.3 错误码规范
+Heading 1|7 数据模型需求
+Normal|说明：所有表统一包含 create_time、update_time、is_deleted 通用字段；bi_access_log 只增不改。
+Heading 1|8 非功能需求
+Heading 2|8.1 性能需求
+Normal|1. 常规报表渲染≤2s；百万级数据报表（聚合后）≤3s；多维分析查询≤5s。
+Normal|2. 单中台支撑千级并发报表访问；预聚合数据查询缓存命中率≥90%。
+Normal|3. 大报表导出（10万行）异步生成≤60s。
+Heading 2|8.2 可用性需求
+Normal|1. 服务可用性≥99.95%；查询熔断降级不拖垮数据源。
+Normal|2. 定时任务失败自动重试并告警；订阅推送送达保障。
+Heading 2|8.3 安全性需求
+Normal|1. 行级数据权限统一拦截，涉密报表独立管控。
+Normal|2. 导出文件脱敏与水印；访问全审计；SQL防注入。
+Heading 2|8.4 可扩展性需求
+Normal|1. 数据源类型、图表组件、分析算子插件化扩展。
+Normal|2. 支持分析引擎替换（预聚合引擎可插拔）。
+Heading 2|8.5 兼容性需求
+Normal|1. 报表兼容主流浏览器与移动端查看。
+Normal|2. 导出兼容Excel/PDF/CSV/PNG格式。
+Heading 1|9 约束与依赖
+Normal|1. 依赖集中数据管理平台（指标/数据集/数据服务）、统一IAM引擎（权限）、统一消息中心（订阅推送）、统一任务调度中台（定时）、集中文件管理（导出存储）、统一监控审计中台（审计）。
+Normal|2. 开发约束：业务模块禁止自建报表引擎；报表指标必须引用数据管理平台指标编码。
+Heading 1|10 验收标准
+Normal|1. 多数据源接入、数据集发布、指标引用验证通过。
+Normal|2. 固定报表与自助分析双模式全功能验证通过。
+Normal|3. 多维分析（钻取/切片/旋转/同比环比）验证通过。
+Normal|4. 定时任务与订阅推送（邮件/企微/站内信）端到端闭环，失败重试生效。
+Normal|5. 行级数据权限拦截验证：不同角色查询结果隔离，无越权。
+Normal|6. 导出（Excel/PDF/图片）异步生成、下载中心、审计验证通过。
+Normal|7. 性能指标达标：常规报表P99≤2s、大报表导出≤60s、缓存命中率≥90%。
+TBL|文档名称 | 公共中台支撑层需求规格书
+TBL|文档编号 | 【文档编号】
+TBL|版本/状态 | V1.0
+TBL|密级 | 【密级】
+TBL|编制单位 | 【编制单位】
+TBL|编制日期 | 2026年10月
+TBL|术语/缩略语 | 释义说明
+TBL|BI | Business Intelligence，商业智能
+TBL|数据集 | 报表/分析的数据来源（SQL/API/多维模型封装）
+TBL|指标 | 可量化度量的业务口径定义（原子/派生/复合）
+TBL|多维分析 | 按维度钻取、上卷、切片、旋转的OLAP分析
+TBL|ETL | 数据抽取、转换、加载
+TBL|订阅推送 | 报表按计划自动生成并推送（邮件/企微/站内信）
+TBL|自助分析 | 业务用户零代码拖拽式数据分析
+TBL|中台 | 与报表BI中台关系
+TBL|集中数据管理平台 | 指标定义、数据标准、数据集统一来源于数据管理平台
+TBL|统一IAM引擎 | 报表查看权限、数据行级权限（数据权限拦截）
+TBL|统一消息中心 | 报表订阅推送（邮件/企微/站内信）
+TBL|统一流程引擎 | 报表订阅审批流程
+TBL|统一大屏显示中台 | BI统计数据供大屏引用；大屏指标与报表口径一致
+TBL|集中文件管理 | 报表导出文件（Excel/PDF）统一存储
+TBL|统一物联网IOT | 设备运行分析报表数据源
+TBL|统一监控审计中台 | 报表访问审计、异常监控
+TBL|对标对象 | 关键实践 | 本中台落地
+TBL|阿里QuickBI | 数据集/数据源管理；仪表板拖拽；行级权限（行级安全RLS）；智能问答 | 数据集、仪表板、行级权限、智能分析
+TBL|瓴羊Dataphin | OneData指标体系；治理即研发；指标中台 | 指标统一来自数据管理平台，指标中台化
+TBL|帆软FineBI/FineReport | 自助式BI与固定报表双模式；填报；决策报表 | 自助分析+固定报表双模式
+TBL|金蝶轻分析 | 数据云计算引擎；可视化分析 | 分析引擎预聚合加速
+TBL|接口名称 | 方法 | 路径 | 说明
+TBL|数据源管理 | POST | /api/bi/v1/datasources | 数据源CRUD/测试连接
+TBL|数据集管理 | POST | /api/bi/v1/datasets | 数据集CRUD/发布/缓存刷新
+TBL|指标查询 | POST | /api/bi/v1/metrics/query | 指标数据查询（引用数据管理平台）
+TBL|报表设计 | POST | /api/bi/v1/reports | 报表保存/发布/下线/版本
+TBL|报表渲染 | POST | /api/bi/v1/reports/{id}/render | 报表数据渲染（参数+分页）
+TBL|多维分析 | POST | /api/bi/v1/analysis/olap | 多维分析查询（钻取/切片）
+TBL|自助分析 | POST | /api/bi/v1/analysis/ad-hoc | 自助分析查询
+TBL|定时任务 | POST | /api/bi/v1/schedules | 报表定时任务CRUD
+TBL|订阅管理 | POST | /api/bi/v1/subscriptions | 订阅CRUD/启停
+TBL|报表导出 | POST | /api/bi/v1/reports/{id}/export | 导出任务创建/查询
+TBL|错误码段 | 含义
+TBL|70001-70099 | 报表/数据集类错误
+TBL|70100-70199 | 权限类错误（无权限/涉密拦截）
+TBL|70200-70299 | 数据源/指标类错误
+TBL|70300-70399 | 分析/渲染类错误
+TBL|70400-70499 | 定时/订阅/导出类错误
+TBL|表名 | 核心字段 | 说明
+TBL|bi_datasource | id, ds_code, ds_name, ds_type, conn_config_encrypted, status | 数据源表
+TBL|bi_dataset | id, ds_id, dataset_code, dataset_name, dataset_type, sql_text, fields_json, cache_config, status, version | 数据集表
+TBL|bi_report | id, report_code, report_name, report_type, design_json, dataset_ids, params_json, status, version, owner | 报表定义表
+TBL|bi_report_version | id, report_id, version, design_json, change_note, operator, create_time | 报表版本表
+TBL|bi_schedule | id, target_id, target_type, cron, strategy, status, last_run_time | 定时任务表
+TBL|bi_subscription | id, report_id, channel, receivers, schedule_id, watermark_flag, status | 订阅表
+TBL|bi_export_task | id, task_id, report_id, format, status, file_id, operator, create_time | 导出任务表
+TBL|bi_access_log | id, report_id, operator, action, ip, time, result | 报表访问审计表（只增不改）

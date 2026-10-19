@@ -1,0 +1,22 @@
+{
+  "name": "hrm-desktop",
+  "version": "1.0.0",
+  "description": "HRM Platform Desktop (Electron shell + portable MySQL + 45 Spring Boot services)",
+  "main": "src/main.js",
+  "author": "EMgt",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "electron .",
+    "dev:min": "electron . --minimized",
+    "dist:win": "electron-builder --win nsis",
+    "dist:win:portable": "electron-builder --win portable",
+    "dist:linux": "electron-builder --linux AppImage deb",
+    "dist:mac:x64": "electron-builder --mac dmg --x64 --config electron-builder.mac-x64.yml",
+    "dist:mac:arm64": "electron-builder --mac dmg --arm64 --config electron-builder.mac-arm64.yml"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^26.0.12"
+  }
+}

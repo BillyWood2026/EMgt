@@ -1,0 +1,43 @@
+# Config Server (Nacos) Configuration
+# This module is OPTIONAL - can be skipped for standalone deployment
+
+server:
+  port: 8849
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    nacos:
+      config:
+        # Config server switch - set to false to use local config
+        enabled: true
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        group: ${SERVICE_GROUP:DEFAULT_GROUP}
+        file-extension: yml
+        refresh-enabled: true
+        # Shared config for all services
+        shared-configs:
+          - data-id: common-config.yml
+            group: COMMON_GROUP
+            refresh: true
+      discovery:
+        enabled: true
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Logging
+logging:
+  level:
+    com.alibaba.nacos: INFO
+    com.example.configserver: DEBUG

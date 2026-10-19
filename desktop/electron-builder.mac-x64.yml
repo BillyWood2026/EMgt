@@ -1,0 +1,34 @@
+appId: com.emgt.hrm
+productName: HRM Platform
+copyright: Copyright (c) 2026 EMgt
+asar: true
+directories:
+  output: release
+  buildResources: build
+files:
+  - src/**/*
+  - "!src/config/**"
+  - package.json
+
+extraResources:
+  - from: vendor/jars
+    to: jars
+  - from: vendor/frontend/dist
+    to: frontend
+  - from: vendor/db-dump
+    to: db-dump
+  - from: src/config
+    to: config
+  - from: runtime/darwin-x64/jre
+    to: runtime/jre
+  - from: runtime/darwin-x64/mysql
+    to: runtime/mysql
+
+mac:
+  target:
+    - dmg
+  icon: build/icon.icns
+  category: public.app-category.productivity
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  artifactName: ${productName}-${version}-mac-x64.${ext}

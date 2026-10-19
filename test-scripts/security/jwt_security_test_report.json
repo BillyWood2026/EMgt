@@ -1,0 +1,70 @@
+﻿{
+    "summary":  {
+                    "pass_rate":  "30%",
+                    "failed":  7,
+                    "total":  10,
+                    "passed":  3
+                },
+    "results":  [
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:42:00",
+                        "Details":  "Status: 500, Expected: 401/403",
+                        "TestName":  "Forged Token Test"
+                    },
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:42:01",
+                        "Details":  "Status: 500, Expected: 401/403",
+                        "TestName":  "Empty Token"
+                    },
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:42:01",
+                        "Details":  "Status: 500, Expected: 401/403",
+                        "TestName":  "Invalid Token"
+                    },
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:42:01",
+                        "Details":  "Status: 500, Expected: 401/403",
+                        "TestName":  "None Algorithm Attack"
+                    },
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:42:02",
+                        "Details":  "Status: 404",
+                        "TestName":  "Admin Access User List"
+                    },
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:42:02",
+                        "Details":  "Status: 500, Expected: 401/403",
+                        "TestName":  "Tampered Payload Test"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:42:02",
+                        "Details":  "Login rejected: ç¨æ·ä¸å­å¨",
+                        "TestName":  "SQL Injection (admin\u0027 OR \u00271\u0027=\u00271)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:42:02",
+                        "Details":  "Login rejected: ç¨æ·ä¸å­å¨",
+                        "TestName":  "SQL Injection (admin\u0027; DROP TABLE users;--)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:42:02",
+                        "Details":  "Login rejected: ç¨æ·ä¸å­å¨",
+                        "TestName":  "SQL Injection (admin\u0027--)"
+                    },
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:42:03",
+                        "Details":  "Status: 500, Expected: 401/403",
+                        "TestName":  "OrgMgt No-auth Access"
+                    }
+                ]
+}

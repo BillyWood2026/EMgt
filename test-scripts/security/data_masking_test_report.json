@@ -1,0 +1,64 @@
+﻿{
+    "summary":  {
+                    "pass_rate":  "77.78%",
+                    "failed":  2,
+                    "total":  9,
+                    "passed":  7
+                },
+    "results":  [
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:46:05",
+                        "Details":  "Phone is not masked: 13800138000",
+                        "TestName":  "Phone Masking"
+                    },
+                    {
+                        "Passed":  false,
+                        "Timestamp":  "2026-07-31T11:46:06",
+                        "Details":  "Email is not masked: admin@example.com",
+                        "TestName":  "Email Masking"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:46:14",
+                        "Details":  "User list not accessible or not found",
+                        "TestName":  "User List Test"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:46:16",
+                        "Details":  "Request rejected properly",
+                        "TestName":  "SQL Injection (admin\u0027 OR \u00271\u0027=\u00271)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:46:16",
+                        "Details":  "Request rejected properly",
+                        "TestName":  "SQL Injection (1; DROP TABLE users;--)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:46:16",
+                        "Details":  "Request rejected properly",
+                        "TestName":  "SQL Injection (\u0027 UNION SELECT password FROM users--)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:46:20",
+                        "Details":  "Method not allowed (expected)",
+                        "TestName":  "Public Endpoint Access (http://localhost:8081/api/auth/login)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:46:23",
+                        "Details":  "Method not allowed (expected)",
+                        "TestName":  "Public Endpoint Access (http://localhost:8081/api/auth/register)"
+                    },
+                    {
+                        "Passed":  true,
+                        "Timestamp":  "2026-07-31T11:46:27",
+                        "Details":  "Status: 400",
+                        "TestName":  "Public Endpoint Access (http://localhost:8081/api/auth/me)"
+                    }
+                ]
+}

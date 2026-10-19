@@ -1,0 +1,33 @@
+{
+  "key": "/ops",
+  "title": "运营改善",
+  "icon": "DataAnalysis",
+  "displayOrder": 4,
+  "description": "流程、改善、审计、项目一体化运营管理",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/ops/improve",
+      "title": "改善管理",
+      "displayOrder": 1,
+      "dir": "improvement",
+      "items": [
+        { "path": "/ops/improve/proposal", "title": "改善提案", "icon": "Lightbulb", "component": "kaizen-pmt/improvement/Proposal.vue" },
+        { "path": "/ops/improve/implementation", "title": "改善实施", "icon": "Files", "component": "kaizen-pmt/kaizen-mgt/Implementation.vue" },
+        { "path": "/ops/improve/result", "title": "改善成果", "icon": "Trophy", "component": "kaizen-pmt/kaizen-mgt/Result.vue" }
+      ]
+    },
+    {
+      "key": "/ops/project",
+      "title": "项目管理",
+      "displayOrder": 2,
+      "dir": "project",
+      "items": [
+        { "path": "/ops/project/index", "title": "项目总览", "icon": "DataBoard", "component": "kaizen-pmt/project/Project.vue" },
+        { "path": "/ops/project/plan", "title": "项目计划", "icon": "Document", "component": "kaizen-pmt/prj-mgt/Plan.vue" },
+        { "path": "/ops/project/execution", "title": "项目执行", "icon": "TrendCharts", "component": "kaizen-pmt/prj-mgt/Execution.vue" },
+        { "path": "/ops/project/closure", "title": "项目验收", "icon": "CircleCheck", "component": "kaizen-pmt/prj-mgt/Closure.vue" }
+      ]
+    }
+  ]
+}

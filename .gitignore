@@ -1,0 +1,92 @@
+# Java
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.ctxt
+.mtj.tmp/
+*.ls
+*.launch
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Node / frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.example
+
+# Electron / desktop build
+desktop/node_modules/
+desktop/release/
+desktop/dist/
+desktop/vendor/jars/
+desktop/vendor/frontend/
+desktop/vendor/db-dump/
+desktop/runtime/
+desktop/logs/
+desktop/tmp/
+desktop/build/unpacked/
+
+# Runtime
+runtime/
+
+# Logs
+logs/
+*.log
+desktop/logs/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# IDE
+.vscode/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+
+# Temp
+tmp/
+temp/
+*.tmp
+*.bak
+*.orig
+
+# Build output
+desktop/vendor/
+desktop/release/
+desktop/dist/
+
+# Dumps
+*.sql
+*.sql.gz
+*.dump
+
+# Credentials
+*.pem
+*.key
+*.keystore
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Test
+coverage/
+.nyc_output/

@@ -1,0 +1,324 @@
+name: Desktop Installer Build
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'desktop/**'
+      - '.github/workflows/desktop-installer.yml'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'desktop/**'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop/package-lock.json
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.6
+
+      - name: Build backend jars
+        shell: pwsh
+        run: |
+          Set-Location ..\..
+          mvn package -DskipTests
+
+      - name: Install frontend deps & build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Collect resources (jars + dumps + configs)
+        shell: pwsh
+        run: |
+          .\scripts\collect-resources.ps1 -SkipFrontendBuild
+
+      - name: Download Windows runtimes
+        shell: pwsh
+        run: |
+          .\scripts\download-runtime.ps1 -Platforms win
+
+      - name: Strip MySQL binaries
+        shell: pwsh
+        run: |
+          .\scripts\strip-mysql.ps1 -Platforms win
+
+      - name: Verify bundle integrity
+        shell: pwsh
+        run: |
+          .\scripts\verify-bundle.ps1
+          if ($LASTEXITCODE -ne 0) { throw 'verify-bundle failed' }
+
+      - name: Install desktop deps
+        run: |
+          $env:ELECTRON_MIRROR='https://npmmirror.com/mirrors/electron/'
+          npm ci --registry https://registry.npmmirror.com
+
+      - name: Build NSIS installer
+        run: npm run dist:win
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hrm-desktop-windows
+          path: desktop/release/*.exe
+
+  build-linux:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop/package-lock.json
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.6
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq mysql-client
+
+      - name: Build backend jars
+        run: |
+          cd ../..
+          mvn package -DskipTests
+
+      - name: Install frontend deps & build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Bash syntax check
+        run: |
+          bash -n scripts/collect-resources.sh
+          bash -n scripts/download-runtime.sh
+          bash -n scripts/strip-mysql.sh
+          bash -n scripts/verify-bundle.sh
+
+      - name: Collect resources
+        run: |
+          bash scripts/collect-resources.sh --skip-frontend-build
+
+      - name: Download Linux runtimes
+        run: |
+          bash scripts/download-runtime.sh linux
+
+      - name: Strip MySQL binaries
+        run: |
+          bash scripts/strip-mysql.sh linux
+
+      - name: Verify bundle
+        run: |
+          bash scripts/verify-bundle.sh
+
+      - name: Install desktop deps
+        run: |
+          export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+          npm ci --registry https://registry.npmmirror.com
+
+      - name: Build Linux packages
+        run: npm run dist:linux
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: hrm-desktop-linux
+          path: |
+            desktop/release/*.AppImage
+            desktop/release/*.deb
+
+  build-macos-x64:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop/package-lock.json
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.6
+
+      - name: Install build tools
+        run: |
+          brew install jq mysql-client
+
+      - name: Build backend jars
+        run: |
+          cd ../..
+          mvn package -DskipTests
+
+      - name: Install frontend deps & build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Bash syntax check
+        run: |
+          bash -n scripts/collect-resources.sh
+          bash -n scripts/download-runtime.sh
+          bash -n scripts/strip-mysql.sh
+          bash -n scripts/verify-bundle.sh
+
+      - name: Collect resources
+        run: |
+          bash scripts/collect-resources.sh --skip-frontend-build
+
+      - name: Download macOS x64 runtimes
+        run: |
+          bash scripts/download-runtime.sh darwin-x64
+
+      - name: Strip MySQL binaries
+        run: |
+          bash scripts/strip-mysql.sh darwin-x64
+
+      - name: Verify bundle
+        run: |
+          bash scripts/verify-bundle.sh
+
+      - name: Install desktop deps
+        run: |
+          export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+          npm ci --registry https://registry.npmmirror.com
+
+      - name: Build macOS x64 DMG
+        run: npm run dist:mac:x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hrm-desktop-macos-x64
+          path: desktop/release/*.dmg
+
+  build-macos-arm64:
+    runs-on: macos-14
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop/package-lock.json
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.6
+
+      - name: Install build tools
+        run: |
+          brew install jq mysql-client
+
+      - name: Build backend jars
+        run: |
+          cd ../..
+          mvn package -DskipTests
+
+      - name: Install frontend deps & build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Bash syntax check
+        run: |
+          bash -n scripts/collect-resources.sh
+          bash -n scripts/download-runtime.sh
+          bash -n scripts/strip-mysql.sh
+          bash -n scripts/verify-bundle.sh
+
+      - name: Collect resources
+        run: |
+          bash scripts/collect-resources.sh --skip-frontend-build
+
+      - name: Download macOS arm64 runtimes
+        run: |
+          bash scripts/download-runtime.sh darwin-arm64
+
+      - name: Strip MySQL binaries
+        run: |
+          bash scripts/strip-mysql.sh darwin-arm64
+
+      - name: Verify bundle
+        run: |
+          bash scripts/verify-bundle.sh
+
+      - name: Install desktop deps
+        run: |
+          export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+          npm ci --registry https://registry.npmmirror.com
+
+      - name: Build macOS arm64 DMG
+        run: npm run dist:mac:arm64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hrm-desktop-macos-arm64
+          path: desktop/release/*.dmg

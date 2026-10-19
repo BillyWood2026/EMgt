@@ -1,0 +1,196 @@
+Normal|集中文件管理需求规格书
+Normal|公共中台支撑层需求规格书
+Normal|目  录
+Normal|（打开文档后按 F9 或右键“更新域”刷新目录页码）
+toc 1|1 引言	1
+toc 2|1.1 文档目的	1
+toc 2|1.2 适用范围	1
+toc 2|1.3 读者对象	1
+toc 2|1.4 术语、定义与缩略语	1
+toc 2|1.5 参考文档	1
+toc 1|2 总体概述	2
+toc 2|2.1 项目背景	2
+toc 2|2.2 建设目标	2
+toc 2|2.3 架构定位	2
+toc 2|2.4 与其他中台关系	2
+toc 1|3 对标最佳实践	3
+toc 1|4 差异化技术细则	3
+toc 1|5 详细功能需求	4
+toc 2|5.1 文件通用存储	4
+toc 2|5.2 统一上传（Word/Excel/PDF）	4
+toc 2|5.3 Office统一解析	5
+toc 2|5.4 统一下载	5
+toc 2|5.5 文件在线预览	5
+toc 2|5.6 文件下载与删除	5
+toc 2|5.7 文件版本管理	6
+toc 2|5.8 业务附件绑定能力（扩展核心能力）	6
+toc 2|5.9 文件权限与日志管理	6
+toc 1|6 接口需求	6
+toc 2|6.1 接口清单	6
+toc 2|6.2 核心接口定义示例	7
+toc 2|6.3 错误码规范	8
+toc 1|7 数据模型需求	8
+toc 1|8 非功能需求	9
+toc 2|8.1 性能需求	9
+toc 2|8.2 可用性需求	9
+toc 2|8.3 安全性需求	9
+toc 2|8.4 可扩展性需求	9
+toc 2|8.5 兼容性需求	9
+toc 1|9 约束与依赖	9
+toc 1|10 验收标准	10
+Heading 1|1 引言
+Heading 2|1.1 文档目的
+Normal|本文档为集中文件管理需求规格说明书，用于明确集中文件管理的业务定位、整体架构、功能需求、接口规范、数据模型、非功能需求、约束依赖与验收标准，作为集中文件管理设计、开发、测试、验收与运维的基准依据。
+Heading 2|1.2 适用范围
+Normal|集中文件管理为全平台文件统一管理基础服务，适用于文件上传、存储、解析、预览、下载、版本管理、权限管控、业务附件绑定、日志审计全生命周期场景，覆盖全平台所有业务模块。
+Heading 2|1.3 读者对象
+Normal|产品经理、架构师、前后端开发工程师、测试工程师、运维工程师、项目验收人员。
+Heading 2|1.4 术语、定义与缩略语
+Heading 2|1.5 参考文档
+Normal|[1] 《公共中台支撑层总体需求规格书》（00总纲）
+Normal|[2] 《系统管理模块公共中台支撑层开发需求规格书（20260923）》统一文件中台章节（业务附件绑定扩展）
+Normal|[3] 华为云OBS/阿里云OSS对象存储最佳实践
+Normal|[4] OOXML/PDF文档格式规范
+Heading 1|2 总体概述
+Heading 2|2.1 项目背景
+Normal|原有平台文件分散存储、格式标准不一、无统一解析与预览能力，业务模块各自实现上传组件与附件表，存在重复开发、版本失控、安全不可控问题。建设集中文件管理，统一全平台文件存储、解析、预览、下载与业务附件绑定标准。
+Heading 2|2.2 建设目标
+Normal|1. 统一存储：全品类文件统一加密存储，本地+OSS双模式适配。
+Normal|2. 统一上传与下载：标准化前端UI组件+后端OpenAPI，统一上传校验、分片、断点续传；统一下载鉴权、时效控制。
+Normal|3. Office统一解析：Word/Excel/PDF统一上传后自动解析（正文提取、表格提取、转换预览），支撑全文检索、数据抽取、审计留痕。
+Normal|4. 业务附件绑定：业务单据附件能力中台化，业务库仅存附件ID，元数据、只读、删除拦截、鉴权、审计全部中台实现。
+Normal|5. 安全可控：格式双校验、病毒查杀、涉密拦截、URL脱敏、访问时效、操作审计。
+Heading 2|2.3 架构定位
+Normal|集中文件管理独立微服务部署，包含存储引擎层（对象存储适配）、解析引擎层（Office/PDF解析与转换）、元数据层（文件索引与业务附件绑定）、开放服务层（前端组件+OpenAPI）。
+Heading 2|2.4 与其他中台关系
+Heading 1|3 对标最佳实践
+Heading 1|4 差异化技术细则
+Normal|文件中台涉及大文件、二进制流、存储资源、安全查杀、版本管理、文档解析，适用以下专属强制技术规范（总纲通用规范继续生效）：
+Normal|1. 大文件分片专属处理：大于10MB文件自动启用分片上传，分片大小可配置（默认5MB）；支持断点续传、分片校验（MD5）、合并校验，杜绝文件损坏、分片丢失问题。
+Normal|2. 文件安全检测机制：上传文件强制校验文件后缀、文件头魔数双重校验，杜绝后缀伪装木马文件；支持涉密文件、可执行文件拦截，禁止非法文件入库存储；对接病毒查杀引擎（可选）。
+Normal|3. 对象存储专属适配：文件物理存储适配本地存储+OSS对象存储双模式，支持动态切换；文件URL脱敏处理（签名URL、时效控制），防止私密外链泄露。
+Normal|4. 版本差异存储策略：文件更新采用增量对比机制，无内容变更不生成新版本；频繁更新文件做存储优化，节省磁盘资源。
+Normal|5. 文件访问时效控制：私密文件预览、下载链接支持时效过期配置（默认5分钟），临时链接超时自动失效。
+Normal|6. 文档解析专属机制：Office/PDF解析采用独立解析服务异步处理，解析任务队列化、失败重试；解析结果（文本、表格、图片、元数据）结构化存储；解析内容支持全文检索与数据抽取（联动统一检索中台与数据管理平台）。
+Heading 1|5 详细功能需求
+Heading 2|5.1 文件通用存储
+Normal|支持图片、文档、表格、PDF、压缩包、音视频等全品类文件格式上传存储；支持单文件上传、批量上传、大文件分片上传、断点续传；文件统一加密存储，自动生成唯一文件ID；支持与各业务单据关联绑定，可按业务维度检索文件。
+Heading 2|5.2 统一上传（Word/Excel/PDF）
+Normal|1. 前端公共UI组件（中台输出，业务微服务直接引入）：组件入参包含 serviceCode、businessBillId、businessReadOnly、allowOperateAddOnly、maxFileSize、allowFileSuffix；组件内置单文件/批量拖拽上传、格式大小校验、上传进度展示、附件列表渲染、图片/PDF在线预览弹窗、Office文档中台预览、删除二次确认弹窗、只读拦截逻辑；所有操作自动调用监控审计中台写入审计日志。
+Normal|2. 后端OpenAPI：createBusinessAttachment创建业务附件绑定记录、queryBusinessAttachmentList按serviceCode+businessBillId查询附件列表、deleteBusinessAttachment逻辑删除、getAttachmentPreviewUrl获取预览地址、getAttachmentDownloadUrl获取下载地址、batchSetBusinessReadOnly批量设置只读状态。
+Normal|3. 上传校验规则：后缀白名单校验、魔数双校验、大小上限（可配置）、文件内容安全检测；Word（doc/docx）、Excel（xls/xlsx/csv）、PDF（pdf）为默认支持格式。
+Heading 2|5.3 Office统一解析
+Normal|1. Word解析：提取正文段落、标题层级、表格内容、图片、页眉页脚、元数据（作者、页数）；支持doc/docx格式。
+Normal|2. Excel解析：提取工作表列表、单元格数据（含公式值）、合并单元格结构、数据验证；支持xls/xlsx/csv；解析结果支持映射入库（联动数据管理平台批量导入）。
+Normal|3. PDF解析：提取文本层、表格结构、图片、书签、元数据；支持扫描件OCR（联动统一OCR服务）。
+Normal|4. 解析任务管理：上传完成后自动触发解析任务，异步执行；解析状态查询（待解析/解析中/成功/失败）；解析失败重试与告警；解析结果版本化（文件更新后重新解析）。
+Normal|5. 解析结果应用：全文检索索引（联动统一检索中台）、数据抽取入库（联动数据管理平台）、内容审计留痕、解析内容预览。
+Heading 2|5.4 统一下载
+Normal|支持单文件与批量文件下载（打包下载）；下载前校验操作权限（IAM鉴权+业务单据查看权限）；下载URL签名时效控制；支持下载限速与下载审计（下载人、时间、文件信息）；支持断点续传下载。
+Heading 2|5.5 文件在线预览
+Normal|支持PDF、Word、Excel、PPT、图片等主流格式在线预览，无需下载即可查看内容；Office文档经解析引擎转换后预览；支持预览权限精细化管控，涉密文件、私密文件仅授权用户可预览；适配PC端与移动端自适应展示。
+Heading 2|5.6 文件下载与删除
+Normal|支持手动删除、过期文件自动清理，可自定义存储周期；内置文件回收站功能，支持误删文件恢复（保留期默认30天）；业务附件删除遵循业务只读规则。
+Heading 2|5.7 文件版本管理
+Normal|支持同一业务文件多版本迭代管理，更新上传自动生成新版本，完整保留所有历史版本；支持版本号自定义、版本备注、版本差异查看；可对历史版本进行预览、下载、版本回滚。
+Heading 2|5.8 业务附件绑定能力（扩展核心能力）
+Normal|1. 中台新增业务附件绑定元数据表（中台库，业务模块不许建附件表），字段：业务附件ID（主键全局唯一）、tenantId、serviceCode、businessBillId、fileIndex、originalFileName、fileSuffix、fileSizeKB、businessReadOnly、allowOperateAddOnly、uploadStaffId、uploadTime、deleteFlag、deleteStaffId、deleteTime。
+Normal|2. 核心业务规则（中台内部实现，业务模块不编码）：草稿单据传入businessReadOnly=false，可上传、删除、替换附件；审批中/审批已生效单据由业务后端调用batchSetBusinessReadOnly设置businessReadOnly=true，同时传入allowOperateAddOnly（大部分业务场景=true，允许继续新增补充附件，不允许删除替换已有附件）；删除附件只做逻辑删除标记deleteFlag=true，中台定时垃圾回收任务扫描标记删除的记录再清理底层二进制文件，业务微服务完全无权直接物理删除二进制文件；鉴权对接IAM，无权限禁止预览下载；上传、预览、下载、删除、修改只读标记全部自动审计。
+Heading 2|5.9 文件权限与日志管理
+Normal|支持对文件上传、预览、下载、删除操作精细化权限管控；完整记录文件全生命周期操作日志（上传、预览、下载、修改、删除、版本更新、只读变更），操作全程可追溯。
+Heading 1|6 接口需求
+Heading 2|6.1 接口清单
+Heading 2|6.2 核心接口定义示例
+Normal|（1）批量设置只读 POST /api/file/v1/business-attachments/readonly
+Normal|请求：{"serviceCode":"SalaryMgt","businessBillId":"S2026100001","businessReadOnly":true,"allowOperateAddOnly":true,"operatorId":"U001"}
+Normal|响应：{"code":0,"msg":"ok","data":{"updatedCount":3}}
+Normal|说明：HRM/业务模块在审批流程生效回调时调用，把该单据全部附件置为只读
+Normal|（2）创建解析任务 POST /api/file/v1/parse/tasks
+Normal|请求：{"fileId":"F2026100000001","parseType":"EXCEL","options":{"extractTables":true,"importMapping":"salary_import"}}
+Normal|响应：{"code":0,"msg":"ok","data":{"taskId":"PT1001","status":"PENDING"}}
+Normal|错误码：40001 文件不存在；40002 不支持的文件格式；40003 文件已加密/损坏；40004 解析服务不可用
+Heading 2|6.3 错误码规范
+Heading 1|7 数据模型需求
+Normal|说明：所有表统一包含 create_time、update_time、is_deleted 通用字段；file_access_log 只增不改。
+Heading 1|8 非功能需求
+Heading 2|8.1 性能需求
+Normal|1. 普通文件上传（≤10MB）接口响应≤2s；分片上传合并校验≤1s；下载接口≤1s。
+Normal|2. 在线预览首屏加载≤2s；Office解析任务单文件处理≤30s（大文件异步）。
+Normal|3. 支持千级并发上传、万级并发预览；存储支撑TB级容量扩展。
+Heading 2|8.2 可用性需求
+Normal|1. 服务可用性≥99.95%；存储双模式切换不影响业务。
+Normal|2. 解析任务队列化，服务重启不丢失任务；垃圾回收任务幂等。
+Heading 2|8.3 安全性需求
+Normal|1. 文件加密存储（AES-256），URL签名时效控制，防外链泄露。
+Normal|2. 魔数+后缀双校验、病毒查杀、涉密拦截；操作全审计。
+Heading 2|8.4 可扩展性需求
+Normal|1. 存储后端可插拔（本地/OSS/S3兼容）；解析引擎插件化（新增格式解析器）。
+Normal|2. 业务附件绑定支持任意业务域接入（serviceCode注册制）。
+Heading 2|8.5 兼容性需求
+Normal|1. 前端组件兼容主流框架（Vue/React）与浏览器。
+Normal|2. 支持PC端与移动端上传预览。
+Heading 1|9 约束与依赖
+Normal|1. 依赖对象存储（本地/OSS）、统一IAM引擎、统一监控审计中台、统一任务调度中台（垃圾回收/解析重试）、统一消息中心（通知）。
+Normal|2. 开发约束：业务模块禁止自建附件表与附件上传子模块，附件能力统一调用本中台；禁止业务侧直接物理删除二进制文件。
+Normal|3. HRM等存量业务模块按《改造要点》完成附件能力中台化改造，删除内部公共附件上传子模块。
+Heading 1|10 验收标准
+Normal|1. 全品类文件上传、分片、断点续传、批量上传验证通过。
+Normal|2. Word/Excel/PDF统一解析验证：正文、表格、图片、元数据提取准确率≥99%；Excel数据映射入库闭环。
+Normal|3. 统一下载、在线预览、版本管理、回收站全功能验证通过。
+Normal|4. 业务附件绑定验证：业务库仅存附件ID；只读拦截、allowOperateAddOnly策略、逻辑删除与垃圾回收全部生效。
+Normal|5. 魔数校验、病毒查杀、URL时效、操作审计安全验证通过，无高危漏洞。
+Normal|6. 性能指标达标：上传P99≤2s、预览首屏≤2s、解析成功率≥99%。
+Normal|7. 存量业务模块附件能力完成中台化改造并全量回归通过。
+TBL|文档名称 | 公共中台支撑层需求规格书
+TBL|文档编号 | 【文档编号】
+TBL|版本/状态 | V1.0
+TBL|密级 | 【密级】
+TBL|编制单位 | 【编制单位】
+TBL|编制日期 | 2026年10月
+TBL|术语/缩略语 | 释义说明
+TBL|OSS | Object Storage Service，对象存储服务（本地/云对象存储双模式）
+TBL|业务附件绑定 | 将文件与业务单据（serviceCode+businessBillId）关联的标准能力
+TBL|业务只读标记 | 业务单据进入审批/生效后附件只读，禁止删除替换的标记
+TBL|魔数校验 | 通过文件头字节验证真实文件类型，防后缀伪装
+TBL|在线预览 | 不下载文件直接查看内容（PDF/Office/图片等）
+TBL|Office解析 | 对Word/Excel/PDF文档内容提取、转换与结构化解析
+TBL|中台 | 与文件管理关系
+TBL|统一IAM引擎 | 文件预览下载鉴权、操作人身份校验
+TBL|统一监控审计中台 | 上传/预览/下载/删除/只读变更全量审计
+TBL|统一流程引擎 | 流程附件引用业务附件ID，审批生效回调批量设置只读
+TBL|统一消息中心 | 文件处理完成、解析失败通知
+TBL|统一报表及BI中台 | Excel/CSV解析后数据入库，供报表数据源使用
+TBL|统一物联网IOT | 设备固件包、升级包文件统一存储管理
+TBL|对标对象 | 关键实践 | 本中台落地
+TBL|华为云OBS | 海量对象存储、生命周期管理、URL签名、防盗链 | 对象存储适配与生命周期、签名URL
+TBL|阿里云OSS | 分片上传、断点续传、服务端加密、内容安全检测 | 大文件分片、加密存储、内容检测
+TBL|金山WPS/Office在线预览 | Office文档在线预览与格式转换 | Office统一解析与在线预览
+TBL|企业网盘实践 | 版本管理、回收站、权限精细化 | 版本、回收站、权限管控
+TBL|接口名称 | 方法 | 路径 | 说明
+TBL|初始化上传 | POST | /api/file/v1/upload/init | 获取上传凭证（分片/直传）
+TBL|上传分片 | POST | /api/file/v1/upload/part | 分片上传
+TBL|合并分片 | POST | /api/file/v1/upload/merge | 分片合并校验
+TBL|创建业务附件 | POST | /api/file/v1/business-attachments | 创建业务附件绑定记录
+TBL|附件列表查询 | GET | /api/file/v1/business-attachments | 按serviceCode+businessBillId查询
+TBL|删除附件 | POST | /api/file/v1/business-attachments/{id}/delete | 逻辑删除（只读校验）
+TBL|获取预览地址 | POST | /api/file/v1/business-attachments/preview-url | 获取预览签名URL
+TBL|获取下载地址 | POST | /api/file/v1/business-attachments/download-url | 获取下载签名URL
+TBL|批量设置只读 | POST | /api/file/v1/business-attachments/readonly | 批量设置单据附件只读
+TBL|解析任务创建 | POST | /api/file/v1/parse/tasks | 创建Office/PDF解析任务
+TBL|解析结果查询 | GET | /api/file/v1/parse/tasks/{id} | 查询解析状态与结果
+TBL|文件版本管理 | POST | /api/file/v1/files/{id}/versions | 版本上传/回滚/差异查询
+TBL|回收站 | POST | /api/file/v1/recycle | 回收站恢复/清理
+TBL|错误码段 | 含义
+TBL|40001-40099 | 文件存储类错误
+TBL|40100-40199 | 上传/分片类错误
+TBL|40200-40299 | 业务附件绑定/只读类错误
+TBL|40300-40399 | 解析类错误
+TBL|40400-40499 | 预览/下载/版本类错误
+TBL|表名 | 核心字段 | 说明
+TBL|file_index | id, file_id, storage_type, bucket, object_key, file_name, file_suffix, file_size, md5, secret_level, status | 文件二进制索引表
+TBL|file_business_attachment | id, tenant_id, service_code, business_bill_id, file_id, original_file_name, file_suffix, file_size_kb, business_read_only, allow_operate_add_only, upload_staff_id, upload_time, delete_flag, delete_staff_id, delete_time | 业务附件绑定元数据表（业务库不建附件表）
+TBL|file_version | id, file_id, version_no, remark, size, operator, create_time | 文件版本表
+TBL|file_recycle | id, file_id, delete_staff_id, delete_time, expire_time, status | 回收站表
+TBL|file_parse_task | id, file_id, parse_type, status, result_json, error_msg, retry_count, create_time | 解析任务表
+TBL|file_parse_result | id, task_id, content_type, content_json, table_data, image_list, meta_json | 解析结果表
+TBL|file_access_log | id, file_id, operator, action, ip, time, result | 文件操作审计表（只增不改）

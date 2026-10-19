@@ -1,0 +1,114 @@
+# API Gateway Configuration
+# This module is OPTIONAL - can be skipped for standalone deployment
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        group: ${SERVICE_GROUP:DEFAULT_GROUP}
+      config:
+        enabled: true
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        file-extension: yml
+    gateway:
+      # Dynamic route discovery from Nacos
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      # Default route configuration (fallback when Nacos is unavailable)
+      routes:
+        # Staff Management Service
+        - id: staff-mgt
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/staff/**
+          filters:
+            - StripPrefix=1
+        # Training Management Service
+        - id: training-mgt
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/training/**
+          filters:
+            - StripPrefix=1
+        # Salary Management Service
+        - id: salary-mgt
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/salary/**
+          filters:
+            - StripPrefix=1
+        # Attendance Service
+        - id: attendance
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/attendance/**
+          filters:
+            - StripPrefix=1
+        # Holiday Service
+        - id: holiday
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/holiday/**
+          filters:
+            - StripPrefix=1
+        # Performance Management Service
+        - id: perf-mgt
+          uri: http://localhost:8091
+          predicates:
+            - Path=/api/perf/**
+          filters:
+            - StripPrefix=1
+        # Talent Service
+        - id: talent
+          uri: http://localhost:8092
+          predicates:
+            - Path=/api/talent/**
+          filters:
+            - StripPrefix=1
+      # Global CORS configuration
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns: "*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowed-headers: "*"
+            allow-credentials: true
+            max-age: 3600
+
+# Sentinel flow control
+sentinel:
+  eager: true
+  dashboard: ${SENTINEL_DASHBOARD:127.0.0.1:8858}
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway
+  endpoint:
+    health:
+      show-details: always
+  gateway:
+    enabled: true
+
+# Logging
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.alibaba.nacos: INFO

@@ -1,0 +1,5 @@
+HRM Platform internal evaluation license, all rights reserved.
+
+This software is provided for internal evaluation purposes only.
+Redistribution, resale, or production use is prohibited without
+a separate written agreement.

@@ -1,0 +1,398 @@
+[
+    {
+        "name":  "IAM",
+        "port":  8081,
+        "db":  "iam_db",
+        "wave":  1,
+        "xmx":  96,
+        "jar":  "jars/IAM.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "module-config-center",
+        "port":  9000,
+        "db":  "module_config",
+        "wave":  1,
+        "xmx":  96,
+        "jar":  "jars/module-config-center.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "SysMgt",
+        "port":  8111,
+        "db":  "sys_mgt",
+        "wave":  1,
+        "xmx":  96,
+        "jar":  "jars/SysMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "SysMonitor",
+        "port":  8112,
+        "db":  "sys_monitor",
+        "wave":  1,
+        "xmx":  96,
+        "jar":  "jars/SysMonitor.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "OrgMgt",
+        "port":  8082,
+        "db":  "org_mgt",
+        "wave":  2,
+        "xmx":  128,
+        "jar":  "jars/OrgMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "EmployeeMgt",
+        "port":  8083,
+        "db":  "employee_mgt",
+        "wave":  2,
+        "xmx":  128,
+        "jar":  "jars/EmployeeMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "AttendanceMgt",
+        "port":  8084,
+        "db":  "attendance_mgt",
+        "wave":  2,
+        "xmx":  128,
+        "jar":  "jars/AttendanceMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "RecruitmentMgt",
+        "port":  8086,
+        "db":  "recruitment_mgt",
+        "wave":  2,
+        "xmx":  128,
+        "jar":  "jars/RecruitmentMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "PerfMgt",
+        "port":  8085,
+        "db":  "perf_mgt",
+        "wave":  2,
+        "xmx":  128,
+        "jar":  "jars/PerfMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "TrainingMgt",
+        "port":  8087,
+        "db":  "training_mgt",
+        "wave":  3,
+        "xmx":  128,
+        "jar":  "jars/TrainingMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "QualificationMgt",
+        "port":  8090,
+        "db":  "qualification_mgt",
+        "wave":  3,
+        "xmx":  128,
+        "jar":  "jars/QualificationMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "SalaryMgt",
+        "port":  8092,
+        "db":  "salary_mgt",
+        "wave":  3,
+        "xmx":  128,
+        "jar":  "jars/SalaryMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "SkillCertMgt",
+        "port":  8093,
+        "db":  "skill_cert_mgt",
+        "wave":  3,
+        "xmx":  128,
+        "jar":  "jars/SkillCertMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "TalentMgt",
+        "port":  8094,
+        "db":  "talent_mgt",
+        "wave":  3,
+        "xmx":  128,
+        "jar":  "jars/TalentMgt.jar",
+        "tier":  "core"
+    },
+    {
+        "name":  "ProjectMgt",
+        "port":  8091,
+        "db":  "project_mgt",
+        "wave":  4,
+        "xmx":  128,
+        "jar":  "jars/ProjectMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "HRPlanningMgt",
+        "port":  8095,
+        "db":  "hr_planning_mgt",
+        "wave":  4,
+        "xmx":  128,
+        "jar":  "jars/HRPlanningMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "HolidayMgt",
+        "port":  8190,
+        "db":  "holiday_mgt",
+        "wave":  4,
+        "xmx":  128,
+        "jar":  "jars/HolidayMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "TalentReviewMgt",
+        "port":  8191,
+        "db":  "talent_review_mgt",
+        "wave":  4,
+        "xmx":  128,
+        "jar":  "jars/TalentReviewMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "SuccessionPlanMgt",
+        "port":  8192,
+        "db":  "succession_plan_mgt",
+        "wave":  4,
+        "xmx":  128,
+        "jar":  "jars/SuccessionPlanMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "TalentDevMgt",
+        "port":  8193,
+        "db":  "talent_dev_mgt",
+        "wave":  5,
+        "xmx":  128,
+        "jar":  "jars/TalentDevMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "OnlineLearnMgt",
+        "port":  8194,
+        "db":  "online_learn_mgt",
+        "wave":  5,
+        "xmx":  128,
+        "jar":  "jars/OnlineLearnMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "OnlineExamMgt",
+        "port":  8195,
+        "db":  "online_exam_mgt",
+        "wave":  5,
+        "xmx":  128,
+        "jar":  "jars/OnlineExamMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "AuditMgt",
+        "port":  8145,
+        "db":  "audit_mgt",
+        "wave":  5,
+        "xmx":  128,
+        "jar":  "jars/AuditMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "DisciplineMgt",
+        "port":  8196,
+        "db":  "discipline_mgt",
+        "wave":  5,
+        "xmx":  128,
+        "jar":  "jars/DisciplineMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "PartyAffairsMgt",
+        "port":  8150,
+        "db":  "party_affairs_mgt",
+        "wave":  6,
+        "xmx":  128,
+        "jar":  "jars/PartyAffairsMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "CultureMgt",
+        "port":  8160,
+        "db":  "culture_mgt",
+        "wave":  6,
+        "xmx":  128,
+        "jar":  "jars/CultureMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "ProcessMgt",
+        "port":  8143,
+        "db":  "process_mgt",
+        "wave":  6,
+        "xmx":  128,
+        "jar":  "jars/ProcessMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "ImproveMgt",
+        "port":  8142,
+        "db":  "improve_mgt",
+        "wave":  6,
+        "xmx":  128,
+        "jar":  "jars/ImproveMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "FlowEngineMgt",
+        "port":  8206,
+        "db":  "flow_engine",
+        "wave":  6,
+        "xmx":  128,
+        "jar":  "jars/FlowEngineMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "StrategyBlmMgt",
+        "port":  8101,
+        "db":  "strategy_blm",
+        "wave":  7,
+        "xmx":  96,
+        "jar":  "jars/StrategyBlmMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "StrategyDsteMgt",
+        "port":  8102,
+        "db":  "strategy_dste",
+        "wave":  7,
+        "xmx":  96,
+        "jar":  "jars/StrategyDsteMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "StrategySixsMgt",
+        "port":  8103,
+        "db":  "strategy_sixs",
+        "wave":  7,
+        "xmx":  96,
+        "jar":  "jars/StrategySixsMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "StrategyBudgetMgt",
+        "port":  8104,
+        "db":  "strategy_budget",
+        "wave":  7,
+        "xmx":  96,
+        "jar":  "jars/StrategyBudgetMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "StrategyWorkplanMgt",
+        "port":  8105,
+        "db":  "strategy_workplan",
+        "wave":  7,
+        "xmx":  96,
+        "jar":  "jars/StrategyWorkplanMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "EnvironMgt",
+        "port":  8106,
+        "db":  "env_mgt",
+        "wave":  8,
+        "xmx":  96,
+        "jar":  "jars/EnvironMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "SafetyMgt",
+        "port":  8107,
+        "db":  "safety_mgt",
+        "wave":  8,
+        "xmx":  96,
+        "jar":  "jars/SafetyMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "OccHealthMgt",
+        "port":  8108,
+        "db":  "occ_health_mgt",
+        "wave":  8,
+        "xmx":  96,
+        "jar":  "jars/OccHealthMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "EnergyMgt",
+        "port":  8109,
+        "db":  "energy_mgt",
+        "wave":  8,
+        "xmx":  96,
+        "jar":  "jars/EnergyMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "DataMgt",
+        "port":  8200,
+        "db":  "data_mgt",
+        "wave":  9,
+        "xmx":  72,
+        "jar":  "jars/DataMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "FileMgt",
+        "port":  8201,
+        "db":  "file_mgt",
+        "wave":  9,
+        "xmx":  72,
+        "jar":  "jars/FileMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "MessageMgt",
+        "port":  8202,
+        "db":  "message_mgt",
+        "wave":  9,
+        "xmx":  72,
+        "jar":  "jars/MessageMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "IotMgt",
+        "port":  8203,
+        "db":  "iot_mgt",
+        "wave":  9,
+        "xmx":  72,
+        "jar":  "jars/IotMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "BiMgt",
+        "port":  8204,
+        "db":  "bi_mgt",
+        "wave":  9,
+        "xmx":  72,
+        "jar":  "jars/BiMgt.jar",
+        "tier":  "full"
+    },
+    {
+        "name":  "ScreenMgt",
+        "port":  8205,
+        "db":  "screen_mgt",
+        "wave":  9,
+        "xmx":  72,
+        "jar":  "jars/ScreenMgt.jar",
+        "tier":  "full"
+    }
+]

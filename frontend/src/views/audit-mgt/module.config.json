@@ -1,0 +1,9 @@
+{
+  "key": "/audit-mgt",
+  "title": "审计管理",
+  "icon": "Search",
+  "displayOrder": 5,
+  "description": "审计计划、项目、发现、报告全流程管理",
+  "version": "1.0.0",
+  "subModules": []
+}

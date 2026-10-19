@@ -1,0 +1,91 @@
+{
+  "key": "/strategy-mgt",
+  "title": "战略管理",
+  "icon": "Trophy",
+  "displayOrder": 2,
+  "description": "战略规划BLM、DSTE解码执行、6S管控、全面预算、工作计划管理",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/strategy-mgt/blm",
+      "title": "战略规划BLM",
+      "displayOrder": 1,
+      "dir": "blm",
+      "items": [
+        { "path": "/strategy-mgt/blm/gap", "title": "差距分析台账", "icon": "DataLine", "component": "strategy-mgt/blm/GapAnalysis.vue" },
+        { "path": "/strategy-mgt/blm/insight", "title": "市场洞察分析", "icon": "TrendCharts", "component": "strategy-mgt/blm/MarketInsight.vue" },
+        { "path": "/strategy-mgt/blm/intent", "title": "战略意图定义", "icon": "Flag", "component": "strategy-mgt/blm/StrategicIntent.vue" },
+        { "path": "/strategy-mgt/blm/innovation", "title": "创新焦点管理", "icon": "MagicStick", "component": "strategy-mgt/blm/InnovationFocus.vue" },
+        { "path": "/strategy-mgt/blm/design", "title": "业务设计配置", "icon": "Grid", "component": "strategy-mgt/blm/BusinessDesign.vue" },
+        { "path": "/strategy-mgt/blm/sp-plan", "title": "SP战略规划台账", "icon": "Document", "component": "strategy-mgt/blm/SpPlan.vue" },
+        { "path": "/strategy-mgt/blm/portfolio", "title": "投资组合管理", "icon": "Money", "component": "strategy-mgt/blm/Portfolio.vue" }
+      ]
+    },
+    {
+      "key": "/strategy-mgt/dste",
+      "title": "DSTE战略解码执行",
+      "displayOrder": 2,
+      "dir": "dste",
+      "items": [
+        { "path": "/strategy-mgt/dste/goal", "title": "战略目标拆解", "icon": "Share", "component": "strategy-mgt/dste/GoalBreakdown.vue" },
+        { "path": "/strategy-mgt/dste/csf", "title": "CSF关键成功因素", "icon": "Key", "component": "strategy-mgt/dste/CsfFactor.vue" },
+        { "path": "/strategy-mgt/dste/kpi", "title": "战略KPI指标库", "icon": "Odometer", "component": "strategy-mgt/dste/KpiLibrary.vue" },
+        { "path": "/strategy-mgt/dste/task", "title": "SP/BP任务拆解", "icon": "List", "component": "strategy-mgt/dste/KeyTask.vue" },
+        { "path": "/strategy-mgt/dste/resource", "title": "资源匹配管理", "icon": "Box", "component": "strategy-mgt/dste/ResourceMatch.vue" },
+        { "path": "/strategy-mgt/dste/resp-ledger", "title": "解码责任台账", "icon": "UserFilled", "component": "strategy-mgt/dste/RespLedger.vue" },
+        { "path": "/strategy-mgt/dste/progress", "title": "任务进度监控", "icon": "DataAnalysis", "component": "strategy-mgt/dste/TaskProgress.vue" },
+        { "path": "/strategy-mgt/dste/kpi-monitor", "title": "KPI实时监控", "icon": "Monitor", "component": "strategy-mgt/dste/KpiMonitor.vue" },
+        { "path": "/strategy-mgt/dste/risk", "title": "战略风险预警", "icon": "Warning", "component": "strategy-mgt/dste/RiskWarning.vue" },
+        { "path": "/strategy-mgt/dste/supervision", "title": "执行督办管理", "icon": "Bell", "component": "strategy-mgt/dste/Supervision.vue" },
+        { "path": "/strategy-mgt/dste/review", "title": "阶段性复盘", "icon": "Refresh", "component": "strategy-mgt/dste/Review.vue" },
+        { "path": "/strategy-mgt/dste/iteration", "title": "战略迭代管理", "icon": "CircularArrow", "component": "strategy-mgt/dste/Iteration.vue" },
+        { "path": "/strategy-mgt/dste/summary", "title": "执行台账汇总", "icon": "Histogram", "component": "strategy-mgt/dste/ExecSummary.vue" }
+      ]
+    },
+    {
+      "key": "/strategy-mgt/sixs",
+      "title": "6S战略管控",
+      "displayOrder": 3,
+      "dir": "sixs",
+      "items": [
+        { "path": "/strategy-mgt/sixs/s1", "title": "S1战略规划监控", "icon": "Compass", "component": "strategy-mgt/sixs/S1Plan.vue" },
+        { "path": "/strategy-mgt/sixs/s2", "title": "S2商业计划监控", "icon": "TrendCharts", "component": "strategy-mgt/sixs/S2Business.vue" },
+        { "path": "/strategy-mgt/sixs/s3", "title": "S3管理报告监控", "icon": "Document", "component": "strategy-mgt/sixs/S3Report.vue" },
+        { "path": "/strategy-mgt/sixs/s4", "title": "S4内部审计监控", "icon": "Search", "component": "strategy-mgt/sixs/S4Audit.vue" },
+        { "path": "/strategy-mgt/sixs/s5", "title": "S5业绩评价监控", "icon": "Medal", "component": "strategy-mgt/sixs/S5Performance.vue" },
+        { "path": "/strategy-mgt/sixs/s6", "title": "S6经理人考评", "icon": "User", "component": "strategy-mgt/sixs/S6Manager.vue" }
+      ]
+    },
+    {
+      "key": "/strategy-mgt/budget",
+      "title": "全面预算",
+      "displayOrder": 4,
+      "dir": "budget",
+      "items": [
+        { "path": "/strategy-mgt/budget/master", "title": "预算主数据", "icon": "Setting", "component": "strategy-mgt/budget/MasterData.vue" },
+        { "path": "/strategy-mgt/budget/version", "title": "三上三下编制", "icon": "Files", "component": "strategy-mgt/budget/Version.vue" },
+        { "path": "/strategy-mgt/budget/project", "title": "项目四算管理", "icon": "Coin", "component": "strategy-mgt/budget/ProjectBudget.vue" },
+        { "path": "/strategy-mgt/budget/occupation", "title": "实时控制引擎", "icon": "Lock", "component": "strategy-mgt/budget/Occupation.vue" },
+        { "path": "/strategy-mgt/budget/change", "title": "调整追加调剂", "icon": "EditPen", "component": "strategy-mgt/budget/BudgetChange.vue" },
+        { "path": "/strategy-mgt/budget/forecast", "title": "月度滚动预测", "icon": "Prediction", "component": "strategy-mgt/budget/Forecast.vue" },
+        { "path": "/strategy-mgt/budget/variance", "title": "预算差异分析", "icon": "DataLine", "component": "strategy-mgt/budget/Variance.vue" },
+        { "path": "/strategy-mgt/budget/audit", "title": "内控审计", "icon": "Shield", "component": "strategy-mgt/budget/Audit.vue" }
+      ]
+    },
+    {
+      "key": "/strategy-mgt/workplan",
+      "title": "工作计划管理",
+      "displayOrder": 5,
+      "dir": "workplan",
+      "items": [
+        { "path": "/strategy-mgt/workplan/template", "title": "计划模板配置", "icon": "Template", "component": "strategy-mgt/workplan/Template.vue" },
+        { "path": "/strategy-mgt/workplan/plan", "title": "三级计划WBS", "icon": "Menu", "component": "strategy-mgt/workplan/Plan.vue" },
+        { "path": "/strategy-mgt/workplan/approval", "title": "计划审批", "icon": "Stamp", "component": "strategy-mgt/workplan/Approval.vue" },
+        { "path": "/strategy-mgt/workplan/track", "title": "执行跟踪", "icon": "Aim", "component": "strategy-mgt/workplan/Track.vue" },
+        { "path": "/strategy-mgt/workplan/summary", "title": "总结复盘", "icon": "DocumentCopy", "component": "strategy-mgt/workplan/Summary.vue" },
+        { "path": "/strategy-mgt/workplan/score", "title": "考核打分", "icon": "Score", "component": "strategy-mgt/workplan/Score.vue" },
+        { "path": "/strategy-mgt/workplan/ledger", "title": "台账统计", "icon": "Histogram", "component": "strategy-mgt/workplan/Ledger.vue" }
+      ]
+    }
+  ]
+}

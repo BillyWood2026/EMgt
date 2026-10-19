@@ -1,0 +1,136 @@
+{
+  "key": "/culture-mgt",
+  "title": "企业文化管理",
+  "icon": "MagicStick",
+  "displayOrder": 7,
+  "description": "文化纲领制度、案例库、活动阵地、荣誉榜样、培训考试、调研氛围、行为履职、资产内刊、新闻宣传与文化数据看板（CCMS）",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/culture-mgt/foundation",
+      "title": "文化底座(理念制度红线)",
+      "displayOrder": 1,
+      "dir": "foundation",
+      "items": [
+        { "path": "/culture-mgt/foundation/panorama", "title": "企业文化全景(前台)", "icon": "View", "component": "culture-mgt/foundation/Panorama.vue" },
+        { "path": "/culture-mgt/foundation/creed", "title": "文化纲领版本库", "icon": "Reading", "component": "culture-mgt/foundation/Creed.vue" },
+        { "path": "/culture-mgt/foundation/glossary", "title": "文化释义库", "icon": "Collection", "component": "culture-mgt/foundation/Glossary.vue" },
+        { "path": "/culture-mgt/foundation/milestone", "title": "文化里程碑(发展史)", "icon": "Timer", "component": "culture-mgt/foundation/Milestone.vue" },
+        { "path": "/culture-mgt/foundation/institution", "title": "文化制度台账", "icon": "Document", "component": "culture-mgt/foundation/Institution.vue" },
+        { "path": "/culture-mgt/foundation/redline", "title": "文化红线禁令", "icon": "Warning", "component": "culture-mgt/foundation/Redline.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/case",
+      "title": "文化案例库",
+      "displayOrder": 2,
+      "dir": "case",
+      "items": [
+        { "path": "/culture-mgt/case/square", "title": "案例广场(前台)", "icon": "House", "component": "culture-mgt/case/Square.vue" },
+        { "path": "/culture-mgt/case/mine", "title": "我的投稿", "icon": "EditPen", "component": "culture-mgt/case/Mine.vue" },
+        { "path": "/culture-mgt/case/review", "title": "案例评审工作台", "icon": "Finished", "component": "culture-mgt/case/Review.vue" },
+        { "path": "/culture-mgt/case/tag", "title": "案例标签与激励配置", "icon": "PriceTag", "component": "culture-mgt/case/Tag.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/activity",
+      "title": "文化活动与阵地",
+      "displayOrder": 3,
+      "dir": "activity",
+      "items": [
+        { "path": "/culture-mgt/activity/square", "title": "活动广场(前台)", "icon": "Calendar", "component": "culture-mgt/activity/Square.vue" },
+        { "path": "/culture-mgt/activity/ledger", "title": "活动全流程台账", "icon": "Tickets", "component": "culture-mgt/activity/Ledger.vue" },
+        { "path": "/culture-mgt/activity/signin", "title": "报名与签到管理", "icon": "Pointer", "component": "culture-mgt/activity/Signin.vue" },
+        { "path": "/culture-mgt/activity/review", "title": "活动复盘管理", "icon": "RefreshRight", "component": "culture-mgt/activity/Review.vue" },
+        { "path": "/culture-mgt/activity/position", "title": "文化阵地台账", "icon": "Place", "component": "culture-mgt/activity/Position.vue" },
+        { "path": "/culture-mgt/activity/material", "title": "文化物料库存", "icon": "Box", "component": "culture-mgt/activity/Material.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/honor",
+      "title": "荣誉与榜样",
+      "displayOrder": 4,
+      "dir": "honor",
+      "items": [
+        { "path": "/culture-mgt/honor/square", "title": "榜样风采广场(前台)", "icon": "Trophy", "component": "culture-mgt/honor/Square.vue" },
+        { "path": "/culture-mgt/honor/project", "title": "荣誉项目配置", "icon": "Medal", "component": "culture-mgt/honor/Project.vue" },
+        { "path": "/culture-mgt/honor/review", "title": "申报评审工作台", "icon": "Stamp", "component": "culture-mgt/honor/Review.vue" },
+        { "path": "/culture-mgt/honor/mine", "title": "我的荣誉申报", "icon": "DocumentChecked", "component": "culture-mgt/honor/Mine.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/training",
+      "title": "在线培训及考试",
+      "displayOrder": 5,
+      "dir": "training",
+      "items": [
+        { "path": "/culture-mgt/training/learn", "title": "学习中心(前台)", "icon": "VideoPlay", "component": "culture-mgt/training/Learn.vue" },
+        { "path": "/culture-mgt/training/course", "title": "文化课程元数据", "icon": "Notebook", "component": "culture-mgt/training/Course.vue" },
+        { "path": "/culture-mgt/training/question", "title": "文化题库管理", "icon": "EditPen", "component": "culture-mgt/training/Question.vue" },
+        { "path": "/culture-mgt/training/study-task", "title": "学习任务配置", "icon": "List", "component": "culture-mgt/training/StudyTask.vue" },
+        { "path": "/culture-mgt/training/exam", "title": "考试任务与监考", "icon": "Document", "component": "culture-mgt/training/Exam.vue" },
+        { "path": "/culture-mgt/training/archive", "title": "培训档案与认证", "icon": "Files", "component": "culture-mgt/training/Archive.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/survey",
+      "title": "文化调研与氛围评估",
+      "displayOrder": 6,
+      "dir": "survey",
+      "items": [
+        { "path": "/culture-mgt/survey/mine", "title": "我的调研(前台)", "icon": "EditPen", "component": "culture-mgt/survey/Mine.vue" },
+        { "path": "/culture-mgt/survey/editor", "title": "问卷编辑器", "icon": "DocumentCopy", "component": "culture-mgt/survey/Editor.vue" },
+        { "path": "/culture-mgt/survey/task", "title": "调研任务管理", "icon": "Promotion", "component": "culture-mgt/survey/Task.vue" },
+        { "path": "/culture-mgt/survey/health", "title": "文化健康度分析", "icon": "DataAnalysis", "component": "culture-mgt/survey/Health.vue" },
+        { "path": "/culture-mgt/survey/rectify", "title": "氛围短板整改跟踪", "icon": "Tools", "component": "culture-mgt/survey/Rectify.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/behavior",
+      "title": "文化行为与价值观履职",
+      "displayOrder": 7,
+      "dir": "behavior",
+      "items": [
+        { "path": "/culture-mgt/behavior/evidence", "title": "个人行为举证(前台)", "icon": "Camera", "component": "culture-mgt/behavior/Evidence.vue" },
+        { "path": "/culture-mgt/behavior/audit", "title": "部门行为稽核", "icon": "View", "component": "culture-mgt/behavior/AuditMgt.vue" },
+        { "path": "/culture-mgt/behavior/duty", "title": "干部文化履职填报", "icon": "UserFilled", "component": "culture-mgt/behavior/Duty.vue" },
+        { "path": "/culture-mgt/behavior/review", "title": "价值观评议", "icon": "ChatDotRound", "component": "culture-mgt/behavior/Review.vue" },
+        { "path": "/culture-mgt/behavior/score", "title": "个人文化积分台账", "icon": "GoldMedal", "component": "culture-mgt/behavior/Score.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/asset",
+      "title": "文化资产与内刊",
+      "displayOrder": 8,
+      "dir": "asset",
+      "items": [
+        { "path": "/culture-mgt/asset/library", "title": "文化资产库", "icon": "FolderOpened", "component": "culture-mgt/asset/Library.vue" },
+        { "path": "/culture-mgt/asset/journal", "title": "电子内刊", "icon": "Notebook", "component": "culture-mgt/asset/Journal.vue" },
+        { "path": "/culture-mgt/asset/bulletin", "title": "文化公告栏", "icon": "BellFilled", "component": "culture-mgt/asset/Bulletin.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/news",
+      "title": "新闻宣传管理",
+      "displayOrder": 9,
+      "dir": "news",
+      "items": [
+        { "path": "/culture-mgt/news/square", "title": "新闻宣传首页(前台)", "icon": "Newspaper", "component": "culture-mgt/news/Square.vue" },
+        { "path": "/culture-mgt/news/workbench", "title": "新闻稿件工作台", "icon": "EditPen", "component": "culture-mgt/news/Workbench.vue" },
+        { "path": "/culture-mgt/news/todo", "title": "审批待办", "icon": "Bell", "component": "culture-mgt/news/Todo.vue" },
+        { "path": "/culture-mgt/news/tag", "title": "新闻标签管理", "icon": "PriceTag", "component": "culture-mgt/news/Tag.vue" }
+      ]
+    },
+    {
+      "key": "/culture-mgt/dashboard",
+      "title": "文化数据看板",
+      "displayOrder": 10,
+      "dir": "dashboard",
+      "items": [
+        { "path": "/culture-mgt/dashboard/overview", "title": "集团文化总看板", "icon": "Odometer", "component": "culture-mgt/dashboard/Dashboard.vue" },
+        { "path": "/culture-mgt/dashboard/org", "title": "分组织文化看板", "icon": "OfficeBuilding", "component": "culture-mgt/dashboard/OrgDashboard.vue" },
+        { "path": "/culture-mgt/dashboard/drill", "title": "明细钻取报表", "icon": "Search", "component": "culture-mgt/dashboard/Drill.vue" }
+      ]
+    }
+  ]
+}

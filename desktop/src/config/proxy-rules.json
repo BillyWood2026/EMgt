@@ -1,0 +1,607 @@
+[
+    {
+        "match":  "/api/auth",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8081"
+    },
+    {
+        "match":  "/api/sys-mon",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8112"
+    },
+    {
+        "match":  "/api/sys/menu",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/sys/dict",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/sys/config",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/sys/file",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/sys/notice",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/sys",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8081"
+    },
+    {
+        "match":  "/api/hrm",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8081"
+    },
+    {
+        "match":  "/api/iam",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8081"
+    },
+    {
+        "match":  "/api/module-config",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:9000"
+    },
+    {
+        "match":  "/api/data",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8200"
+    },
+    {
+        "match":  "/api/file",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8201"
+    },
+    {
+        "match":  "/api/message",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8202"
+    },
+    {
+        "match":  "/api/iot",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8203"
+    },
+    {
+        "match":  "/api/bi",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8204"
+    },
+    {
+        "match":  "/api/screen",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8205"
+    },
+    {
+        "match":  "/api/flow",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8206"
+    },
+    {
+        "match":  "/api/org-unit",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/org-mgt",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/org-change",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/org-permission",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/org-personalized-quota",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/personalized-quota",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/org",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/position-hierarchy",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/position",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/job-position",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/job-description",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/staffing-standard",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/management-span-anomaly",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/management-span",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/virtual-org",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8082"
+    },
+    {
+        "match":  "/api/perf",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8085"
+    },
+    {
+        "match":  "/api/review-calibration",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8090"
+    },
+    {
+        "match":  "/api/review",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8090"
+    },
+    {
+        "match":  "/api/standard",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8090"
+    },
+    {
+        "match":  "/api/qualification",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8090"
+    },
+    {
+        "match":  "/api/employee-record",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/architecture",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/application-validation",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/application",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/batch-process",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/bi-report",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/dashboard",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/snapshot",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/headcount",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/process-callback",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/salary-adjustment",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/salary-rule",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/el/",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/training-projects",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/training-evaluations",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/training-monitoring",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/training-progress",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/training-standards",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/training-students",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/talent-ledger",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/training",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8087"
+    },
+    {
+        "match":  "/api/skill-cert",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8093"
+    },
+    {
+        "match":  "/api/recruitment",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8086"
+    },
+    {
+        "match":  "/api/recruiting",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8086"
+    },
+    {
+        "match":  "/api/recruit",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8086"
+    },
+    {
+        "match":  "/api/employee",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8083"
+    },
+    {
+        "match":  "/api/talent/review",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8191"
+    },
+    {
+        "match":  "/api/talent/succession",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8192"
+    },
+    {
+        "match":  "/api/talent/dev-project",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8193"
+    },
+    {
+        "match":  "/api/talent/tracking",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8193"
+    },
+    {
+        "match":  "/api/talent",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8094"
+    },
+    {
+        "match":  "/api/salary",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8092"
+    },
+    {
+        "match":  "^/api/strategy/blm(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8101"
+    },
+    {
+        "match":  "^/api/strategy/dste(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8102"
+    },
+    {
+        "match":  "^/api/strategy/sixs(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8103"
+    },
+    {
+        "match":  "^/api/strategy/budget(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8104"
+    },
+    {
+        "match":  "^/api/strategy/workplan(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8105"
+    },
+    {
+        "match":  "^/api/strategy/ping",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8101"
+    },
+    {
+        "match":  "/api/holiday",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8190"
+    },
+    {
+        "match":  "/api/leave-balance",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8190"
+    },
+    {
+        "match":  "/api/leave-policy",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8190"
+    },
+    {
+        "match":  "/api/improve",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8142"
+    },
+    {
+        "match":  "/api/kaizen",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8142"
+    },
+    {
+        "match":  "/api/process",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8143"
+    },
+    {
+        "match":  "/api/document",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8143"
+    },
+    {
+        "match":  "/api/doc",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8143"
+    },
+    {
+        "match":  "/api/hr-planning",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/hrplanning",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/hrplan",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/hr-plan",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8095"
+    },
+    {
+        "match":  "/api/audit",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8145"
+    },
+    {
+        "match":  "/api/discipline",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8196"
+    },
+    {
+        "match":  "/api/party",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8150"
+    },
+    {
+        "match":  "/api/culture",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8160"
+    },
+    {
+        "match":  "/api/talent-assessment",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8094"
+    },
+    {
+        "match":  "/api/talent-evaluation",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8094"
+    },
+    {
+        "match":  "/api/evaluation/special-approval",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8191"
+    },
+    {
+        "match":  "/api/evaluation",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8094"
+    },
+    {
+        "match":  "/api/gateway",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8080"
+    },
+    {
+        "match":  "/api/user-mgt",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/role-mgt",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/menu-mgt",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/dict-mgt",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8111"
+    },
+    {
+        "match":  "/api/log-mgt",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8112"
+    },
+    {
+        "match":  "/api/movement",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8094"
+    },
+    {
+        "match":  "/api/transfer",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8094"
+    },
+    {
+        "match":  "/api/success-plan",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8085"
+    },
+    {
+        "match":  "/api/succession",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8085"
+    },
+    {
+        "match":  "/api/learn-to-exam",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8087"
+    },
+    {
+        "match":  "/api/exam",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8087"
+    },
+    {
+        "match":  "/api/learning",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8087"
+    },
+    {
+        "match":  "/api/learn/exams",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8195"
+    },
+    {
+        "match":  "/api/learnexam",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8195"
+    },
+    {
+        "match":  "/api/learn",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8194"
+    },
+    {
+        "match":  "/api/hr-roaster",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/roster",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/schedule",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/attendance",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8084"
+    },
+    {
+        "match":  "/api/project",
+        "type":  "prefix",
+        "target":  "http://127.0.0.1:8091"
+    },
+    {
+        "match":  "^/api/eehs/env(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8106"
+    },
+    {
+        "match":  "^/api/eehs/safety(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8107"
+    },
+    {
+        "match":  "^/api/eehs/health(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8108"
+    },
+    {
+        "match":  "^/api/eehs/energy(?=/|$)",
+        "type":  "regex",
+        "target":  "http://127.0.0.1:8109"
+    }
+]

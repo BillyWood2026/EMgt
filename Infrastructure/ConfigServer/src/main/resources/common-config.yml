@@ -1,0 +1,48 @@
+# Common Configuration for All Microservices
+# This file is stored in Nacos Config Server and shared across all services
+
+spring:
+  application:
+    name: common-config
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        register-enabled: true
+
+# Common logging configuration
+logging:
+  level:
+    root: INFO
+    com.example: ${LOG_LEVEL:INFO}
+    org.springframework: WARN
+    com.alibaba.nacos: WARN
+
+# Common database pool configuration (can be overridden per service)
+  datasource:
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+# Common ribbon configuration
+ribbon:
+  ConnectTimeout: 5000
+  ReadTimeout: 10000
+  MaxAutoRetries: 3
+  MaxAutoRetriesNextServer: 2
+
+# Common sentinel configuration
+sentinel:
+  eager: true
+  dashboard: ${SENTINEL_DASHBOARD:127.0.0.1:8858}
+  rules:
+    # Default flow rules
+    flow:
+      - resource: default
+        limit-app: default
+        grade: 1
+        count: 100
+        control-behavior: 0

@@ -1,0 +1,251 @@
+{
+  "key": "/ehrm",
+  "title": "人力资源管理",
+  "icon": "UserFilled",
+  "displayOrder": 2,
+  "description": "员工、培训、绩效、薪酬、人才发展全模块管理",
+  "version": "1.0.0",
+  "subModules": [
+    {
+      "key": "/ehrm/recruiting",
+      "title": "招聘管理",
+      "displayOrder": 1,
+      "dir": "recruiting",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/recruiting/g/main",
+          "subTitle": "招聘管理",
+          "items": [
+            { "path": "/ehrm/recruitment/requirement", "title": "招聘需求", "icon": "Document", "component": "ehrm/recruiting/Requirement.vue" },
+            { "path": "/ehrm/recruitment/candidate", "title": "候选人管理", "icon": "User", "component": "ehrm/recruiting/Candidate.vue" },
+            { "path": "/ehrm/recruitment/interview", "title": "面试管理", "icon": "ChatDotRound", "component": "ehrm/recruiting/Interview.vue" },
+            { "path": "/ehrm/recruitment/offer", "title": "录用通知管理", "icon": "Postcard", "component": "ehrm/recruiting/Offer.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/talent/talent-devep",
+      "title": "人才发展",
+      "displayOrder": 2,
+      "dir": "talent",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/talent/g/assess",
+          "subTitle": "人才测评与评估",
+          "items": [
+            { "path": "/ehrm/talent-development/assess", "title": "人才测评", "icon": "DataAnalysis", "component": "ehrm/talent/talent-devep/Assess.vue" },
+            { "path": "/ehrm/talent-assessment/evaluation", "title": "人才评估", "icon": "Histogram", "component": "ehrm/talent/comp-assess/Evaluation.vue" },
+            { "path": "/ehrm/talent-assessment/model", "title": "评估模型", "icon": "Setting", "component": "ehrm/talent/comp-assess/Model.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/talent/g/succession",
+          "subTitle": "继任管理",
+          "items": [
+            { "path": "/ehrm/talent-development/review", "title": "人才评审", "icon": "Search", "component": "ehrm/talent/talent-devep/Review.vue" },
+            { "path": "/ehrm/talent-development/succession", "title": "继任管理", "icon": "TrendCharts", "component": "ehrm/talent/talent-devep/Succession.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/talent/g/project",
+          "subTitle": "人才培养工程",
+          "items": [
+            { "path": "/ehrm/talent-project/project", "title": "项目管理", "icon": "FolderAdd", "component": "ehrm/talent/talent-devep-prj/Project.vue" },
+            { "path": "/ehrm/talent-project/tracking", "title": "进度跟踪", "icon": "TrendCharts", "component": "ehrm/talent/talent-devep-prj/Tracking.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/staff-mgt",
+      "title": "员工管理",
+      "displayOrder": 3,
+      "dir": "staff-mgt",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/staff-mgt/g/main",
+          "subTitle": "员工管理",
+          "items": [
+            { "path": "/ehrm/staff/list", "title": "员工列表", "icon": "User", "component": "ehrm/staff-mgt/List.vue" },
+            { "path": "/ehrm/staff/profile", "title": "员工档案", "icon": "UserFilled", "component": "ehrm/staff-mgt/Profile.vue" },
+            { "path": "/ehrm/staff/contract", "title": "合同管理", "icon": "Document", "component": "ehrm/staff-mgt/Contract.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/training-mgt",
+      "title": "培训学考",
+      "displayOrder": 4,
+      "dir": "training-mgt",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/training-mgt/g/training",
+          "subTitle": "培训管理",
+          "items": [
+            { "path": "/ehrm/training/plan", "title": "培训计划", "icon": "Document", "component": "ehrm/training-mgt/Plan.vue" },
+            { "path": "/ehrm/training/course", "title": "课程管理", "icon": "VideoPlay", "component": "ehrm/training-mgt/Course.vue" },
+            { "path": "/ehrm/training/record", "title": "培训记录", "icon": "Postcard", "component": "ehrm/training-mgt/Record.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/training-mgt/g/elearning",
+          "subTitle": "在线学习",
+          "items": [
+            { "path": "/ehrm/e-learning/course", "title": "课程学习", "icon": "VideoPlay", "component": "ehrm/learn-to-exam/e-learning/Course.vue" },
+            { "path": "/ehrm/e-learning/progress", "title": "学习进度", "icon": "TrendCharts", "component": "ehrm/learn-to-exam/e-learning/Progress.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/training-mgt/g/exam",
+          "subTitle": "在线考试",
+          "items": [
+            { "path": "/ehrm/exam/exam", "title": "考试管理", "icon": "Document", "component": "ehrm/learn-to-exam/e-examing/Exam.vue" },
+            { "path": "/ehrm/exam/result", "title": "考试结果", "icon": "DataAnalysis", "component": "ehrm/learn-to-exam/e-examing/Result.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/attend-holiday/attendance",
+      "title": "考勤假期",
+      "displayOrder": 5,
+      "dir": "attend-holiday",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/attend-holiday/g/attendance",
+          "subTitle": "考勤管理",
+          "items": [
+            { "path": "/ehrm/attendance/daily", "title": "日常打卡", "icon": "Clock", "component": "ehrm/attend-holiday/attendance/Daily.vue" },
+            { "path": "/ehrm/attendance/leave", "title": "请假管理", "icon": "Calendar", "component": "ehrm/attend-holiday/attendance/Leave.vue" },
+            { "path": "/ehrm/attendance/overtime", "title": "加班管理", "icon": "Timer", "component": "ehrm/attend-holiday/attendance/Overtime.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/attend-holiday/g/holiday",
+          "subTitle": "假期管理",
+          "items": [
+            { "path": "/ehrm/holiday/balance", "title": "假期余额", "icon": "Wallet", "component": "ehrm/attend-holiday/holiday/Balance.vue" },
+            { "path": "/ehrm/holiday/policy", "title": "假期政策", "icon": "Document", "component": "ehrm/attend-holiday/holiday/Policy.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/qual-rank",
+      "title": "任职资格",
+      "displayOrder": 6,
+      "dir": "qual-rank",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/qual-rank/g/main",
+          "subTitle": "任职资格",
+          "items": [
+            { "path": "/ehrm/qualification/rank", "title": "等级评定", "icon": "Medal", "component": "ehrm/qual-rank/Rank.vue" },
+            { "path": "/ehrm/qualification/qualification", "title": "等级标准", "icon": "Postcard", "component": "ehrm/qual-rank/Qualification.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/skill-certification",
+      "title": "技能认证",
+      "displayOrder": 7,
+      "dir": "skill-certification",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/skill-certification/skill-mgmt",
+          "subTitle": "技能与认证管理",
+          "items": [
+            { "path": "/ehrm/skill-certification/index", "title": "认证概览", "icon": "LayoutDashboard", "component": "ehrm/skill-certification/SkillCertification.vue" },
+            { "path": "/ehrm/skill-standard/index", "title": "技能标准", "icon": "Document", "component": "ehrm/skill-certification/SkillStandard.vue" },
+            { "path": "/ehrm/skill-management/index", "title": "技能管理", "icon": "Medal", "component": "ehrm/skill-certification/Skill.vue" },
+            { "path": "/ehrm/skill-management/certification", "title": "认证管理", "icon": "Postcard", "component": "ehrm/skill-certification/Certification.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/skill-certification/process",
+          "subTitle": "认证业务办理",
+          "items": [
+            { "path": "/ehrm/skill-plan/index", "title": "认证计划", "icon": "Calendar", "component": "ehrm/skill-certification/SkillPlan.vue" },
+            { "path": "/ehrm/skill-apply/index", "title": "认证申请", "icon": "Form", "component": "ehrm/skill-certification/SkillApply.vue" },
+            { "path": "/ehrm/skill-review/index", "title": "认证评审", "icon": "CheckCircle", "component": "ehrm/skill-certification/SkillReview.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/skill-certification/cert-archive",
+          "subTitle": "证书与档案",
+          "items": [
+            { "path": "/ehrm/skill-certificate/index", "title": "证书管理", "icon": "CreditCard", "component": "ehrm/skill-certification/SkillCertificate.vue" },
+            { "path": "/ehrm/skill-profile/index", "title": "技能档案", "icon": "UserFilled", "component": "ehrm/skill-certification/SkillProfile.vue" },
+            { "path": "/ehrm/skill-warning/index", "title": "到期预警", "icon": "Bell", "component": "ehrm/skill-certification/SkillWarning.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/salary-mgt",
+      "title": "薪酬管理",
+      "displayOrder": 8,
+      "dir": "salary-mgt",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/salary-mgt/g/system",
+          "subTitle": "薪酬体系",
+          "items": [
+            { "path": "/ehrm/salary-system/policy", "title": "薪酬政策", "icon": "Document", "component": "ehrm/salary-mgt/salary-sys/Policy.vue" },
+            { "path": "/ehrm/salary-system/structure", "title": "薪酬结构", "icon": "Postcard", "component": "ehrm/salary-mgt/salary-sys/Structure.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/salary-mgt/g/job-assess",
+          "subTitle": "岗位评估",
+          "items": [
+            { "path": "/ehrm/job-assessment/grade", "title": "岗位分级", "icon": "Medal", "component": "ehrm/salary-mgt/job-assess/Grade.vue" },
+            { "path": "/ehrm/job-assessment/position", "title": "岗位评价", "icon": "Search", "component": "ehrm/salary-mgt/job-assess/Position.vue" }
+          ]
+        },
+        {
+          "subKey": "/ehrm/salary-mgt/g/calc",
+          "subTitle": "薪资核算",
+          "items": [
+            { "path": "/ehrm/salary-calc/calculate", "title": "薪资核算", "icon": "Coin", "component": "ehrm/salary-mgt/salary-calc/Calculate.vue" },
+            { "path": "/ehrm/salary-calc/history", "title": "薪资历史", "icon": "Document", "component": "ehrm/salary-mgt/salary-calc/History.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/perf-mgt",
+      "title": "绩效管理",
+      "displayOrder": 9,
+      "dir": "perf-mgt",
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/perf-mgt/g/main",
+          "subTitle": "绩效管理",
+          "items": [
+            { "path": "/ehrm/performance/kpi", "title": "KPI管理", "icon": "TrendCharts", "component": "ehrm/perf-mgt/Kpi.vue" },
+            { "path": "/ehrm/performance/evaluation", "title": "绩效评估", "icon": "Star", "component": "ehrm/perf-mgt/Evaluation.vue" },
+            { "path": "/ehrm/performance/result", "title": "绩效结果", "icon": "DataAnalysis", "component": "ehrm/perf-mgt/Result.vue" }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "/ehrm/hr-planning",
+      "title": "人力规划",
+      "displayOrder": 10,
+      "subSubGroups": [
+        {
+          "subKey": "/ehrm/hr-planning/g/main",
+          "subTitle": "人力规划",
+          "items": [
+            { "path": "/ehrm/hr-planning/list", "title": "人力规划", "icon": "DataAnalysis", "component": "ehrm/hr-planning/Index.vue" }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+Normal|集中数据管理平台需求规格书
+Normal|公共中台支撑层需求规格书
+Normal|目  录
+Normal|（打开文档后按 F9 或右键“更新域”刷新目录页码）
+toc 1|1 引言	1
+toc 2|1.1 文档目的	1
+toc 2|1.2 适用范围	1
+toc 2|1.3 读者对象	1
+toc 2|1.4 术语、定义与缩略语	1
+toc 2|1.5 参考文档	1
+toc 1|2 总体概述	2
+toc 2|2.1 项目背景	2
+toc 2|2.2 建设目标	2
+toc 2|2.3 架构定位	2
+toc 2|2.4 与其他中台关系	3
+toc 1|3 对标最佳实践	3
+toc 1|4 差异化技术细则	3
+toc 1|5 详细功能需求	4
+toc 2|5.1 数据标准管理	4
+toc 2|5.2 主数据管理（MDM）	4
+toc 2|5.3 元数据管理	5
+toc 2|5.4 数据质量管理	5
+toc 2|5.5 数据集成管理	5
+toc 2|5.6 数据资产管理	5
+toc 2|5.7 统一字典管理（承接原统一字典中台）	5
+toc 2|5.8 数据服务（OneService）	6
+toc 1|6 接口需求	6
+toc 2|6.1 接口清单	6
+toc 2|6.2 核心接口定义示例	7
+toc 2|6.3 错误码规范	7
+toc 1|7 数据模型需求	7
+toc 1|8 非功能需求	8
+toc 2|8.1 性能需求	8
+toc 2|8.2 可用性需求	8
+toc 2|8.3 安全性需求	8
+toc 2|8.4 可扩展性需求	9
+toc 2|8.5 兼容性需求	9
+toc 1|9 约束与依赖	9
+toc 1|10 验收标准	9
+Heading 1|1 引言
+Heading 2|1.1 文档目的
+Normal|本文档为集中数据管理平台需求规格说明书，用于明确集中数据管理平台的业务定位、整体架构、功能需求、接口规范、数据模型、非功能需求、约束依赖与验收标准，作为集中数据管理平台设计、开发、测试、验收与运维的基准依据。
+Heading 2|1.2 适用范围
+Normal|集中数据管理平台为全平台统一数据治理与数据服务底座，适用于主数据管理（MDM）、数据标准、元数据、数据质量、数据集成、数据资产、统一字典、数据服务等场景，覆盖全平台所有业务模块的数据口径统一与数据能力复用。
+Heading 2|1.3 读者对象
+Normal|数据架构师、数据治理专员、产品经理、前后端开发工程师、测试工程师、运维工程师、项目验收人员。
+Heading 2|1.4 术语、定义与缩略语
+Heading 2|1.5 参考文档
+Normal|[1] 《公共中台支撑层总体需求规格书》（00总纲）
+Normal|[2] 阿里巴巴OneData方法论与Dataphin实践
+Normal|[3] DAMA-DMBOK《数据管理知识体系指南》
+Normal|[4] 《数据管理能力成熟度评估模型》（GB/T 36073，DCMM）
+Heading 1|2 总体概述
+Heading 2|2.1 项目背景
+Normal|原有平台数据分散在各业务库，同一实体（组织、人员、科目、物料）多处维护、口径不一，字典枚举硬编码，数据质量无治理，数据服务无统一出口，导致统计报表口径冲突、数据二义性严重。建设集中数据管理平台，构建全平台统一数据治理与数据服务体系。
+Heading 2|2.2 建设目标
+Normal|1. 数据标准化：参照华为MetaERP“书同文、车同轨”思想与阿里OneData方法论，统一指标、维度、编码与口径。
+Normal|2. 主数据权威化：组织、人员、科目、物料等主数据唯一权威源，一处维护、全局共享。
+Normal|3. 元数据可治理：全链路元数据采集、血缘分析、影响分析。
+Normal|4. 数据质量可度量：六性质量规则、质量稽核、问题整改闭环。
+Normal|5. 数据服务统一化：OneService统一数据出口，业务通过API/数据集消费数据，禁止跨库直查。
+Normal|6. 字典统一化：全平台枚举统一维护、统一缓存、前后端口径一致。
+Heading 2|2.3 架构定位
+Normal|集中数据管理平台采用“1+5+1”能力框架：1套数据标准体系（OneModel），5大能力域（主数据管理、元数据管理、数据质量管理、数据集成、数据资产管理），1个统一数据服务层（OneService）。平台独立微服务部署，数据治理元数据独立存储，业务数据仍留在各业务库，通过数据服务统一出口。
+Heading 2|2.4 与其他中台关系
+Heading 1|3 对标最佳实践
+Normal|设计原则：标准先行、口径唯一、资产化运营、服务化输出、治理即研发。
+Heading 1|4 差异化技术细则
+Normal|数据管理平台承担数据标准、主数据、元数据、质量、服务职责，适用以下专属强制技术规范（总纲通用规范继续生效）：
+Normal|1. 指标口径统一机制：指标编码全局唯一，指标定义（业务口径、计算逻辑、统计周期、维度）统一在平台维护并版本化；下游报表、大屏、分析必须引用指标编码，禁止业务侧自定义同口径指标。
+Normal|2. 主数据权威源机制：主数据以平台为唯一权威源（Golden Source），业务库禁止新建重复主数据表；主数据变更经审批后发布，业务库通过订阅/回调同步，变更全量审计。
+Normal|3. 字典全量预加载缓存：服务启动自动加载所有字典数据至本地内存缓存，运行中支持手动刷新、自动定时刷新；字典查询优先走缓存不查数据库，支撑百万级QPS高频访问；字典修改实时触发缓存刷新（热更新），业务端无感。
+Normal|4. 数据脱敏与分级管控：敏感字段（手机号、邮箱、身份证、薪资）按数据密级配置脱敏规则（掩码/加密/拒绝），数据服务层统一脱敏，禁止业务侧绕过。
+Normal|5. 数据血缘追踪：采集表级、字段级血缘，支持影响分析（上游变更影响下游哪些指标/报表）与溯源分析。
+Normal|6. 数据服务缓存与限流：数据服务API统一接入Redis缓存与Sentinel限流；热点数据集支持预聚合；大结果集支持分页与异步导出。
+Heading 1|5 详细功能需求
+Heading 2|5.1 数据标准管理
+Normal|维护全平台数据标准：标准编码、标准名称、数据类型、长度、精度、值域、默认值、约束规则、关联字典；覆盖基础数据元标准、代码集标准、命名标准；标准版本管理（草稿/评审/发布/废止）；标准与表字段映射关系管理，支持标准符合度检查。
+Heading 2|5.2 主数据管理（MDM）
+Normal|管理全平台核心主数据域：组织主数据、人员主数据、科目主数据、物料/资产主数据、客商主数据等。
+Normal|功能点：主数据模型定义（动态建模，参照金蝶动态领域模型）、主数据新增/编辑/审核/发布/停用/归档、主数据唯一性校验（OneID）、主数据变更审批流（联动流程引擎）、主数据分发订阅（业务库同步）、主数据合并与拆分、主数据质量稽核、主数据全生命周期审计。
+Normal|业务规则：主数据编码全局唯一；停用主数据禁止被新业务引用；主数据变更发布后实时推送订阅方；历史版本完整保留可追溯。
+Heading 2|5.3 元数据管理
+Normal|自动采集各中台与业务库元数据（表、字段、索引、约束），支持手动补充业务元数据（业务含义、负责人、密级）；元数据检索、详情、变更记录；表级/字段级数据血缘采集与可视化；影响分析与溯源分析；元数据版本管理。
+Heading 2|5.4 数据质量管理
+Normal|质量规则配置：完整性、准确性、一致性、及时性、唯一性、有效性六性规则；规则可绑定表/字段、按调度周期稽核；质量报告（规则覆盖率、通过率、问题分布）；质量问题工单与整改闭环（联动流程引擎）；质量评分（表级/主题域级/平台级）。
+Heading 2|5.5 数据集成管理
+Normal|可视化数据集成任务：数据源管理（MySQL、Oracle、文件、API、MQ）、批量同步（全量/增量）、实时同步（CDC）；同步任务调度（联动任务调度中台）、任务监控、失败重试、断点续传；数据转换映射（字段映射、类型转换、清洗规则）。
+Heading 2|5.6 数据资产管理
+Normal|数据资产目录：按主题域/业务域/数据域组织；资产注册、资产分类、资产标签、资产负责人；资产上架/下架；资产检索（关键字、标签、负责人）；资产热度与使用统计；资产申请与授权（联动IAM）。
+Heading 2|5.7 统一字典管理（承接原统一字典中台）
+Normal|1. 字典类型管理：字典类型新增、编辑、排序、启用、停用、删除；配置类型编码、名称、备注、排序序号；类型全局唯一。
+Normal|2. 字典数据管理：字典明细新增、编辑、排序、启停、批量维护；配置字典标签、字典值、状态、备注；支持多级字典分类，适配复杂业务枚举场景。
+Normal|3. 字典缓存与实时更新：所有字典数据默认缓存（本地+Redis），字典修改后自动刷新缓存，无需重启服务；支持字典批量导入导出。
+Normal|4. 字典接口服务：标准化RESTful查询接口，支持单类型查询、多类型批量查询；接口统一权限校验、限流管控；提供字典枚举同步接口，支持前端字典一键同步后端数据，保证前后端展示、筛选、状态口径完全一致。
+Normal|5. 字典分级隔离：系统内置字典与业务自定义字典分层隔离，内置字典禁止删除、禁止随意修改。
+Heading 2|5.8 数据服务（OneService）
+Normal|统一数据服务出口：API服务（注册/发布/调用/监控）、数据集服务（查询/过滤/排序/分页）、指标查询服务（按指标编码+维度组合查询）、主数据查询服务、字典查询服务；服务限流、熔断、降级；服务调用审计；服务文档自动生成。
+Heading 1|6 接口需求
+Heading 2|6.1 接口清单
+Heading 2|6.2 核心接口定义示例
+Normal|（1）字典批量查询 GET /api/dmp/v1/dict/items?types=personStatus,leaveType
+Normal|响应：{"code":0,"msg":"ok","data":{"personStatus":[{"label":"在职","value":"1"},{"label":"离职","value":"2"}],"leaveType":[...]}}
+Normal|错误码：30001 字典类型不存在；30002 字典已停用
+Normal|（2）指标查询 POST /api/dmp/v1/metrics/query
+Normal|请求：{"metricCode":"emp_headcount","dimensions":["deptId"],"filters":{"deptId":"D001"},"period":"2026-09"}
+Normal|响应：{"code":0,"msg":"ok","data":[{"deptId":"D001","emp_headcount":128}]}
+Heading 2|6.3 错误码规范
+Heading 1|7 数据模型需求
+Normal|说明：所有表统一包含 create_time、update_time、is_deleted 通用字段；主数据、指标、标准均版本化管理。
+Heading 1|8 非功能需求
+Heading 2|8.1 性能需求
+Normal|1. 字典查询接口响应≤50ms（缓存命中）；主数据查询≤100ms；指标查询≤500ms。
+Normal|2. 字典缓存支撑百万级QPS；主数据支撑百万级实体管理。
+Normal|3. 元数据采集支持10万级表、百万级字段。
+Heading 2|8.2 可用性需求
+Normal|1. 服务可用性≥99.95%；数据服务故障时字典、主数据走缓存兜底。
+Normal|2. 数据集成任务失败自动重试，断点续传。
+Heading 2|8.3 安全性需求
+Normal|1. 敏感字段统一脱敏，密级管控；主数据访问受IAM数据权限管控。
+Normal|2. 数据服务调用审计、限流；主数据变更全审计。
+Heading 2|8.4 可扩展性需求
+Normal|1. 主数据域动态建模，新增域无需发版。
+Normal|2. 数据服务插件化扩展；指标体系支持分层（原子指标/派生指标/复合指标）。
+Heading 2|8.5 兼容性需求
+Normal|兼容多种数据源（MySQL/Oracle/PostgreSQL/文件/API）；前端字典同步SDK支持主流前端框架。
+Heading 1|9 约束与依赖
+Normal|1. 依赖统一IAM引擎（权限）、统一流程引擎（主数据/质量工单审批）、统一任务调度中台（集成/稽核调度）、集中文件管理（批量导入）、统一监控审计中台（审计）。
+Normal|2. 开发约束：业务模块禁止硬编码枚举值；禁止跨库直查其他业务库；新表设计必须通过数据标准与命名规范检查。
+Heading 1|10 验收标准
+Normal|1. 数据标准、主数据、元数据、质量、集成、资产、字典、服务八大能力域全部落地。
+Normal|2. 主数据唯一权威源验证：跨业务库引用一致，变更分发实时生效。
+Normal|3. 字典前后端口径一致，热更新无需重启，内置字典不可篡改。
+Normal|4. 指标口径唯一验证：同一指标全平台查询结果一致。
+Normal|5. 数据血缘与影响分析准确率≥95%。
+Normal|6. 数据服务统一出口验证：业务模块全部通过数据服务API消费数据，无跨库直查。
+Normal|7. 性能、安全、脱敏指标全部达标。
+TBL|文档名称 | 公共中台支撑层需求规格书
+TBL|文档编号 | 【文档编号】
+TBL|版本/状态 | V1.0
+TBL|密级 | 【密级】
+TBL|编制单位 | 【编制单位】
+TBL|编制日期 | 2026年10月
+TBL|术语/缩略语 | 释义说明
+TBL|MDM | Master Data Management，主数据管理，对核心业务实体的统一、可信、权威管理
+TBL|元数据 | 描述数据的数据（技术元数据、业务元数据、管理元数据）
+TBL|数据标准 | 统一的数据定义、编码、格式、口径规范
+TBL|数据质量 | 完整性、准确性、一致性、及时性、唯一性、有效性六性度量
+TBL|数据资产 | 可管理、可度量、可服务的数据资源集合
+TBL|OneModel/OneID/OneService | 阿里OneData方法论：统一模型、统一实体标识、统一数据服务
+TBL|字典 | 枚举数据的类型与明细定义，全平台统一口径
+TBL|中台 | 与数据管理平台关系
+TBL|统一IAM引擎 | 数据访问权限、数据脱敏策略由IAM数据权限联动
+TBL|统一流程引擎 | 主数据变更审批流程联动；表单字典校验调用本平台
+TBL|集中文件管理 | 数据导入文件的解析与批量入库（Excel/CSV）
+TBL|统一报表及BI中台 | 指标定义、数据集、维度模型统一来源于本平台
+TBL|统一大屏显示中台 | 大屏数据源与统计口径统一由本平台数据服务提供
+TBL|统一物联网IOT | 设备物模型与遥测数据标准化后纳入本平台数据资产
+TBL|对标对象 | 关键实践 | 本平台落地
+TBL|阿里OneData/Dataphin | OneModel统一指标维度模型；OneID统一实体标识；OneService统一数据服务；数据资产化；治理即研发 | 指标/维度标准建模；主数据OneID；统一数据服务API；数据资产目录
+TBL|华为MetaERP | 元数据驱动架构；统一数据标准（书同文车同轨）；业财数据一致 | 元数据驱动建模；数据标准管理；业务财务口径统一
+TBL|金蝶苍穹 | 动态领域模型；轻分析数据引擎 | 动态建模能力；指标数据引擎
+TBL|DAMA/DCMM | 数据治理成熟度模型；数据管理职能域 | 按DCMM成熟度建设治理体系
+TBL|接口名称 | 方法 | 路径 | 说明
+TBL|字典类型查询 | GET | /api/dmp/v1/dict/types | 字典类型列表/详情
+TBL|字典数据查询 | GET | /api/dmp/v1/dict/items | 单类型/多类型批量字典查询
+TBL|字典刷新 | POST | /api/dmp/v1/dict/refresh | 手动刷新字典缓存
+TBL|主数据查询 | GET | /api/dmp/v1/mdm/{domain}/{code} | 按编码查询主数据
+TBL|主数据注册 | POST | /api/dmp/v1/mdm/{domain} | 主数据新增（校验唯一性）
+TBL|主数据发布 | POST | /api/dmp/v1/mdm/{id}/publish | 主数据发布与分发
+TBL|主数据订阅 | POST | /api/dmp/v1/mdm/subscriptions | 业务库注册主数据同步订阅
+TBL|指标查询 | POST | /api/dmp/v1/metrics/query | 按指标编码+维度查询数据
+TBL|元数据采集 | POST | /api/dmp/v1/metadata/collect | 元数据采集上报
+TBL|血缘查询 | GET | /api/dmp/v1/metadata/lineage | 表/字段血缘查询
+TBL|数据质量稽核 | POST | /api/dmp/v1/dq/jobs | 质量规则稽核任务
+TBL|数据服务注册 | POST | /api/dmp/v1/services | 数据服务API注册与发布
+TBL|错误码段 | 含义
+TBL|30001-30099 | 字典类错误
+TBL|30100-30199 | 主数据类错误
+TBL|30200-30299 | 指标/数据服务类错误
+TBL|30300-30399 | 元数据/血缘类错误
+TBL|30400-30499 | 数据质量类错误
+TBL|表名 | 核心字段 | 说明
+TBL|dmp_std_element | id, std_code, std_name, data_type, length, precision, value_range, dict_type | 数据标准表
+TBL|dmp_mdm_model | id, domain_code, model_json, status, version | 主数据模型定义表（动态建模）
+TBL|dmp_mdm_data | id, domain_code, one_id, data_json, status, version, source | 主数据实例表（JSON存储）
+TBL|dmp_mdm_subscription | id, domain_code, service_code, sync_mode, callback_url | 主数据订阅表
+TBL|dmp_dict_type | id, dict_code, dict_name, remark, sort, status, builtin_flag | 字典类型表
+TBL|dmp_dict_item | id, dict_code, label, value, sort, status, remark | 字典明细表
+TBL|dmp_meta_table | id, db_name, table_name, biz_name, owner, secret_level | 元数据-表
+TBL|dmp_meta_field | id, table_id, field_name, field_type, biz_name, sensitive_flag | 元数据-字段
+TBL|dmp_lineage | id, src_table, src_field, dst_table, dst_field, transform | 数据血缘表
+TBL|dmp_dq_rule | id, rule_code, rule_type, target_table, target_field, rule_json, status | 数据质量规则表
+TBL|dmp_dq_result | id, rule_id, check_time, total, pass_count, fail_count, detail | 质量稽核结果表
+TBL|dmp_metric | id, metric_code, metric_name, biz_calc, dimensions, status, version | 指标定义表
+TBL|dmp_data_service | id, service_code, service_type, sql_or_api, owner, status | 数据服务注册表
